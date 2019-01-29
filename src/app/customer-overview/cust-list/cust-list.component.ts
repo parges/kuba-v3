@@ -1,9 +1,10 @@
 import { CustomerService } from './../../customer/customer.service';
 import { Customer } from 'src/app/customer/customer';
-import {Component, ViewChild, AfterViewInit} from '@angular/core';
+import {Component, ViewChild, AfterViewInit, HostListener} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
 import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class CustListComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private $customer: CustomerService ) {
+  constructor(private $customer: CustomerService, private $router: Router  ) {
     this.customerService = $customer;
   }
 
@@ -58,7 +59,7 @@ export class CustListComponent implements AfterViewInit {
 
   }
 
-  initTable() {
-
+  showCustomerDetails ( _id: string, $event: Event ) {
+    this.$router.navigate( ['customers/', _id]);
   }
 }

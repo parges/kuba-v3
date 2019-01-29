@@ -36,27 +36,6 @@ export class CustomerService {
     )
         .toPromise()
         .then(this.extractData);
-    // const params = new HttpParams()
-    // .set('_sort', sort)
-    // .set('_order', order)
-    // .set('_page', (page + 1).toString())
-    // .set('_observe', 'response');
-
-    // return this.$http.get<Customer[]>( environment.endpoint, {params})
-    //            .pipe(
-    //              tap( next => {
-    //                this.customerList = next;
-    //               //  if ( !! this.selectedUser ) {
-    //               //   this.selectedUser = this.userList.find( value => value.id === this.selectedUser.id );
-    //                }
-    //              )
-    //            )
-    //             .toPromise();
-
-    //           //  .subscribe((res: Response) => {
-    //           //   console.log(res.headers);
-    //           //   // you can assign the value to any variable here
-    //           // });
   }
   extractData(res: HttpResponse<Object>) {
     const array = new Array();
@@ -68,6 +47,20 @@ export class CustomerService {
     // this.totalCount = +res.headers.get('X-Total-Count');
     return array;
   }
+
+  getCustomerByID ( id ): Promise<Customer> {
+    return this.$http.get<Customer>( environment.endpoint + '/' + id  )
+               .toPromise();
+  }
+
+  updateCustomer ( customer: Customer ): Promise<Customer> {
+    return this.$http.put<Customer>( environment.endpoint + '/' + customer.id, customer  )
+              //  .pipe(
+              //    tap( next => this.getUser() )
+              //  )
+               .toPromise();
+}
+
 }
 
 
