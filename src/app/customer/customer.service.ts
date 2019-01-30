@@ -1,9 +1,9 @@
-import { Customer } from './customer';
+
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { tap, map } from 'rxjs/operators';
-import { Observable} from 'rxjs';
+import { Customer } from './customer';
 
 @Injectable({
   providedIn: 'root'
@@ -48,16 +48,14 @@ export class CustomerService {
     return array;
   }
 
-  getCustomerByID ( id ): Promise<Customer> {
+  getCustomerByID ( id: number ): Promise<Customer> {
     return this.$http.get<Customer>( environment.endpoint + '/' + id  )
                .toPromise();
   }
 
-  updateCustomer ( customer: Customer ): Promise<Customer> {
-    return this.$http.put<Customer>( environment.endpoint + '/' + customer.id, customer  )
-              //  .pipe(
-              //    tap( next => this.getUser() )
-              //  )
+  updateCustomer ( cust: Customer ): Promise<Customer> {
+    console.log(cust);
+    return this.$http.put<Customer>( environment.endpoint + '/' + cust.id, cust )
                .toPromise();
 }
 

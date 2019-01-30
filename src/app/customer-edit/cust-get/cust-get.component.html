@@ -1,8 +1,4 @@
-<!-- <div *ngIf="!activeCustomer">
-  <p>{{activeCustomer.firstname}} wurde geklickt</p>
-</div> -->
-
-<div *ngIf="activeCustomer" class="form-container">
+<!-- <div *ngIf="activeCustomer" class="form-container">
   <mat-form-field>
     <input matInput placeholder="Vorname" value="{{activeCustomer.firstname}}">
   </mat-form-field>
@@ -17,9 +13,38 @@
   </mat-form-field>
 
   <button mat-raised-button color="primary" (click)="saveCustomer()">Speichern</button>
-  <!-- <mat-form-field>
-    <mat-select placeholder="Select">
-      <mat-option value="option">Option</mat-option>
-    </mat-select>
-  </mat-form-field> -->
-</div>
+
+</div> -->
+
+
+<form [formGroup]="regiForm" (ngSubmit)="onFormSubmit()" class="form-container" >
+    <mat-form-field>
+        <input formControlName="firstname" matInput placeholder="Vorname">
+    </mat-form-field>
+    <mat-error>
+        <span *ngIf="!regiForm.get('firstname').valid && regiForm.get('firstname').touched">Bitte Vornamen eingeben</span>
+    </mat-error>
+    <mat-form-field>
+        <input formControlName="lastname" matInput placeholder="Nachname">
+    </mat-form-field>
+    <mat-error>
+        <span *ngIf="!regiForm.get('lastname').valid && regiForm.get('lastname').touched">Bitte Nachnamen eingeben</span>
+    </mat-error>
+    <mat-form-field>
+        <input formControlName="tele" matInput placeholder="Telefonnummer">
+    </mat-form-field>
+    <mat-error>
+        <span *ngIf="!regiForm.get('tele').valid && regiForm.get('tele').touched">Bitte Telefonnummer eingeben</span>
+    </mat-error>
+
+    <mat-form-field>
+        <input matInput formControlName="birthday" [matDatepicker]="picker" placeholder="Geburtstag wählen">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #picker></mat-datepicker>
+      </mat-form-field>
+
+
+
+
+    <button mat-raised-button color="accent" [disabled]="!regiForm.valid || IsAccepted==0">Submit</button>
+</form>
