@@ -19,8 +19,6 @@ import { MAT_DATE_LOCALE} from '@angular/material/core';
   ],
 })
 export class CustGetComponent implements OnInit, OnDestroy {
-
-
   id: number;
   private sub: any;
   activeCustomer: Customer;
@@ -32,10 +30,10 @@ export class CustGetComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private $router: Router, private $customer: CustomerService, private fb: FormBuilder) {
     this.formBuilder = fb;
     this.regiForm = this.formBuilder.group({
-      'id' : ['1'],
-      'firstname' : ['2', Validators.required],
-      'lastname' : ['3', Validators.required],
-      'tele' : ['3', Validators.required],
+      'id' : [''],
+      'firstname' : ['', Validators.required],
+      'lastname' : ['', Validators.required],
+      'tele' : ['', Validators.required],
       'birthday' : ['']
     });
    }
@@ -69,6 +67,18 @@ export class CustGetComponent implements OnInit, OnDestroy {
     const result: Customer = Object.assign({}, this.regiForm.value);
     this.$customer.updateCustomer(result).then(customer => {
         this.activeCustomer = customer;
+    }).finally(() => {
+      this.$router.navigate(['customers']);
+    });
+
+  }
+
+  // Executed When Form Is Submitted
+  onDeleteCustomer() {
+    // Make sure to create a deep copy of the form-model
+    const result: Customer = Object.assign({}, this.regiForm.value);
+    this.$customer.delCustomer(result).finally(() => {
+      this.$router.navigate(['customers']);
     });
 
   }

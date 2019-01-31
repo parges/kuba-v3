@@ -1,23 +1,4 @@
-<!-- <div *ngIf="activeCustomer" class="form-container">
-  <mat-form-field>
-    <input matInput placeholder="Vorname" value="{{activeCustomer.firstname}}">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Nachname" value="{{activeCustomer.lastname}}">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Geburtstag" value="{{activeCustomer.birthday}}">
-  </mat-form-field>
-  <mat-form-field>
-    <input matInput placeholder="Telefonnummer" value="{{activeCustomer.tele}}">
-  </mat-form-field>
-
-  <button mat-raised-button color="primary" (click)="saveCustomer()">Speichern</button>
-
-</div> -->
-
-
-<form [formGroup]="regiForm" (ngSubmit)="onFormSubmit()" class="form-container" >
+<form [formGroup]="regiForm" class="form-container" >
     <mat-form-field>
         <input formControlName="firstname" matInput placeholder="Vorname">
     </mat-form-field>
@@ -43,8 +24,8 @@
         <mat-datepicker touchUi #picker></mat-datepicker>
       </mat-form-field>
 
-
-
-
-    <button mat-raised-button color="accent" [disabled]="!regiForm.valid || IsAccepted==0">Submit</button>
+      <!-- <div class="buttonRegion"> -->
+        <button mat-raised-button color="primary" [disabled]="!regiForm.valid || IsAccepted==0" (click)="onFormSubmit()">Speichern</button>
+        <button mat-button color="warn" [disabled]="!regiForm.valid || IsAccepted==0" (click)="onDeleteCustomer()">Löschen</button>
+      <!-- </div> -->
 </form>

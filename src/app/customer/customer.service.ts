@@ -54,11 +54,19 @@ export class CustomerService {
   }
 
   updateCustomer ( cust: Customer ): Promise<Customer> {
-    console.log(cust);
     return this.$http.put<Customer>( environment.endpoint + '/' + cust.id, cust )
                .toPromise();
-}
+  }
 
+  addCustomer ( cust: Customer ): Promise<Customer> {
+    return this.$http.post<Customer>( environment.endpoint, cust )
+               .toPromise();
+  }
+
+  delCustomer ( cust: Customer ): Promise<Customer> {
+    return this.$http.delete<any>( environment.endpoint + '/' + cust.id)
+               .toPromise();
+  }
 }
 
 

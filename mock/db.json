@@ -2,10 +2,10 @@
   "customers": [
     {
       "id": 1,
-      "firstname": "Mackenzie",
-      "lastname": "Hodges",
-      "birthday": "1990-11-11",
-      "tele": "+49385123456"
+      "firstname": "aaaaa",
+      "lastname": "bbbb",
+      "tele": "1321231",
+      "birthday": "2019-01-14T23:00:00.000Z"
     },
     {
       "id": 2,
@@ -133,18 +133,18 @@
       "tele": "+49385123456"
     },
     {
-      "id": 21,
-      "firstname": "angularssd",
-      "lastname": "7.04",
-      "tele": "+49385123456",
-      "birthday": "2018-12-31T23:00:00.000Z"
+      "id": 23,
+      "firstname": "123",
+      "lastname": "abc",
+      "tele": "112341231",
+      "birthday": ""
     },
     {
-      "id": 22,
-      "firstname": "angular Test",
-      "lastname": "7.04",
-      "tele": "+49385123456",
-      "birthday": "01.01.1970"
+      "id": 24,
+      "firstname": "Daniela",
+      "lastname": "Parge",
+      "tele": "1234",
+      "birthday": ""
     }
   ]
 }
