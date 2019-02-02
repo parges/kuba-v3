@@ -26,6 +26,7 @@ export class CustGetComponent implements OnInit, OnDestroy {
 
   regiForm: FormGroup;
   formBuilder: FormBuilder;
+  selectedFile: File;
 
   constructor(private route: ActivatedRoute, private $router: Router, private $customer: CustomerService, private fb: FormBuilder) {
     this.formBuilder = fb;
@@ -80,7 +81,14 @@ export class CustGetComponent implements OnInit, OnDestroy {
     this.$customer.delCustomer(result).finally(() => {
       this.$router.navigate(['customers']);
     });
+  }
 
+  /**
+   * Uploading the customer picture
+   */
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0];
+    this.$customer.uploadImage(this.selectedFile);
   }
 
 }

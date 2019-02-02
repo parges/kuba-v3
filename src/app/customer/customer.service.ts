@@ -67,6 +67,15 @@ export class CustomerService {
     return this.$http.delete<any>( environment.endpoint + '/' + cust.id)
                .toPromise();
   }
+  uploadImage (upFile: File) {
+    // this.http is the injected HttpClient
+    this.$http.post('my-backend.com/file-upload', upFile, {
+      reportProgress: true,
+      observe: 'events'
+    }).subscribe(event => {
+        console.log(event); // handle event here
+      });
+  }
 }
 
 
