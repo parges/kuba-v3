@@ -4,4 +4,5 @@ export interface Customer {
   lastname: string;
   birthday?: string;
   tele: string;
+  avatar?: string|any;
 }

@@ -1,9 +1,6 @@
 Property:
-- Alter errechnen + anzeigen
 - Bild hochladen
 Dashboard:
-- Cards aufnehmen
-- Dokumente
 
 Test:
 - Formular:

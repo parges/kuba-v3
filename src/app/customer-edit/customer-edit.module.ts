@@ -7,10 +7,11 @@ import { MatInputModule, MatFormFieldModule, MatOptionModule, MatSelectModule, M
 
 import { FormBuilder, FormGroup, Validators , FormsModule, NgForm } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { UploadComponent } from '../utils/upload/upload.component';
 
 
 @NgModule({
-  declarations: [CustAddComponent, CustGetComponent],
+  declarations: [CustAddComponent, CustGetComponent, UploadComponent ],
   imports: [
     CommonModule,
     FormsModule,

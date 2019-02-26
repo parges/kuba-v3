@@ -4,7 +4,10 @@
 
 export const environment = {
   production: false,
-  endpoint: 'http://localhost:3000/customers'
+  // endpoint: 'http://localhost:3000/customers'
+  globalEndpoint: 'https://localhost:44370/api/',
+  endpoint: 'https://localhost:44370/api/patient',
+  endpointUpload: 'https://localhost:44370/api/upload'
 };
 
 /*

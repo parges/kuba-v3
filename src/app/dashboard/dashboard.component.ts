@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -5,11 +6,12 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent {
 
-  constructor() { }
+  constructor(private $router: Router) { }
 
-  ngOnInit() {
+  navigate(path: string) {
+    this.$router.navigate([path]);
+    //  this.router.navigateByURL(['path']);
   }
-
 }

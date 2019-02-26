@@ -2,8 +2,9 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, catchError } from 'rxjs/operators';
 import { Customer } from './customer';
+import { of, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -57,6 +58,15 @@ export class CustomerService {
     return this.$http.put<Customer>( environment.endpoint + '/' + cust.id, cust )
                .toPromise();
   }
+  updateCustomerFormData ( cust: FormData ): Promise<Customer> {
+    return this.$http.put<Customer>( environment.endpoint + '/' + cust.get("id"), cust )
+              .pipe(catchError(this.handleError<Customer>(`updateUser`)))
+               .toPromise();
+  }
+
+  getImageByFilename ( patientId: number ): Observable<Blob> {
+    return this.$http.get( environment.globalEndpoint + 'image/' + patientId, { responseType: 'blob' } );
+  }
 
   addCustomer ( cust: Customer ): Promise<Customer> {
     return this.$http.post<Customer>( environment.endpoint, cust )
@@ -67,11 +77,19 @@ export class CustomerService {
     return this.$http.delete<any>( environment.endpoint + '/' + cust.id)
                .toPromise();
   }
-  uploadImage (upFile: File) {
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    };
+}
+
+  uploadImage (upFile: File, userId: number) {
     // this.http is the injected HttpClient
-    this.$http.post('my-backend.com/file-upload', upFile, {
-      reportProgress: true,
-      observe: 'events'
+    this.$http.post(environment.endpoint + '/ImageUpload', {upFile, userId}, {
+      // reportProgress: true,
+      // observe: 'events'
     }).subscribe(event => {
         console.log(event); // handle event here
       });
