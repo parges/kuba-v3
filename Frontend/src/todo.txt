@@ -1,0 +1,20 @@
+Property:
+- Bild hochladen
+Dashboard:
+
+Test:
+- Formular:
+  - siehe Blatt
+    Aufgabenstellung und daneben Radio Buttons 0-4
+    Verschiedene Gruppierung der Aufgabenstellungen in Form von tab group
+- Ausrechnen der Ergebnisse
+
+
+Einscannen / Hochladen von Bildern:
+- Später
+
+
+
+
+Info:
+Tabellen Aktionen pro row --> https://www.sitepoint.com/angular-material-design-components/

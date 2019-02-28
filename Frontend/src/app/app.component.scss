@@ -1,0 +1,135 @@
+.example-icon {
+  padding: 0 14px;
+}
+
+.example-spacer {
+  flex: 0 0 auto;
+}
+
+// nav{
+//   margin-left: 30px;
+//   a {
+//     margin-left: 10px;
+//     text-decoration: none;
+//     color: antiquewhite;
+//     font-size: 16px;
+//     font-weight: 400;
+//     letter-spacing: 1px;
+//     font-family: Roboto,"Helvetica Neue Light","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+//     text-transform: uppercase;
+//     &:hover {
+//       opacity: 0.7;
+//     }
+
+//     &:focus {
+//       background-color: $accentblue;
+//       outline: none;
+//     }
+//     }
+//   .active {
+//     color: red;
+//   }
+// }
+
+// nav{
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     list-style-position: inside;
+//     padding: 0px;
+//     margin: 0px;
+//     a {
+//       padding-bottom: 2px;
+//       list-style-type: none;
+//       cursor: pointer;
+
+//       &:hover {
+//         opacity: 0.7;
+//       }
+
+//       &:focus {
+//         background-color: grey;
+//         outline: none;
+//       }
+//     }
+//   }
+
+//   a.nav-link {
+//     margin: 0;
+//     padding: 24px 0px;
+//     cursor: pointer;
+
+//     .nav-link-inner {
+//       padding: 8px 16px;
+//     }
+
+//     &:focus {
+//       outline: none;
+
+//       .nav-link-inner {
+//         background: rgba(white, 0.15);
+//         border-radius: 4px;
+//       }
+//     }
+//   }
+
+// TOP MENU
+$accentblue: rgb(117, 2, 117);
+$white: black;
+
+mat-toolbar-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  ul {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style-position: inside;
+    padding: 0px;
+    margin-left: 30px;
+    li {
+      margin-left: 10px;
+      padding-bottom: 2px;
+      list-style-type: none;
+      cursor: pointer;
+      font-weight: 400;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+
+      &:hover {
+        opacity: 0.7;
+      }
+
+      &:focus {
+        background-color: $accentblue;
+        outline: none;
+      }
+    }
+  }
+
+  a.nav-link {
+    margin: 0;
+    padding: 24px 0px;
+    cursor: pointer;
+
+    .nav-link-inner {
+      padding: 8px 16px;
+    }
+
+    &:focus {
+      outline: none;
+
+      .nav-link-inner {
+        background: rgba($white, 0.15);
+        border-radius: 4px;
+      }
+    }
+  }
+}
+
+.intial-margin-spacer {
+  margin: 15px;
+}

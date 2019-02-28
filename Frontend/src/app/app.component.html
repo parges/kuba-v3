@@ -1,0 +1,20 @@
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+      <span>KuBa v2</span>
+      <span class="example-spacer"></span>
+      <ul>
+        <li routerLink="/dashboard" routerLinkActive="active">Dashboard</li>
+        <!-- <li routerLink="/customers" routerLinkActive="active">Kunden</li> -->
+        <li routerLink="/customers/add" routerLinkActive="active">+ Patient</li>
+        <li routerLink="/document/add" routerLinkActive="active">+ Dokument</li>
+      </ul>
+      <!-- <nav>
+          <a routerLink="/dashboard" routerLinkActive="active">Crisis Center</a>
+          <a routerLink="/customers" routerLinkActive="active">Heroes</a>
+        </nav> -->
+    </mat-toolbar-row>
+
+</mat-toolbar>
+<div class='intial-margin-spacer'>
+<router-outlet></router-outlet>
+</div>
