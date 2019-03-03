@@ -1,0 +1,97 @@
+<button mat-raised-button (click)="openDialog()" class="m-b-5">Pick one</button>
+<!-- <form class="example-form">
+<mat-form-field>
+    <input matInput placeholder="Patient" aria-label="Patient" [matAutocomplete]="auto" [formControl]="myControl">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let patient of filteredPatients | async" [value]="patient.firstname">
+        <!-- <img class="example-option-img" aria-hidden [src]="patient" height="25"> -->
+        <!-- <span>{{patient.firstname}}</span> |
+        <!-- <small>Population: {{patient.lastname}}</small> -->
+      <!-- </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
+</form> -->
+
+
+<form [formGroup]="docUebersicht" (ngSubmit)="onDocSubmit()" class="form-container" >
+  <!-- Vorname -->
+  <mat-form-field>
+      <input formControlName="firstname" matInput placeholder="Vorname">
+  </mat-form-field>
+  <mat-error>
+      <span *ngIf="!docUebersicht.get('firstname').valid && docUebersicht.get('firstname').touched">Bitte Vornamen eingeben</span>
+  </mat-error>
+  <!-- Nachname -->
+  <mat-form-field>
+      <input formControlName="lastname" matInput placeholder="Nachname">
+  </mat-form-field>
+  <mat-error>
+      <span *ngIf="!docUebersicht.get('lastname').valid && docUebersicht.get('lastname').touched">Bitte Nachnamen eingeben</span>
+  </mat-error>
+  <!-- Geburtstag -->
+  <mat-form-field>
+    <input matInput formControlName="birthday" [matDatepicker]="picker" placeholder="Geburtstag wählen">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker touchUi #picker></mat-datepicker>
+  </mat-form-field>
+  <!-- Adresse -->
+  <mat-form-field>
+    <input formControlName="address" matInput placeholder="Adresse">
+  </mat-form-field>
+  <mat-error>
+      <span *ngIf="!docUebersicht.get('address').valid && docUebersicht.get('address').touched">Bitte Adresse eingeben</span>
+  </mat-error>
+  <!-- Telefonnummer -->
+  <mat-form-field>
+      <input formControlName="tele" matInput placeholder="Telefonnummer">
+  </mat-form-field>
+  <mat-error>
+      <span *ngIf="!docUebersicht.get('tele').valid && docUebersicht.get('tele').touched">Bitte Telefonnummer eingeben</span>
+  </mat-error>
+
+  <!-- Unterer Teil -->
+  <button class="m-t-15" mat-raised-button color="accent" (click)="addReview()">neues Review anlegen +</button>
+  <div formArrayName="reviews" class="m-t-15">
+    <mat-accordion class="form-accordion">
+      <div *ngFor="let review of docUebersicht.controls.reviews.controls; let i=index">
+        <div [formGroupName]="i">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{ docUebersicht.controls.reviews.controls[i].controls.name }}
+              </mat-panel-title>
+              <!-- <mat-panel-description>
+                Übungen Begründungen bezahlt
+              </mat-panel-description> -->
+            </mat-expansion-panel-header>
+            <mat-form-field class="full-with-field">
+                <input matInput formControlName="date" [matDatepicker]="picker" placeholder="Datum">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker touchUi #picker></mat-datepicker>
+              </mat-form-field>
+            <mat-form-field class="full-with-field">
+              <textarea formControlName="exercises" matInput placeholder="Übungen"></textarea>
+            </mat-form-field>
+            <mat-form-field class="full-with-field">
+              <textarea formControlName="reasons" matInput placeholder="Begründungen"></textarea>
+            </mat-form-field>
+            <mat-checkbox formControlName="payed" class="full-with-field">bezahlt</mat-checkbox>
+            <button mat-raised-button color="warn" (click)="removeReview(i)" class="full-with-field m-t-10">Review löschen</button>
+          </mat-expansion-panel>
+        </div>
+      </div>
+    </mat-accordion>
+  </div>
+
+<!--
+  Models erstellen und anbinden
+  automatische Erstellung der Zeilen nach Model einträgen (foreach)
+  add Review Funktion
+  Backend anbinden
+-->
+
+
+
+  <button class="m-t-15" mat-raised-button color="accent" [disabled]="!docUebersicht.valid || IsAccepted==0">Erstellen / Speichern</button>
+</form>
+

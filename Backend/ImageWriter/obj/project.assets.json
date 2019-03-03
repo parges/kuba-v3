@@ -694,11 +694,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Dev\\kuba\\kuba-api\\ImageWriter\\ImageWriter.csproj",
+      "projectUniqueName": "D:\\Dev\\kuba-v3\\Backend\\ImageWriter\\ImageWriter.csproj",
       "projectName": "ImageWriter",
-      "projectPath": "D:\\Dev\\kuba\\kuba-api\\ImageWriter\\ImageWriter.csproj",
+      "projectPath": "D:\\Dev\\kuba-v3\\Backend\\ImageWriter\\ImageWriter.csproj",
       "packagesPath": "C:\\Users\\Stefan\\.nuget\\packages\\",
-      "outputPath": "D:\\Dev\\kuba\\kuba-api\\ImageWriter\\obj\\",
+      "outputPath": "D:\\Dev\\kuba-v3\\Backend\\ImageWriter\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

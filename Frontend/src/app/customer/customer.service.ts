@@ -38,6 +38,11 @@ export class CustomerService {
         .toPromise()
         .then(this.extractData);
   }
+
+  getAllUsers (): Promise<Customer[]> {
+    return this.$http.get<Customer[]>(environment.endpoint)
+        .toPromise();
+  }
   extractData(res: HttpResponse<Object>) {
     const array = new Array();
     let key, count = 0;

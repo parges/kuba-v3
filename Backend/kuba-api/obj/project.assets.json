@@ -12626,11 +12626,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Dev\\kuba\\kuba-api\\kuba-api\\kuba-api.csproj",
+      "projectUniqueName": "D:\\Dev\\kuba-v3\\Backend\\kuba-api\\kuba-api.csproj",
       "projectName": "kuba-api",
-      "projectPath": "D:\\Dev\\kuba\\kuba-api\\kuba-api\\kuba-api.csproj",
+      "projectPath": "D:\\Dev\\kuba-v3\\Backend\\kuba-api\\kuba-api.csproj",
       "packagesPath": "C:\\Users\\Stefan\\.nuget\\packages\\",
-      "outputPath": "D:\\Dev\\kuba\\kuba-api\\kuba-api\\obj\\",
+      "outputPath": "D:\\Dev\\kuba-v3\\Backend\\kuba-api\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -12649,8 +12649,8 @@
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "D:\\Dev\\kuba\\kuba-api\\ImageWriter\\ImageWriter.csproj": {
-              "projectPath": "D:\\Dev\\kuba\\kuba-api\\ImageWriter\\ImageWriter.csproj"
+            "D:\\Dev\\kuba-v3\\Backend\\ImageWriter\\ImageWriter.csproj": {
+              "projectPath": "D:\\Dev\\kuba-v3\\Backend\\ImageWriter\\ImageWriter.csproj"
             }
           }
         }
