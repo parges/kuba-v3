@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.ExpressionTranslators.Internal;
 
 namespace kuba_api.Controllers
 {
@@ -38,14 +39,17 @@ namespace kuba_api.Controllers
         [HttpGet]
         public ActionResult<List<Patient>> GetAll()
         {
-             return _context.Patients.ToList();
+            List<Patient> list = _context.Patients.Include(x => x.Reviews).ToList();
+            return list;
         }
 
         // GET: api/Patient/5
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<Patient> Get(int id)
         {
-            var item = _context.Patients.Find(id);
+            var item = _context.Patients.Where(x => x.Id == id).Include(x => x.Reviews).FirstOrDefault();
+                /*.Include(p => p.Reviews)*/
+                /*.Find(id);*/
             if (item == null)
             {
                 return NotFound();
@@ -96,7 +100,7 @@ namespace kuba_api.Controllers
         }
 
         // PUT: api/Patient/5
-        [HttpPut("{id}")]
+        /*[HttpPut("{id}")]
         public ActionResult UpdateAsync([FromRoute] int id, [FromForm] PatientDto item)
         {
             if (!ModelState.IsValid)
@@ -104,7 +108,7 @@ namespace kuba_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var patient = _context.Patients.SingleOrDefault(m => m.Id == id);
+            var patient = _context.Patients.Where(x => x.Id == id).Include(x => x.Reviews).FirstOrDefault(m => m.Id == id);
             if (patient == null)
             {
                 return NoContent();
@@ -113,9 +117,50 @@ namespace kuba_api.Controllers
             patient.Lastname= item.Lastname;
             patient.Birthday= item.Birthday;
             patient.Tele = item.Tele;
+            patient.Reviews = item.Reviews;
 
-            string filename = _imageHandler.UploadImage(item.Avatar, _imagePath).Result;
-            patient.Avatar = filename;
+            if (item.Avatar != null)
+            {
+                string filename = _imageHandler.UploadImage(item.Avatar, _imagePath).Result;
+                patient.Avatar = filename;
+            }
+            /*var filePath = Path.Combine(_environment.ContentRootPath, @"Resources/Images", item.Avatar.FileName);
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                item.Avatar.CopyTo(stream);
+            }#1#
+
+            _context.Patients.Update(patient);
+            _context.SaveChanges();
+            return Ok(patient);
+        }*/
+
+        // PUT: api/Patient/5
+        [HttpPut("{id}")]
+        public ActionResult UpdateAsync([FromRoute] int id, Patient item)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var patient = _context.Patients.Where(x => x.Id == id).Include(x => x.Reviews).FirstOrDefault(m => m.Id == id);
+            if (patient == null)
+            {
+                return NoContent();
+            }
+            patient.Firstname = item.Firstname;
+            patient.Lastname = item.Lastname;
+            patient.Birthday = item.Birthday;
+            patient.Tele = item.Tele;
+            patient.Reviews = item.Reviews;
+
+            if (item.Avatar != null)
+            {
+                /*string filename = _imageHandler.UploadImage(item.Avatar, _imagePath).Result;
+                patient.Avatar = filename;*/
+            }
             /*var filePath = Path.Combine(_environment.ContentRootPath, @"Resources/Images", item.Avatar.FileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))

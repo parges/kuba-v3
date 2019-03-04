@@ -6,6 +6,7 @@ import { UebersichtModel } from './ubersichtModel';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Customer } from 'src/app/customer/customer';
 import { startWith, switchMap, map } from 'rxjs/operators';
+import { SnackbarGenericComponent } from 'src/app/utils/snackbar-generic/snackbar-generic.component';
 
 export interface DialogData {
   patient: Customer;
@@ -25,7 +26,9 @@ export class Uebersicht00Component implements AfterViewInit{
   patients: Customer[];
   activeCustomer: Customer;
 
-  constructor(private $customer: CustomerService, private fb: FormBuilder, public dialog: MatDialog) {
+  isDisabled: boolean = true;
+
+  constructor(private $customer: CustomerService, private fb: FormBuilder, public dialog: MatDialog, public snackbar: SnackbarGenericComponent) {
     this.docUebersicht = this.fb.group({
       'id' : [''],
       'firstname' : ['', Validators.required],
@@ -33,10 +36,10 @@ export class Uebersicht00Component implements AfterViewInit{
       'tele' : ['', Validators.required],
       'birthday' : [''],
       'address' : [''],
-      'reviews' : this.fb.array([
-        this.initReviews(),
-        this.initReviews()
-      ])
+      'reviews' : this.fb.array([])
+    });
+    Object.keys(this.docUebersicht.controls).forEach(key => {
+      this.docUebersicht.get(key).disable();
     });
 
     this.openDialog();
@@ -55,26 +58,61 @@ export class Uebersicht00Component implements AfterViewInit{
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.activeCustomer = dialogRef.componentInstance.selectedPatient;
-      // Calculate the age
-      const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
-      const age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-      // To initialize FormGroup
-      this.docUebersicht.setValue({
-        id: this.activeCustomer.id,
-        firstname: this.activeCustomer.firstname,
-        lastname: this.activeCustomer.lastname,
-        tele: this.activeCustomer.tele,
-        birthday: this.activeCustomer.birthday,
-        address: 'Max Mustermann Straße',
-        reviews: this.fb.array([
-          this.initReviews(),
-          this.initReviews()
-        ])
-        });
-      });
-    }
+      if(dialogRef.componentInstance.selectedPatient) 
+      {
+        // Object.keys(this.docUebersicht.controls).forEach(key => {
+        //   this.docUebersicht.get(key).enable();
+        // });
+        this.isDisabled = false;
 
+        this.activeCustomer = dialogRef.componentInstance.selectedPatient;
+        // Calculate the age
+        const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
+        const age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+        // To initialize FormGroup
+        this.docUebersicht.setValue({
+          id: this.activeCustomer.id,
+          firstname: this.activeCustomer.firstname,
+          lastname: this.activeCustomer.lastname,
+          tele: this.activeCustomer.tele,
+          birthday: this.activeCustomer.birthday ? this.activeCustomer.birthday : '',
+          address: 'Max Mustermann Straße',
+          reviews: this.fillReviews()
+          // reviews: this.fb.array([
+          //   this.initReviews(),
+          //   this.initReviews()
+          // ])
+          });
+
+          
+      }
+    });
+    }
+  fillReviews(): FormGroup {
+    let reviews = this.docUebersicht.get('reviews') as FormArray;
+    if(this.activeCustomer.reviews.length > 0){
+      this.activeCustomer.reviews.forEach(review => {
+        reviews.push(
+        this.fb.group({
+          name: review.name,
+          date: review.date,
+          payed: review.payed,
+          exercises: review.exercises,
+          reasons: review.reasons
+        })
+        );
+      });
+     
+    }
+    // initialize our address
+    return this.fb.group({
+        name: ['Anfangsübung'],
+        date: [''],
+        payed: [''],
+        exercises: ['Übungen'],
+        reasons: ['BEgründungen']
+    });
+  }
   initReviews() {
     // initialize our address
     return this.fb.group({
@@ -96,17 +134,17 @@ export class Uebersicht00Component implements AfterViewInit{
     control.removeAt(i);
   }
 
-
-
   onDocSubmit() {
-    // const result: Customer = Object.assign({}, this.addCustForm.value);
-    // this.$customer.addCustomer(result).catch(
-    //   err => console.error(err)
-    // ).finally(() => {
-    //   this.$router.navigate(['customers']);
-    // });
+    const result: Customer = Object.assign({}, this.docUebersicht.value);
+    this.$customer.updateCustomer(result).catch(
+      err => console.error(err)
+    ).finally(() => {
+      this.snackbar.openSnackBar('Gespeichert');
+      // this.$router.navigate(['customers']);
+    });
 
   }
+
 
 }
 @Component({
@@ -143,10 +181,14 @@ export class DialogExampleDialog {
 
     }
 
-    public _filterPatients(value: string): Customer[] {
-      const filterValue = value;
-      // .toLowerCase();
-      return this.patients.filter(patient => patient.firstname.toLowerCase().indexOf(filterValue) === 0);
+    public _filterPatients(value: Customer): Customer[] {
+      if (value) {
+        const filterValueFirstname = value.firstname.toLowerCase();
+        const filterValueLastname = value.lastname.toLowerCase();
+        return this.patients.filter(patient => patient.firstname.toLowerCase().indexOf(filterValueFirstname) === 0 || patient.lastname.toLowerCase().indexOf(filterValueLastname)  === 0 );
+      } else {
+        return this.patients;
+      }
     }
 
   onNoClick(): void {

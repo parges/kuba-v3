@@ -16,5 +16,7 @@ namespace kubaapi.Models
         public DateTime Birthday { get; set; }
         public string Avatar { get; set; }
 
+        public List<Review> Reviews { get; set; }
+
     }
 }

@@ -46,3 +46,20 @@ D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorTargetAsse
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csproj.CopyComplete
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.dll
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.pdb
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.deps.json
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.runtimeconfig.json
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.runtimeconfig.dev.json
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.dll
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.pdb
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\bin\Debug\netcoreapp2.1\ImageWriter.dll
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\bin\Debug\netcoreapp2.1\ImageWriter.pdb
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csprojAssemblyReference.cache
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csproj.CoreCompileInputs.cache
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorAssemblyInfo.cache
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorAssemblyInfo.cs
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.AssemblyInfoInputs.cache
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.AssemblyInfo.cs
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorTargetAssemblyInfo.cache
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csproj.CopyComplete
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.dll
+C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.pdb

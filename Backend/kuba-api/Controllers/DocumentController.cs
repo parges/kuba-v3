@@ -29,12 +29,12 @@ namespace kuba_api.Controllers
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
         }
 
-        // GET: api/Documents
+        /*// GET: api/Documents
         [HttpGet]
         public ActionResult<List<Document>> GetAll()
         {
-             return _context.Documents.ToList();
-        }
+            return "";
+        }*/
 
         /*// GET: api/Patient/5
         [HttpGet("{id}", Name = "Get")]

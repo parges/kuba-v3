@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using kubaapi.Models;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class PatientContextModelSnapshot : ModelSnapshot
+    [Migration("20190304094828_addReviews")]
+    partial class addReviews
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,8 +42,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Patients");
 
                     b.HasData(
-                        new { Id = 1, Birthday = new DateTime(1988, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), Firstname = "Kleiner", Lastname = "Hase", Tele = "0177123456" },
-                        new { Id = 2, Birthday = new DateTime(1988, 8, 11, 0, 0, 0, 0, DateTimeKind.Unspecified), Firstname = "Stefan", Lastname = "Parge", Tele = "0177123457" }
+                        new { Id = 1, Birthday = new DateTime(1988, 8, 10, 0, 0, 0, 0, DateTimeKind.Unspecified), Firstname = "Kleiner", Lastname = "Hase", Tele = "0177123456" }
                     );
                 });
 
@@ -70,18 +71,15 @@ namespace kubaapi.Migrations
                     b.ToTable("Reviews");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "Befundgespräch", PatientId = 1, Payed = true, Reasons = "Das war dringend notwendig" },
-                        new { Id = 2, Date = new DateTime(2019, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "1. Review", PatientId = 1, Payed = true, Reasons = "Das war dringend notwendig" },
-                        new { Id = 3, Date = new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "2. Review", PatientId = 1, Payed = false, Reasons = "Das war dringend notwendig" },
-                        new { Id = 4, Date = new DateTime(2019, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "Befundgespräch", PatientId = 2, Payed = true, Reasons = "Das war dringend notwendig" },
-                        new { Id = 5, Date = new DateTime(2019, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "1. Review", PatientId = 2, Payed = false, Reasons = "Das war dringend notwendig" },
-                        new { Id = 6, Date = new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "2. Review", PatientId = 2, Payed = false, Reasons = "Das war dringend notwendig" }
+                        new { Id = 1, Date = new DateTime(2019, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "Befundgespräch", Payed = true, Reasons = "Das war dringend notwendig" },
+                        new { Id = 2, Date = new DateTime(2019, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "1. Review", Payed = true, Reasons = "Das war dringend notwendig" },
+                        new { Id = 3, Date = new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "2. Review", Payed = false, Reasons = "Das war dringend notwendig" }
                     );
                 });
 
             modelBuilder.Entity("kubaapi.Models.Review", b =>
                 {
-                    b.HasOne("kubaapi.Models.Patient")
+                    b.HasOne("kubaapi.Models.Patient", "Patient")
                         .WithMany("Reviews")
                         .HasForeignKey("PatientId");
                 });

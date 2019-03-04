@@ -42,10 +42,13 @@ namespace kuba_api.Controllers
         public ActionResult GetImage(int id)
         {
             var patient = _context.Patients.Find(id);
+            if (!string.IsNullOrEmpty(patient.Avatar))
+            {
+                var bytes = System.IO.File.ReadAllBytes(_imagePath + patient.Avatar);
+                return File(bytes, "application/image");
+            }
 
-            var bytes = System.IO.File.ReadAllBytes(_imagePath + patient.Avatar);
-
-            return File(bytes, "application/image");
+            return NotFound();
         }
 
     }

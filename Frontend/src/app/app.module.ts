@@ -20,11 +20,13 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UploadComponent } from './utils/upload/upload.component';
+import { SnackbarGenericComponent } from './utils/snackbar-generic/snackbar-generic.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SnackbarGenericComponent
   ],
   imports: [
     BrowserModule,

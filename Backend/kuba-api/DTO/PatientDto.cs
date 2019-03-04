@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using kubaapi.Models;
 using Microsoft.AspNetCore.Http;
 
 namespace kubaapi.DTO
@@ -16,5 +17,6 @@ namespace kubaapi.DTO
         public DateTime Birthday { get; set; }
         public IFormFile Avatar { get; set; }
 
+        public List<Review> Reviews { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, NgForm, FormArray } from '@angular/forms';
 import { CustomerService } from './../../customer/customer.service';
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -37,13 +37,15 @@ export class CustGetComponent implements OnInit, OnDestroy {
   constructor(private route: ActivatedRoute, private $router: Router, private $customer: CustomerService, private fb: FormBuilder) {
     this.formBuilder = fb;
     this.regiForm = this.formBuilder.group({
-      'id' : [''],
-      'firstname' : ['', Validators.required],
-      'lastname' : ['', Validators.required],
-      'tele' : ['', Validators.required],
-      'birthday' : [''],
-      'age' : [],
-      'avatar' : []
+      id : [''],
+      firstname : ['', Validators.required],
+      lastname : ['', Validators.required],
+      tele : ['', Validators.required],
+      birthday : [''],
+      age : [''],
+      avatar : [''],
+      address : [''],
+      reviews : this.fb.array([])
     });
    }
 
@@ -65,7 +67,9 @@ export class CustGetComponent implements OnInit, OnDestroy {
           tele: this.activeCustomer.tele,
           birthday: this.activeCustomer.birthday,
           age: age,
-          avatar: this.activeCustomer.avatar
+          avatar: this.activeCustomer.avatar,
+          address: 'Max Mustermann Straße',
+          reviews: this.fillReviews()
         });
       })
       .then(cust => {
@@ -80,9 +84,32 @@ export class CustGetComponent implements OnInit, OnDestroy {
         });
       });
      });
-
   }
 
+  fillReviews(): FormGroup {
+    let reviews = this.regiForm.get('reviews') as FormArray;
+    if(this.activeCustomer.reviews.length > 0) {
+      this.activeCustomer.reviews.forEach(review => {
+        reviews.push(
+        this.fb.group({
+          name: review.name,
+          date: review.date,
+          payed: review.payed,
+          exercises: review.exercises,
+          reasons: review.reasons
+        })
+        );
+      });
+    }
+    // initialize our address
+    return this.fb.group({
+        name: ['Anfangsübung'],
+        date: [''],
+        payed: [''],
+        exercises: ['Übungen'],
+        reasons: ['BEgründungen']
+    });
+  }
 
   createImageFromBlob(image: Blob) {
      let reader = new FileReader();
@@ -107,46 +134,33 @@ export class CustGetComponent implements OnInit, OnDestroy {
       }
   }
 
-  private prepareSave(): any {
-    let formData = new FormData();
+  // private prepareSave(): any {
+  //   let formData = new FormData();
 
-    // This can be done a lot prettier; for example automatically assigning values by looping through `this.form.controls`, but we'll keep it as simple as possible here
-    formData.append('id', this.regiForm.get('id').value);
-    formData.append('firstname', this.regiForm.get('firstname').value);
-    formData.append('lastname', this.regiForm.get('lastname').value);
-    formData.append('tele', this.regiForm.get('tele').value);
-    formData.append('age', this.regiForm.get('age').value);
-    formData.append('birthday', this.regiForm.get('birthday').value);
-    formData.append('avatar', this.regiForm.get('avatar').value);
+  //   // This can be done a lot prettier; for example automatically assigning values by looping through `this.form.controls`, but we'll keep it as simple as possible here
+  //   formData.append('id', this.regiForm.get('id').value);
+  //   formData.append('firstname', this.regiForm.get('firstname').value);
+  //   formData.append('lastname', this.regiForm.get('lastname').value);
+  //   formData.append('tele', this.regiForm.get('tele').value);
+  //   formData.append('age', this.regiForm.get('age').value);
+  //   formData.append('birthday', this.regiForm.get('birthday').value);
+  //   formData.append('avatar', this.regiForm.get('avatar').value);
 
-    return formData;
-  }
-
-  onSubmit() {
-    // this.loading = true;
-    // In a real-world app you'd have a http request / service call here like
-    // this.http.post('apiUrl', formModel)
-    const formModel = this.prepareSave();
-    // const result: Customer = Object.assign({}, this.regiForm.value);
-       this.$customer.updateCustomerFormData(formModel);//.then(customer => {
-    //     this.activeCustomer = customer;
-    // })
-
-  }
-
-
-  // // Executed When Form Is Submitted
-  // onFormSubmit() {
-  //   // Make sure to create a deep copy of the form-model
-  //   const result: Customer = Object.assign({}, this.regiForm.value);
-  //   this.$customer.updateCustomer(result).then(customer => {
-  //       this.activeCustomer = customer;
-  //   }).finally(() => {
-  //     this.$router.navigate(['customers']);
-  //   });
-
+  //   return formData;
   // }
 
+  onSubmit() {
+    // const formModel = this.prepareSave();
+    //    this.$customer.updateCustomerFormData(formModel);//.then(customer => {
+
+    const result: Customer = Object.assign({}, this.regiForm.value);
+    this.$customer.updateCustomer(result).catch(
+      err => console.error(err)
+    ).finally(() => {
+      // this.$router.navigate(['customers']);
+    });
+  }
+  
   // Executed When Form Is Submitted
   onDeleteCustomer() {
     // Make sure to create a deep copy of the form-model
@@ -156,12 +170,5 @@ export class CustGetComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * Uploading the customer picture
-   */
-  // onFileChanged(event) {
-  //   this.selectedFile = event.target.files[0];
-  //   this.$customer.uploadImage(this.selectedFile);
-  // }
 
 }

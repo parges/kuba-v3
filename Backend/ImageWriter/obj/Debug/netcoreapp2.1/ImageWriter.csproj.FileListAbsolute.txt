@@ -30,3 +30,19 @@ D:\Dev\kuba-v3\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.AssemblyI
 D:\Dev\kuba-v3\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.csproj.CopyComplete
 D:\Dev\kuba-v3\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.dll
 D:\Dev\kuba-v3\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.pdb
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\ImageWriter.deps.json
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\ImageWriter.dll
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\ImageWriter.pdb
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Http.Features.dll
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Mvc.Abstractions.dll
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Mvc.Core.dll
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Http.Features.xml
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Mvc.Abstractions.xml
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Mvc.Core.xml
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.csprojAssemblyReference.cache
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.csproj.CoreCompileInputs.cache
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.AssemblyInfoInputs.cache
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.AssemblyInfo.cs
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.csproj.CopyComplete
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.dll
+C:\Dev\Reflexartig Leicht\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.pdb

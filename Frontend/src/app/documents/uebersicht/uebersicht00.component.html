@@ -1,4 +1,4 @@
-<button mat-raised-button (click)="openDialog()" class="m-b-5">Pick one</button>
+<button mat-raised-button (click)="openDialog()" class="m-b-5 full-with-field">Patienten wählen</button>
 <!-- <form class="example-form">
 <mat-form-field>
     <input matInput placeholder="Patient" aria-label="Patient" [matAutocomplete]="auto" [formControl]="myControl">
@@ -50,7 +50,7 @@
   </mat-error>
 
   <!-- Unterer Teil -->
-  <button class="m-t-15" mat-raised-button color="accent" (click)="addReview()">neues Review anlegen +</button>
+  <button class="m-t-15" mat-raised-button (click)="addReview()" [disabled]="isDisabled == true">neues Review anlegen +</button>
   <div formArrayName="reviews" class="m-t-15">
     <mat-accordion class="form-accordion">
       <div *ngFor="let review of docUebersicht.controls.reviews.controls; let i=index">
@@ -82,16 +82,6 @@
       </div>
     </mat-accordion>
   </div>
-
-<!--
-  Models erstellen und anbinden
-  automatische Erstellung der Zeilen nach Model einträgen (foreach)
-  add Review Funktion
-  Backend anbinden
--->
-
-
-
-  <button class="m-t-15" mat-raised-button color="accent" [disabled]="!docUebersicht.valid || IsAccepted==0">Erstellen / Speichern</button>
+  <button class="m-t-15" mat-raised-button color="accent" [disabled]="isDisabled == true">Erstellen / Speichern</button>
 </form>
 

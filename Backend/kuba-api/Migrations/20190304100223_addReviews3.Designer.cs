@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using kubaapi.Models;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class PatientContextModelSnapshot : ModelSnapshot
+    [Migration("20190304100223_addReviews3")]
+    partial class addReviews3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -81,7 +83,7 @@ namespace kubaapi.Migrations
 
             modelBuilder.Entity("kubaapi.Models.Review", b =>
                 {
-                    b.HasOne("kubaapi.Models.Patient")
+                    b.HasOne("kubaapi.Models.Patient", "Patient")
                         .WithMany("Reviews")
                         .HasForeignKey("PatientId");
                 });
