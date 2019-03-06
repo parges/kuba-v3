@@ -6,7 +6,6 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
-using kubaapi.DTO;
 using kubaapi.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -40,6 +39,11 @@ namespace kuba_api.Controllers
         public ActionResult<List<Patient>> GetAll()
         {
             List<Patient> list = _context.Patients.Include(x => x.Reviews).ToList();
+            // Order by Date ASC
+            list.ForEach(x =>
+            {
+                x.Reviews = x.Reviews.OrderBy(y => y.Date).ToList();
+            });
             return list;
         }
 
@@ -63,6 +67,9 @@ namespace kuba_api.Controllers
             patient.Tele = item.Tele;
             /*var image = System.IO.File.OpenRead(_imagePath + );#1#
             patient.Avatar = item.Avatar;*/
+
+            // Order by Date ASC
+            item.Reviews = item.Reviews.OrderBy(x => x.Date).ToList();
 
             return item;
         }
@@ -154,6 +161,14 @@ namespace kuba_api.Controllers
             patient.Lastname = item.Lastname;
             patient.Birthday = item.Birthday;
             patient.Tele = item.Tele;
+            patient.Address = item.Address;
+            patient.AnamneseDate = item.AnamneseDate;
+            patient.AnamnesePayed = item.AnamnesePayed;
+            patient.DiagnostikDate = item.DiagnostikDate;
+            patient.DiagnostikPayed = item.DiagnostikPayed;
+            patient.ElternDate = item.ElternDate;
+            patient.ElternPayed = item.ElternPayed;
+            patient.ProblemHierarchy = item.ProblemHierarchy;
             patient.Reviews = item.Reviews;
 
             if (item.Avatar != null)

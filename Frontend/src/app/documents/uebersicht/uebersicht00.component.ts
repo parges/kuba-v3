@@ -7,6 +7,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Customer } from 'src/app/customer/customer';
 import { startWith, switchMap, map } from 'rxjs/operators';
 import { SnackbarGenericComponent } from 'src/app/utils/snackbar-generic/snackbar-generic.component';
+import { isString, isObject } from 'util';
 
 export interface DialogData {
   patient: Customer;
@@ -27,28 +28,53 @@ export class Uebersicht00Component implements AfterViewInit{
   activeCustomer: Customer;
 
   isDisabled: boolean = true;
+  disabledColumns: string[] = ['firstname','lastname', 'tele', 'address', 'birthday']
+
 
   constructor(private $customer: CustomerService, private fb: FormBuilder, public dialog: MatDialog, public snackbar: SnackbarGenericComponent) {
     this.docUebersicht = this.fb.group({
-      'id' : [''],
-      'firstname' : ['', Validators.required],
-      'lastname' : ['', Validators.required],
-      'tele' : ['', Validators.required],
-      'birthday' : [''],
-      'address' : [''],
-      'reviews' : this.fb.array([])
+      id : [''],
+      firstname : ['', Validators.required],
+      lastname : ['', Validators.required],
+      tele : ['', Validators.required],
+      birthday : [''],
+      address : [''],
+      anamneseDate: [''],
+      anamnesePayed: [''],
+      diagnostikDate: [''],
+      diagnostikPayed: [''],
+      elternDate: [''],
+      elternPayed: [''],
+      problemHierarchy: [''],
+      reviews : this.fb.array([])
     });
-    Object.keys(this.docUebersicht.controls).forEach(key => {
-      this.docUebersicht.get(key).disable();
-    });
+    
+    this.enableControlStates(false);
 
     this.openDialog();
    }
 
    ngAfterViewInit() {
-
+    
    }
 
+   enableControlStates(enable: boolean) {
+    if(enable){
+      Object.keys(this.docUebersicht.controls).forEach(key => {
+        if(this.disabledColumns.indexOf(key) != -1){
+          this.docUebersicht.get(key).enable();
+        }
+      });
+    } else {
+      
+      Object.keys(this.docUebersicht.controls).forEach(key => {
+        if(this.disabledColumns.indexOf(key) != -1){
+          this.docUebersicht.get(key).disable();
+        }
+      });
+    }
+    
+   }
 
    openDialog(): void {
     const dialogRef = this.dialog.open(DialogExampleDialog, {
@@ -60,9 +86,6 @@ export class Uebersicht00Component implements AfterViewInit{
       console.log('The dialog was closed');
       if(dialogRef.componentInstance.selectedPatient) 
       {
-        // Object.keys(this.docUebersicht.controls).forEach(key => {
-        //   this.docUebersicht.get(key).enable();
-        // });
         this.isDisabled = false;
 
         this.activeCustomer = dialogRef.componentInstance.selectedPatient;
@@ -76,7 +99,14 @@ export class Uebersicht00Component implements AfterViewInit{
           lastname: this.activeCustomer.lastname,
           tele: this.activeCustomer.tele,
           birthday: this.activeCustomer.birthday ? this.activeCustomer.birthday : '',
-          address: 'Max Mustermann Straße',
+          address: this.activeCustomer.address,
+          anamneseDate: this.activeCustomer.anamneseDate,
+          anamnesePayed: this.activeCustomer.anamnesePayed,
+          diagnostikDate: this.activeCustomer.diagnostikDate,
+          diagnostikPayed: this.activeCustomer.diagnostikPayed,
+          elternDate: this.activeCustomer.elternDate,
+          elternPayed: this.activeCustomer.elternPayed,
+          problemHierarchy: this.activeCustomer.problemHierarchy,
           reviews: this.fillReviews()
           // reviews: this.fb.array([
           //   this.initReviews(),
@@ -91,6 +121,7 @@ export class Uebersicht00Component implements AfterViewInit{
   fillReviews(): FormGroup {
     let reviews = this.docUebersicht.get('reviews') as FormArray;
     if(this.activeCustomer.reviews.length > 0){
+      
       this.activeCustomer.reviews.forEach(review => {
         reviews.push(
         this.fb.group({
@@ -116,11 +147,11 @@ export class Uebersicht00Component implements AfterViewInit{
   initReviews() {
     // initialize our address
     return this.fb.group({
-        name: ['Anfangsübung'],
+        name: ['neuer Eintrag'],
         date: [''],
-        payed: [''],
-        exercises: ['Übungen'],
-        reasons: ['BEgründungen']
+        payed: [false],
+        exercises: [''],
+        reasons: ['']
     });
   }
   addReview() {
@@ -135,11 +166,13 @@ export class Uebersicht00Component implements AfterViewInit{
   }
 
   onDocSubmit() {
+    this.enableControlStates(true);
     const result: Customer = Object.assign({}, this.docUebersicht.value);
     this.$customer.updateCustomer(result).catch(
       err => console.error(err)
     ).finally(() => {
       this.snackbar.openSnackBar('Gespeichert');
+      this.enableControlStates(false);
       // this.$router.navigate(['customers']);
     });
 
@@ -181,12 +214,16 @@ export class DialogExampleDialog {
 
     }
 
-    public _filterPatients(value: Customer): Customer[] {
-      if (value) {
+    public _filterPatients(value: any): Customer[] {
+      if (isString(value)) {
+        const filteredValue = value.toLowerCase();
+        return this.patients.filter(patient => patient.firstname.toLowerCase().indexOf(filteredValue) === 0 || patient.lastname.toLowerCase().indexOf(filteredValue)  === 0 );
+      } else if(isObject(value)){
         const filterValueFirstname = value.firstname.toLowerCase();
         const filterValueLastname = value.lastname.toLowerCase();
         return this.patients.filter(patient => patient.firstname.toLowerCase().indexOf(filterValueFirstname) === 0 || patient.lastname.toLowerCase().indexOf(filterValueLastname)  === 0 );
-      } else {
+      } 
+      else {
         return this.patients;
       }
     }

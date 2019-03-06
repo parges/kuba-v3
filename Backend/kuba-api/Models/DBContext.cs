@@ -47,6 +47,7 @@ namespace kubaapi.Models
                     Lastname = "Hase",
                     Birthday = new DateTime(1988, 8, 10),
                     Tele = "0177123456"
+                    
                 });
                 p.HasData(new
                 {
