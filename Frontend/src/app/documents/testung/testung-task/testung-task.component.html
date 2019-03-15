@@ -1,0 +1,31 @@
+<div [formGroup]="form">
+  <label [attr.for]="question.key">{{question.label}}</label>
+
+  <div [ngSwitch]="question.controlType">
+
+    <h2 *ngSwitchCase="'chapter'">{{question.value}}</h2>
+    <input *ngSwitchCase="'textbox'" [formControlName]="question.key"
+            [id]="question.key" [type]="question.type">
+
+    <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
+      <option *ngFor="let opt of question.options" [value]="opt.key">{{opt.value}}</option>
+    </select>
+
+    <div *ngSwitchCase="'radio'" class="radio-question">
+      <label *ngFor="let opt of question.options" class="testung-container">
+        {{opt.key}}
+        <input
+          type="radio"
+          [name]="question.key"
+          [formControlName]="question.key"
+          [value]="opt.value">
+        <span class="checkmark"></span>
+      </label>
+    </div>
+
+
+  </div> 
+
+  <mat-divider></mat-divider>
+  <!-- <div class="errorMessage" *ngIf="!isValid">{{question.label}} is required</div> -->
+</div>

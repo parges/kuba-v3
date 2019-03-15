@@ -1,4 +1,4 @@
-import { DialogExampleDialog } from './documents/uebersicht/uebersicht00.component';
+import { MaterialModule } from './material-module';
 import { DocumentsModule } from './documents/documents.module';
 import { NoCachInterceptorService } from './interceptor/httpconfig.interceptor';
 import { CustomerEditModule } from './customer-edit/customer-edit.module';
@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 // tslint:disable-next-line:max-line-length
-import {MatToolbarModule, MatIconModule, MatSortModule, MatPaginatorModule, MatTableModule, MatAutocompleteModule, MatBadgeModule, MatBottomSheetModule, MatButtonModule, MatButtonToggleModule, MatCardModule, MatCheckboxModule, MatChipsModule, MatStepperModule, MatDatepickerModule, MatDialogModule, MatDividerModule, MatExpansionModule, MatGridListModule, MatInputModule, MatListModule, MatMenuModule, MatNativeDateModule, MatProgressBarModule, MatProgressSpinnerModule, MatRadioModule, MatRippleModule, MatSelectModule, MatSidenavModule, MatSliderModule, MatSlideToggleModule, MatSnackBarModule, MatTabsModule, MatTooltipModule, MatTreeModule, MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
+import {MatToolbarModule, MAT_DIALOG_DEFAULT_OPTIONS} from '@angular/material';
 import { A11yModule } from '@angular/cdk/a11y';
 import { CdkTableModule } from '@angular/cdk/table';
 import { CdkTreeModule } from '@angular/cdk/tree';
@@ -21,6 +21,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UploadComponent } from './utils/upload/upload.component';
 import { SnackbarGenericComponent } from './utils/snackbar-generic/snackbar-generic.component';
+import { PatientAutocompleteDialog } from './utils/patient-external-dialog/patient-external-dialog.component';
 
 
 @NgModule({

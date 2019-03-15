@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using kubaapi.Models;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class PatientContextModelSnapshot : ModelSnapshot
+    [Migration("20190310125538_baseDataAdded2")]
+    partial class baseDataAdded2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,7 +118,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Testungen");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 3, 10, 14, 1, 52, 34, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
+                        new { Id = 1, Date = new DateTime(2019, 3, 10, 13, 55, 37, 912, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
                     );
                 });
 
@@ -189,16 +191,6 @@ namespace kubaapi.Migrations
                     b.HasIndex("TestungId");
 
                     b.ToTable("TestungDetails");
-
-                    b.HasData(
-                        new { Id = 1, DataId = 1, TestungId = 1, Value = "" },
-                        new { Id = 2, DataId = 2, TestungId = 1, Value = "" },
-                        new { Id = 3, DataId = 3, TestungId = 1, Value = "" },
-                        new { Id = 4, DataId = 4, TestungId = 1, Value = "" },
-                        new { Id = 5, DataId = 5, TestungId = 1, Value = "" },
-                        new { Id = 6, DataId = 6, TestungId = 1, Value = "" },
-                        new { Id = 7, DataId = 7, TestungId = 1, Value = "" }
-                    );
                 });
 
             modelBuilder.Entity("kubaapi.Models.Review", b =>

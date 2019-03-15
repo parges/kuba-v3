@@ -11,10 +11,7 @@ import { of, Observable } from 'rxjs';
 })
 export class CustomerService {
 
-  customerList: Customer[] = [
-    { firstname: 'saban', lastname: 'uenlue', tele: '1' },
-    { firstname: 'peter', lastname: 'müller', tele: '1' }
-];
+  customerList: Customer[] = [];
 
   totalCount: number;
 

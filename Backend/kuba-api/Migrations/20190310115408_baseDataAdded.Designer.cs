@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using kubaapi.Models;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class PatientContextModelSnapshot : ModelSnapshot
+    [Migration("20190310115408_baseDataAdded")]
+    partial class baseDataAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,15 +111,7 @@ namespace kubaapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PatientId")
-                        .IsUnique()
-                        .HasFilter("[PatientId] IS NOT NULL");
-
-                    b.ToTable("Testungen");
-
-                    b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 3, 10, 14, 1, 52, 34, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
-                    );
+                    b.ToTable("Testung");
                 });
 
             modelBuilder.Entity("kubaapi.Models.TestungBaseChapter", b =>
@@ -157,7 +151,7 @@ namespace kubaapi.Migrations
                         new { Id = 1, Name = "Aufrichten aus Rückenlage in den Stand", TestungChapterId = 1 },
                         new { Id = 2, Name = "Aufrichten aus Bauchlage in den Stand", TestungChapterId = 1 },
                         new { Id = 3, Name = "Romberg Test (Augen geöffnet)", TestungChapterId = 1 },
-                        new { Id = 4, Name = "Tandem Gang (rückwärts)", TestungChapterId = 1 },
+                        new { Id = 4, Name = "", TestungChapterId = 1 },
                         new { Id = 5, Name = "Romberg Test (Augen geschlossen)", TestungChapterId = 1 },
                         new { Id = 6, Name = "Mann Test (Augen geöffnet)", TestungChapterId = 1 },
                         new { Id = 7, Name = "Mann Test (Augen geschlossen)", TestungChapterId = 1 },
@@ -165,7 +159,7 @@ namespace kubaapi.Migrations
                         new { Id = 9, Name = "Marschieren und Umdrehen", TestungChapterId = 1 },
                         new { Id = 10, Name = "Zehenspitzengang (vorwärts)", TestungChapterId = 1 },
                         new { Id = 11, Name = "Zehenspitzengang (rückwärts)", TestungChapterId = 1 },
-                        new { Id = 12, Name = "Tandem Gang (vorwärts)", TestungChapterId = 1 },
+                        new { Id = 12, Name = "", TestungChapterId = 1 },
                         new { Id = 13, Name = "Kriechen auf dem Bauch", TestungChapterId = 2 }
                     );
                 });
@@ -189,16 +183,6 @@ namespace kubaapi.Migrations
                     b.HasIndex("TestungId");
 
                     b.ToTable("TestungDetails");
-
-                    b.HasData(
-                        new { Id = 1, DataId = 1, TestungId = 1, Value = "" },
-                        new { Id = 2, DataId = 2, TestungId = 1, Value = "" },
-                        new { Id = 3, DataId = 3, TestungId = 1, Value = "" },
-                        new { Id = 4, DataId = 4, TestungId = 1, Value = "" },
-                        new { Id = 5, DataId = 5, TestungId = 1, Value = "" },
-                        new { Id = 6, DataId = 6, TestungId = 1, Value = "" },
-                        new { Id = 7, DataId = 7, TestungId = 1, Value = "" }
-                    );
                 });
 
             modelBuilder.Entity("kubaapi.Models.Review", b =>
@@ -206,13 +190,6 @@ namespace kubaapi.Migrations
                     b.HasOne("kubaapi.Models.Patient")
                         .WithMany("Reviews")
                         .HasForeignKey("PatientId");
-                });
-
-            modelBuilder.Entity("kubaapi.Models.Testung", b =>
-                {
-                    b.HasOne("kubaapi.Models.Patient")
-                        .WithOne("Testung")
-                        .HasForeignKey("kubaapi.Models.Testung", "PatientId");
                 });
 
             modelBuilder.Entity("kubaapi.Models.TestungDetails", b =>

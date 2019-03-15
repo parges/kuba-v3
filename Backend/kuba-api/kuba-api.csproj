@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="DTO\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="utils\" />
     <Folder Include="wwwroot\" />
