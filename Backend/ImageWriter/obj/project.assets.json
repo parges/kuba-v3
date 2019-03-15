@@ -520,10 +520,11 @@
       ]
     },
     "Microsoft.NETCore.Platforms/2.1.0": {
-      "sha512": "TT+QCi9LcxGTjBssH7S7n5+8DVcwfG4DYgXX7Dk7+BfZ4oVHj8Q0CbYk9glzAlHLsSt3bYzol+fOdra2iu6GOw==",
+      "sha512": "aSTPL94NloSiQVL5Len8wbjFKOnoAX/vOh3s3DF6g3c7GUUMLCDvnBhmA72M2iN2AedyA8hpr7m89kzSAKUnJQ==",
       "type": "package",
       "path": "microsoft.netcore.platforms/2.1.0",
       "files": [
+        ".nupkg.metadata",
         ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
@@ -687,23 +688,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\parges\\.nuget\\packages\\": {},
+    "C:\\Users\\Stefan\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Dev\\Reflexartig Leicht\\Backend\\ImageWriter\\ImageWriter.csproj",
+      "projectUniqueName": "D:\\Dev\\kuba-v3\\Backend\\ImageWriter\\ImageWriter.csproj",
       "projectName": "ImageWriter",
-      "projectPath": "C:\\Dev\\Reflexartig Leicht\\Backend\\ImageWriter\\ImageWriter.csproj",
-      "packagesPath": "C:\\Users\\parges\\.nuget\\packages\\",
-      "outputPath": "C:\\Dev\\Reflexartig Leicht\\Backend\\ImageWriter\\obj\\",
+      "projectPath": "D:\\Dev\\kuba-v3\\Backend\\ImageWriter\\ImageWriter.csproj",
+      "packagesPath": "C:\\Users\\Stefan\\.nuget\\packages\\",
+      "outputPath": "D:\\Dev\\kuba-v3\\Backend\\ImageWriter\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\parges\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Stefan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
