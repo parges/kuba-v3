@@ -1,12 +1,12 @@
 <div>
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
-    <div *ngFor="let question of questionsChapterOne" class="form-row">
+    <div *ngFor="let question of questions" class="form-row">
       <app-testung-task [question]="question" [form]="form"></app-testung-task>
     </div>
 
     <div class="form-row">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!form.valid">Speichern</button>
+      <button mat-raised-button color="primary" type="submit">Speichern</button>
     </div>
   </form>
 

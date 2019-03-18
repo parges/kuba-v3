@@ -3,34 +3,25 @@ export class Testung
     id?: number;
     name: string;
     date: Date | string;
-    questions: TestungDetails[];
+    chapters: TestungChapter[];
     patientId: number | null;
-    /*Patient: Patient;*/
-
 }
 
-export interface TestungDetails
+export interface TestungQuestion
 {
     id: number | null;
-    data: TestungBaseData;
+    type: string;
     value: string;
+    label: string;
+    chapterId: number | null;
+}
 
+
+export interface TestungChapter
+{
+    id: number | null;
+    name: string;
+    questions: TestungQuestion[];
     testungId: number | null;
-
-}
-
-export interface TestungBaseData
-{
-    id: number | null;
-    name: string;
-
-    testungChapterId: number | null;
-
-}
-
-export interface TestungBaseChapter
-{
-    id: number | null;
-    name: string;
 
 }

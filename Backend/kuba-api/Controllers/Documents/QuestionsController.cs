@@ -17,12 +17,12 @@ namespace kuba_api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Consumes("application/json")]
-    public class TestungController : ControllerBase
+    public class QuestionsController : ControllerBase
     {
         private readonly DBContext _context;
         private readonly IHostingEnvironment _environment;
 
-        public TestungController(DBContext context, IHostingEnvironment environment)
+        public QuestionsController(DBContext context, IHostingEnvironment environment)
         {
             _context = context;
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
@@ -30,18 +30,21 @@ namespace kuba_api.Controllers
 
         // GET: api/Documents
         [HttpGet("{id}")]
-        public ActionResult<Testung> GetTestungByUser(int Id)
+        public ActionResult<List<TestungQuestion>> GetQuestionsByUserByChapter(int Id, int chapterId)
         {
-            Testung testung = _context.Testungen.Where(x => x.PatientId == Id)
-                .Include(x => x.Chapters)
-                .ThenInclude(y => y.Questions).FirstOrDefault();
-
-            if (testung == null)
+            /*Testung testung = _context.Testungen.Where(x => x.Id == Id)
+                .Include(x => x.Questions)
+                .ThenInclude(x => x.Data).FirstOrDefault();
+            if (testung != null)
             {
-                return NotFound();
-            }
-
-            return testung;
+                if (chapterId != null)
+                {
+                    /*var questions = testung.Questions.Where(x => x.Data.TestungChapterId == chapterId).ToList();#1#
+                    return Ok();
+                    
+                }
+            }*/
+            return NotFound();
         }
 
         // PUT: api/Patient/5
@@ -60,9 +63,9 @@ namespace kuba_api.Controllers
             }
             testung.Date = DateTime.Now;
             testung.Name = "Testung von "; // + _patient.Firstname + "_" + _patient.Lastname;
-            /*testung.Questions = new List<TestungQuestion>();*/
+            /*testung.Questions = new List<TestungQuestion>();
 
-            /*foreach (TestungQuestion question in item.Questions)
+            foreach (TestungQuestion question in item.Questions)
             {
                 testung.Questions.Add(question);
             }*/

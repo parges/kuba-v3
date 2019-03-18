@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using kubaapi.Models;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20190306164450_newCols")]
-    partial class newCols
+    partial class DBContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,11 +95,108 @@ namespace kubaapi.Migrations
                     );
                 });
 
+            modelBuilder.Entity("kubaapi.Models.Testung", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("PatientId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId")
+                        .IsUnique()
+                        .HasFilter("[PatientId] IS NOT NULL");
+
+                    b.ToTable("Testungen");
+
+                    b.HasData(
+                        new { Id = 1, Date = new DateTime(2019, 3, 18, 21, 2, 30, 413, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
+                    );
+                });
+
+            modelBuilder.Entity("kubaapi.Models.TestungChapter", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.Property<int?>("TestungId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestungId");
+
+                    b.ToTable("TestungChapters");
+
+                    b.HasData(
+                        new { Id = 1, Name = "I. TESTS ZUR ÜBERPRÜFUNG DER GROBMOTORISCHEN KOORDINAION UND DES GLEICHGEWICHTS", TestungId = 1 },
+                        new { Id = 2, Name = "II. TESTS ZUR MOTORISCHEN ENTWICKLUNG", TestungId = 1 },
+                        new { Id = 3, Name = "III. TESTS ZUR ÜBERPRÜFUNG VON KLEINHIRNFUNKTIONEN", TestungId = 1 }
+                    );
+                });
+
+            modelBuilder.Entity("kubaapi.Models.TestungQuestion", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Label");
+
+                    b.Property<int?>("TestungChapterId");
+
+                    b.Property<string>("Type");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestungChapterId");
+
+                    b.ToTable("TestungQuestions");
+
+                    b.HasData(
+                        new { Id = 1, Label = "Aufrichten aus Rückenlage in den Stand", TestungChapterId = 1, Type = "radio", Value = "" },
+                        new { Id = 2, Label = "Aufrichten aus Bauchlage in den Stand", TestungChapterId = 1, Type = "radio", Value = "" },
+                        new { Id = 3, Label = "Romberg Test (Augen geöffnet)", TestungChapterId = 1, Type = "radio", Value = "" },
+                        new { Id = 4, Label = "Tandem Gang (rückwärts)", TestungChapterId = 1, Type = "radio", Value = "" }
+                    );
+                });
+
             modelBuilder.Entity("kubaapi.Models.Review", b =>
                 {
                     b.HasOne("kubaapi.Models.Patient")
                         .WithMany("Reviews")
                         .HasForeignKey("PatientId");
+                });
+
+            modelBuilder.Entity("kubaapi.Models.Testung", b =>
+                {
+                    b.HasOne("kubaapi.Models.Patient")
+                        .WithOne("Testung")
+                        .HasForeignKey("kubaapi.Models.Testung", "PatientId");
+                });
+
+            modelBuilder.Entity("kubaapi.Models.TestungChapter", b =>
+                {
+                    b.HasOne("kubaapi.Models.Testung")
+                        .WithMany("Chapters")
+                        .HasForeignKey("TestungId");
+                });
+
+            modelBuilder.Entity("kubaapi.Models.TestungQuestion", b =>
+                {
+                    b.HasOne("kubaapi.Models.TestungChapter")
+                        .WithMany("Questions")
+                        .HasForeignKey("TestungChapterId");
                 });
 #pragma warning restore 612, 618
         }

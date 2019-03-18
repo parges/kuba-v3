@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { PatientAutocompleteDialog } from './../../utils/patient-external-dialog/patient-external-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Customer } from './../../customer/customer';
@@ -5,6 +6,8 @@ import { FormControlService } from './../../utils/dynamic-forms/form-control.ser
 import { FormGroup } from '@angular/forms';
 import { FormBase } from './../../utils/dynamic-forms/form-base';
 import { Component, OnInit, Input } from '@angular/core';
+import { Testung } from 'src/app/models/testung';
+import { timeoutWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-testung02',
@@ -15,20 +18,18 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class Testung02Component implements OnInit {
 
-  
-  @Input() questionsChapterOne: FormBase<any>[] = [];
-  // @Input() questionsChapterTwo: FormBase<any>[] = [];
+  questions: FormBase<any>[] = [];
+  // questionMap: Map<number, TestungDetails[]> = new Map<number, TestungDetails[]>();
   form: FormGroup;
   payLoad = '';
   selectedPatient: Customer;
- 
-  constructor(private $formService: FormControlService, public dialog: MatDialog) { 
-    
-   }
- 
+
+  testung: Testung = new Testung();
+
+  constructor(private $formService: FormControlService, public dialog: MatDialog) {
+  }
+
   ngOnInit() {
-    this.form = this.$formService.toFormGroup(this.questionsChapterOne); 
-    
     this.openDialog();
   }
 
@@ -40,15 +41,32 @@ export class Testung02Component implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      if(dialogRef.componentInstance.selectedPatient) 
+      if(dialogRef.componentInstance.selectedPatient)
       {
-        // this.isDisabled = false;
-
         this.selectedPatient = dialogRef.componentInstance.selectedPatient;
-        this.$formService.getTestung(this.selectedPatient.id).then((result)=> {
-          this.questionsChapterOne = this.$formService.getQuestionsChapterOne(result);
-          // this.questionsChapterTwo = this.$formService.getQuestionsChapterTwo();
-        })
+
+        this.$formService.getTestungForPatient(this.selectedPatient.id).then((result) => {
+          this.testung = result;
+          this.questions = this.$formService.getFormEntries(this.testung)
+          this.form = this.$formService.toFormGroup(this.questions);
+        });
+        // this.$formService.getChapters(this.selectedPatient.id).then((chapters) => {
+        //     chapters.forEach(chapter => {
+        //       this.$formService.getQuestionsForChapter(this.selectedPatient.id, chapter.id).then((questions) => {
+        //         this.questionMap.set(chapter.id, questions);
+        //         this.questions = this.$formService.getQuestions(this.questionMap)
+        //         this.form = this.$formService.toFormGroup(this.questions);
+        //       })
+        //     });
+
+        // })
+        // .finally(() => {
+
+        //  });
+        // this.$formService.getTestungFor(this.selectedPatient.id).then((result)=> {
+        //   this.questionsChapterOne = this.$formService.getQuestionsChapterOne(result);
+        //   // this.questionsChapterTwo = this.$formService.getQuestionsChapterTwo();
+        // })
 
         // // Calculate the age
         // const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
@@ -74,16 +92,17 @@ export class Testung02Component implements OnInit {
           //   this.initReviews()
           // ])
           // });
-          
-          
+
+
       }
       });
   }
- 
+
   onSubmit() {
-    // this.payLoad = JSON.stringify(this.form.value);
+    debugger;
+    this.payLoad = JSON.stringify(this.form.value);
     // this.enableControlStates(true);
-    // const result: Customer = Object.assign({}, this.form.value);
+    const result: Customer = Object.assign({}, this.form.value);
     // this.$customer.updateCustomer(result).catch(
     //   err => console.error(err)
     // ).finally(() => {

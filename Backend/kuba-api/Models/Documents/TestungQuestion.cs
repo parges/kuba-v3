@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace kubaapi.Models
 {
-    public class TestungDetails
+    public class TestungQuestion
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
-        public TestungBaseData Data { get; set; }
+        /*public TestungBaseData Data { get; set; }*/
+        public string Type { get; set; }
+        public string Label { get; set; }
         public string Value { get; set; }
 
-        public int? TestungId { get; set; }
+        public int? TestungChapterId { get; set; }
 
     }
     

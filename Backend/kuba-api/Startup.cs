@@ -60,6 +60,8 @@ namespace kubaapi
             services.AddTransient<IImageHandler, ImageHandler>();
             services.AddTransient<ImageWriter.Interface.IImageWriter,
                 ImageWriter.Classes.ImageWriter>();
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

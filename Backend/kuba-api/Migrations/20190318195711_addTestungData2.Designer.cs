@@ -10,8 +10,8 @@ using kubaapi.Models;
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20190310115408_baseDataAdded")]
-    partial class baseDataAdded
+    [Migration("20190318195711_addTestungData2")]
+    partial class addTestungData2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -111,78 +111,68 @@ namespace kubaapi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Testung");
-                });
+                    b.HasIndex("PatientId")
+                        .IsUnique()
+                        .HasFilter("[PatientId] IS NOT NULL");
 
-            modelBuilder.Entity("kubaapi.Models.TestungBaseChapter", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TestungBaseChapter");
+                    b.ToTable("Testungen");
 
                     b.HasData(
-                        new { Id = 1, Name = "I. TESTS ZUR ÜBERPRÜFUNG DER GROBMOTORISCHEN KOORDINAION UND DES GLEICHGEWICHTS" },
-                        new { Id = 2, Name = "II. TESTS ZUR MOTORISCHEN ENTWICKLUNG" },
-                        new { Id = 3, Name = "III. TESTS ZUR ÜBERPRÜFUNG VON KLEINHIRNFUNKTIONEN" }
+                        new { Id = 1, Date = new DateTime(2019, 3, 18, 20, 57, 11, 783, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
                     );
                 });
 
-            modelBuilder.Entity("kubaapi.Models.TestungBaseData", b =>
+            modelBuilder.Entity("kubaapi.Models.TestungChapter", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
+
+                    b.Property<int?>("TestungId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TestungId");
+
+                    b.ToTable("TestungChapters");
+
+                    b.HasData(
+                        new { Id = 1, Name = "I. TESTS ZUR ÜBERPRÜFUNG DER GROBMOTORISCHEN KOORDINAION UND DES GLEICHGEWICHTS", TestungId = 1 },
+                        new { Id = 2, Name = "II. TESTS ZUR MOTORISCHEN ENTWICKLUNG", TestungId = 1 },
+                        new { Id = 3, Name = "III. TESTS ZUR ÜBERPRÜFUNG VON KLEINHIRNFUNKTIONEN", TestungId = 1 }
+                    );
+                });
+
+            modelBuilder.Entity("kubaapi.Models.TestungQuestion", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("ChapterId");
+
+                    b.Property<string>("Label");
 
                     b.Property<int?>("TestungChapterId");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("TestungBaseData");
-
-                    b.HasData(
-                        new { Id = 1, Name = "Aufrichten aus Rückenlage in den Stand", TestungChapterId = 1 },
-                        new { Id = 2, Name = "Aufrichten aus Bauchlage in den Stand", TestungChapterId = 1 },
-                        new { Id = 3, Name = "Romberg Test (Augen geöffnet)", TestungChapterId = 1 },
-                        new { Id = 4, Name = "", TestungChapterId = 1 },
-                        new { Id = 5, Name = "Romberg Test (Augen geschlossen)", TestungChapterId = 1 },
-                        new { Id = 6, Name = "Mann Test (Augen geöffnet)", TestungChapterId = 1 },
-                        new { Id = 7, Name = "Mann Test (Augen geschlossen)", TestungChapterId = 1 },
-                        new { Id = 8, Name = "Einbeinstand", TestungChapterId = 1 },
-                        new { Id = 9, Name = "Marschieren und Umdrehen", TestungChapterId = 1 },
-                        new { Id = 10, Name = "Zehenspitzengang (vorwärts)", TestungChapterId = 1 },
-                        new { Id = 11, Name = "Zehenspitzengang (rückwärts)", TestungChapterId = 1 },
-                        new { Id = 12, Name = "", TestungChapterId = 1 },
-                        new { Id = 13, Name = "Kriechen auf dem Bauch", TestungChapterId = 2 }
-                    );
-                });
-
-            modelBuilder.Entity("kubaapi.Models.TestungDetails", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("DataId");
-
-                    b.Property<int?>("TestungId");
+                    b.Property<string>("Type");
 
                     b.Property<string>("Value");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DataId");
+                    b.HasIndex("TestungChapterId");
 
-                    b.HasIndex("TestungId");
+                    b.ToTable("TestungQuestions");
 
-                    b.ToTable("TestungDetails");
+                    b.HasData(
+                        new { Id = 1, ChapterId = 1, Label = "Aufrichten aus Rückenlage in den Stand", Type = "radio", Value = "" },
+                        new { Id = 2, ChapterId = 1, Label = "Aufrichten aus Bauchlage in den Stand", Type = "radio", Value = "" },
+                        new { Id = 3, ChapterId = 1, Label = "Romberg Test (Augen geöffnet)", Type = "radio", Value = "" },
+                        new { Id = 4, ChapterId = 1, Label = "Tandem Gang (rückwärts)", Type = "radio", Value = "" }
+                    );
                 });
 
             modelBuilder.Entity("kubaapi.Models.Review", b =>
@@ -192,15 +182,25 @@ namespace kubaapi.Migrations
                         .HasForeignKey("PatientId");
                 });
 
-            modelBuilder.Entity("kubaapi.Models.TestungDetails", b =>
+            modelBuilder.Entity("kubaapi.Models.Testung", b =>
                 {
-                    b.HasOne("kubaapi.Models.TestungBaseData", "Data")
-                        .WithMany()
-                        .HasForeignKey("DataId");
+                    b.HasOne("kubaapi.Models.Patient")
+                        .WithOne("Testung")
+                        .HasForeignKey("kubaapi.Models.Testung", "PatientId");
+                });
 
+            modelBuilder.Entity("kubaapi.Models.TestungChapter", b =>
+                {
                     b.HasOne("kubaapi.Models.Testung")
-                        .WithMany("Questions")
+                        .WithMany("Chapters")
                         .HasForeignKey("TestungId");
+                });
+
+            modelBuilder.Entity("kubaapi.Models.TestungQuestion", b =>
+                {
+                    b.HasOne("kubaapi.Models.TestungChapter")
+                        .WithMany("Questions")
+                        .HasForeignKey("TestungChapterId");
                 });
 #pragma warning restore 612, 618
         }
