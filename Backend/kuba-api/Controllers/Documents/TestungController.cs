@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using kubaapi.Models;
+using kubaapi.utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,23 +31,21 @@ namespace kuba_api.Controllers
 
         // GET: api/Documents
         [HttpGet("{id}")]
-        public ActionResult<Testung> GetTestungByUser(int Id)
+        public async Task<IActionResult> GetTestungByUser(int Id)
         {
-            Testung testung = _context.Testungen.Where(x => x.PatientId == Id)
+            var testung = _context.Testungen.Where(x => x.PatientId == Id)
                 .Include(x => x.Chapters)
-                .ThenInclude(y => y.Questions).FirstOrDefault();
+                .ThenInclude(y => y.Questions).ToList();
 
-            if (testung == null)
-            {
-                return NotFound();
-            }
-
-            return testung;
+            QueryResponse<Testung> response = new QueryResponse<Testung>();
+            response.Items = testung;
+            response.TotalRecords = 1;
+            return Ok(response);
         }
 
         // PUT: api/Patient/5
         [HttpPut("{id}")]
-        public ActionResult UpdateAsync([FromRoute] int id, Testung item)
+        public async Task<IActionResult> UpdateAsync([FromRoute] int id, Testung item)
         {
             if (!ModelState.IsValid)
             {
@@ -68,95 +67,24 @@ namespace kuba_api.Controllers
             }*/
             
             _context.Testungen.Update(testung);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok(testung);
         }
 
-        // POST: api/Patient
-        /*[HttpPost]
-        public ActionResult Create(Testung item)
+        // DELETE: api/ApiWithActions/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(long id)
         {
-            _context.Testung.Add(item);
-            _context.SaveChanges();
-
-            return Ok();
-            //return CreatedAtRoute("Get", new {id = item.Id}, item);
-        }*/
-
-            /*// GET: api/Patient/5
-            [HttpGet("{id}", Name = "Get")]
-            public ActionResult<Patient> Get(int id)
+            var patient = _context.Patients.Find(id);
+            if (patient == null)
             {
-                var item = _context.Patients.Find(id);
-                if (item == null)
-                {
-                    return NotFound();
-                }
-
-                /*PatientDto patient = new PatientDto();
-                patient.Id = item.Id;
-                patient.Firstname = item.Firstname;
-                patient.Lastname = item.Lastname;
-                patient.Birthday = item.Birthday;
-                patient.Tele = item.Tele;
-                /*var image = System.IO.File.OpenRead(_imagePath + );#2#
-                patient.Avatar = item.Avatar;#1#
-
-                return item;
+                return NotFound();
             }
 
-
-
-            // PUT: api/Patient/5
-            [HttpPut("{id}")]
-            public ActionResult UpdateAsync([FromRoute] int id, [FromForm] PatientDto item)
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-
-                var patient = _context.Patients.SingleOrDefault(m => m.Id == id);
-                if (patient == null)
-                {
-                    return NoContent();
-                }
-                patient.Firstname = item.Firstname;
-                patient.Lastname= item.Lastname;
-                patient.Birthday= item.Birthday;
-                patient.Tele = item.Tele;
-
-                string filename = _imageHandler.UploadImage(item.Avatar, _imagePath).Result;
-                patient.Avatar = filename;
-                /*var filePath = Path.Combine(_environment.ContentRootPath, @"Resources/Images", item.Avatar.FileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    item.Avatar.CopyTo(stream);
-                }#1#
-
-                _context.Patients.Update(patient);
-                _context.SaveChanges();
-                return Ok(patient);
-            }
-
-            // DELETE: api/ApiWithActions/5
-            [HttpDelete("{id}")]
-            public ActionResult Delete(long id)
-            {
-                var patient = _context.Patients.Find(id);
-                if (patient == null)
-                {
-                    return NotFound();
-                }
-
-                _context.Patients.Remove(patient);
-                _context.SaveChanges();
-                return NoContent();
-            }
-    */
-
-
+            _context.Patients.Remove(patient);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
 
         }
     }

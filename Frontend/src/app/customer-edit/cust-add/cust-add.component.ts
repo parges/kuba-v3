@@ -1,3 +1,6 @@
+import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
+import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
+import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
 import { CustomerService } from './../../customer/customer.service';
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
@@ -5,6 +8,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/customer/customer';
 
 import { MAT_DATE_LOCALE} from '@angular/material/core';
+import { switchMap, map, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -21,8 +26,9 @@ import { MAT_DATE_LOCALE} from '@angular/material/core';
 export class CustAddComponent {
 
   addCustForm: FormGroup;
+  private resource = `patient`;
 
-  constructor(private $router: Router, private $customer: CustomerService, private fb: FormBuilder) {
+  constructor(private $router: Router, private fb: FormBuilder, private api: ApiService, private loader: LoaderService) {
     this.addCustForm = this.fb.group({
       'id' : [''],
       'firstname' : ['', Validators.required],
@@ -34,12 +40,22 @@ export class CustAddComponent {
 
   onFormSubmit() {
     const result: Customer = Object.assign({}, this.addCustForm.value);
-    this.$customer.addCustomer(result).catch(
-      err => console.error(err)
-    ).finally(() => {
+    this.api.put<Customer>(this.resource, result.id, result)
+    .pipe(
+      switchMap(() => {
+        return this.api.get<Customer>(this.resource);
+      }),
+      map((data: ApiResponse<Customer>) => {
+        this.loader.hideSpinner();
+        return data.items;
+      }),
+      catchError(() => {
+        this.loader.hideSpinner();
+        return of([]);
+      })
+    )
+    .subscribe((data: Customer[]) => {
       this.$router.navigate(['customers']);
     });
-
   }
-
 }

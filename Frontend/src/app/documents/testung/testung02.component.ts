@@ -1,4 +1,7 @@
-import { Observable } from 'rxjs';
+import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
+import { map } from 'rxjs/operators';
+import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
+import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { PatientAutocompleteDialog } from './../../utils/patient-external-dialog/patient-external-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Customer } from './../../customer/customer';
@@ -7,7 +10,6 @@ import { FormGroup } from '@angular/forms';
 import { FormBase } from './../../utils/dynamic-forms/form-base';
 import { Component, OnInit, Input } from '@angular/core';
 import { Testung } from 'src/app/models/testung';
-import { timeoutWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-testung02',
@@ -26,7 +28,9 @@ export class Testung02Component implements OnInit {
 
   testung: Testung = new Testung();
 
-  constructor(private $formService: FormControlService, public dialog: MatDialog) {
+  private resource = `testung`;
+
+  constructor(private $formService: FormControlService, private api: ApiService, public dialog: MatDialog, private loader: LoaderService) {
   }
 
   ngOnInit() {
@@ -44,56 +48,16 @@ export class Testung02Component implements OnInit {
       if(dialogRef.componentInstance.selectedPatient)
       {
         this.selectedPatient = dialogRef.componentInstance.selectedPatient;
-
-        this.$formService.getTestungForPatient(this.selectedPatient.id).then((result) => {
-          this.testung = result;
-          this.questions = this.$formService.getFormEntries(this.testung)
+        this.api.getById<Testung>(this.resource, this.selectedPatient.id)
+        .pipe(
+          map((data: ApiResponse<Testung>) => {
+            this.loader.hideSpinner();
+            this.testung = data.items[0];
+          })
+        ).subscribe(() => {
+          this.questions = this.$formService.getFormEntries(this.testung);
           this.form = this.$formService.toFormGroup(this.questions);
         });
-        // this.$formService.getChapters(this.selectedPatient.id).then((chapters) => {
-        //     chapters.forEach(chapter => {
-        //       this.$formService.getQuestionsForChapter(this.selectedPatient.id, chapter.id).then((questions) => {
-        //         this.questionMap.set(chapter.id, questions);
-        //         this.questions = this.$formService.getQuestions(this.questionMap)
-        //         this.form = this.$formService.toFormGroup(this.questions);
-        //       })
-        //     });
-
-        // })
-        // .finally(() => {
-
-        //  });
-        // this.$formService.getTestungFor(this.selectedPatient.id).then((result)=> {
-        //   this.questionsChapterOne = this.$formService.getQuestionsChapterOne(result);
-        //   // this.questionsChapterTwo = this.$formService.getQuestionsChapterTwo();
-        // })
-
-        // // Calculate the age
-        // const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
-        // const age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-        // // To initialize FormGroup
-        // this.docUebersicht.setValue({
-        //   id: this.activeCustomer.id,
-        //   firstname: this.activeCustomer.firstname,
-        //   lastname: this.activeCustomer.lastname,
-        //   tele: this.activeCustomer.tele,
-        //   birthday: this.activeCustomer.birthday ? this.activeCustomer.birthday : '',
-        //   address: this.activeCustomer.address,
-        //   anamneseDate: this.activeCustomer.anamneseDate,
-        //   anamnesePayed: this.activeCustomer.anamnesePayed,
-        //   diagnostikDate: this.activeCustomer.diagnostikDate,
-        //   diagnostikPayed: this.activeCustomer.diagnostikPayed,
-        //   elternDate: this.activeCustomer.elternDate,
-        //   elternPayed: this.activeCustomer.elternPayed,
-        //   problemHierarchy: this.activeCustomer.problemHierarchy,
-        //   reviews: this.fillReviews()
-          // reviews: this.fb.array([
-          //   this.initReviews(),
-          //   this.initReviews()
-          // ])
-          // });
-
-
       }
       });
   }

@@ -1,3 +1,4 @@
+import { MaterialModule } from './../../../libs/material/src/lib/material.module';
 import { CustomerModule } from './../customer/customer.module';
 import { MatTableModule, MatPaginatorModule, MatSortModule, MatProgressSpinnerModule } from '@angular/material';
 import { NgModule } from '@angular/core';
@@ -8,11 +9,8 @@ import { CustListComponent } from './cust-list/cust-list.component';
   declarations: [CustListComponent],
   imports: [
     CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
     CustomerModule,
-    MatProgressSpinnerModule
+    MaterialModule
   ],
   exports: [
     CustListComponent,

@@ -1,12 +1,15 @@
+import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
+import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
+import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { isString, isObject } from 'util';
 import { DialogData } from './../../documents/uebersicht/uebersicht00.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { CustomerService } from './../../customer/customer.service';
 import { Customer } from './../../customer/customer';
-import { Observable, merge } from 'rxjs';
+import { Observable, merge, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { Component, OnInit, Inject } from '@angular/core';
-import { startWith, switchMap, map } from 'rxjs/operators';
+import { startWith, switchMap, map, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-patient-external-dialog',
@@ -22,26 +25,26 @@ export class PatientAutocompleteDialog {
   selectedPatientId: number;
 
   selectedPatient: Customer;
+  private resource = `patient`;
 
-  constructor(private $customer: CustomerService,
-    public dialogRef: MatDialogRef<PatientAutocompleteDialog>,
+  constructor(private api: ApiService,
+    public dialogRef: MatDialogRef<PatientAutocompleteDialog>, private loader: LoaderService,
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
 
       merge()
         .pipe(
           startWith({}),
         switchMap(() => {
-          return this.$customer.getAllUsers();
+          return this.api.get<Customer>(this.resource);
         })
         ).subscribe(resp => {
-          this.patients = resp;
+          this.patients = resp.items;
           this.filteredPatients = this.myControl.valueChanges
           .pipe(
             startWith(''),
             map(patient => patient ? this._filterPatients(patient) : this.patients.slice())
           );
         });
-
     }
 
     public _filterPatients(value: any): Customer[] {
@@ -52,7 +55,7 @@ export class PatientAutocompleteDialog {
         const filterValueFirstname = value.firstname.toLowerCase();
         const filterValueLastname = value.lastname.toLowerCase();
         return this.patients.filter(patient => patient.firstname.toLowerCase().indexOf(filterValueFirstname) === 0 || patient.lastname.toLowerCase().indexOf(filterValueLastname)  === 0 );
-      } 
+      }
       else {
         return this.patients;
       }

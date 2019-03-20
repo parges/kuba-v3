@@ -1,5 +1,28 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+@import './app/styles/mixins';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+@import '~@angular/material/theming';
+@include mat-core();
+
+$frontend-primary: mat-palette($mat-indigo);
+$frontend-accent: mat-palette($mat-deep-orange, A200, A100, A400);
+$frontend-warn: mat-palette($mat-red);
+
+$frontend-theme: mat-light-theme($frontend-primary, $frontend-accent, $frontend-warn);
+
+@include angular-material-theme($frontend-theme);
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.cdk-overlay-backdrop.cdk-overlay-backdrop-showing.dark-backdrop {
+  background: #000;
+  opacity: 0.75 !important;
+}
+
+// additional component theming
+@include mat-grid-mixin($frontend-theme);
+
+.float-right {
+  float: right;
+}

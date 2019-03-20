@@ -7,7 +7,13 @@ export const environment = {
   // endpoint: 'http://localhost:3000/customers'
   globalEndpoint: 'https://localhost:5001/api/',
   endpoint: 'https://localhost:5001/api/patient',
-  endpointUpload: 'https://localhost:5001/api/upload'
+  endpointUpload: 'https://localhost:5001/api/upload',
+  useAuth: false,
+  api: {
+    host: 'https://localhost',
+    port: 5001,
+    suffix: 'api'
+  }
 };
 
 /*
@@ -17,4 +23,4 @@ export const environment = {
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+import 'zone.js/dist/zone-error';  // Included with Angular CLI.

@@ -1,10 +1,13 @@
+import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
+import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
+import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { CustomerService } from './../../customer/customer.service';
 import { Customer } from 'src/app/customer/customer';
 import {Component, ViewChild, AfterViewInit, HostListener} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';
-import {merge, of as observableOf} from 'rxjs';
+import {merge, of as observableOf, of} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { Router, NavigationExtras } from '@angular/router';
 
 
 @Component({
@@ -14,7 +17,6 @@ import { Router } from '@angular/router';
 })
 export class CustListComponent implements AfterViewInit {
 
-  customerService: CustomerService;
   displayedColumns: string[] = ['firstname', 'lastname', 'tele'];
   dataSource: Customer[] = [];
 
@@ -22,44 +24,66 @@ export class CustListComponent implements AfterViewInit {
   isLoadingResults = true;
   isRateLimitReached = false;
 
+  private resource = `patient`;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private $customer: CustomerService, private $router: Router  ) {
-    this.customerService = $customer;
+  constructor(private $router: Router,  private api: ApiService, private loader: LoaderService) {
   }
 
   ngAfterViewInit() {
     // If the user changes the sort order, reset back to the first page.
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
-    merge(this.sort.sortChange, this.paginator.page)
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.isLoadingResults = true;
-          return this.$customer.getUsers(this.sort.active, this.sort.direction, this.paginator.pageIndex);
-        }),
-        map(data => {
-          // Flip flag to show that loading has finished.
-          this.isLoadingResults = false;
-          this.isRateLimitReached = false;
-          this.resultsLength = this.$customer.totalCount;
-          return data;
-        }
-        ),
-        catchError(() => {
-          this.isLoadingResults = false;
+
+    this.api.get<Customer>(this.resource)
+    .pipe(
+      map((response: ApiResponse<Customer>) => {
+        this.loader.hideSpinner();
+        this.isLoadingResults = false;
+        this.isRateLimitReached = false;
+        this.resultsLength = response.totalRecords;
+        return response.items;
+      }),
+      catchError(() => {
+        this.loader.hideSpinner();
+        this.isLoadingResults = false;
           this.isRateLimitReached = true;
-          return observableOf([]);
-        })
-      ).subscribe(resp => {
-        this.dataSource = resp;
-      });
+        return of([]);
+      })
+    )
+    .subscribe((data: Customer[]) => {
+      this.dataSource = data
+    });
+
+    // merge(this.sort.sortChange, this.paginator.page)
+    //   .pipe(
+    //     startWith({}),
+    //     switchMap(() => {
+    //       this.isLoadingResults = true;
+    //       return this.$customer.getUsers(this.sort.active, this.sort.direction, this.paginator.pageIndex);
+    //     }),
+    //     map(data => {
+    //       // Flip flag to show that loading has finished.
+    //       this.isLoadingResults = false;
+    //       this.isRateLimitReached = false;
+    //       this.resultsLength = this.$customer.totalCount;
+    //       return data;
+    //     }
+    //     ),
+    //     catchError(() => {
+    //       this.isLoadingResults = false;
+    //       this.isRateLimitReached = true;
+    //       return observableOf([]);
+    //     })
+    //   ).subscribe(resp => {
+    //     this.dataSource = resp;
+    //   });
 
   }
 
-  showCustomerDetails ( _id: string, $event: Event ) {
-    this.$router.navigate( ['customers/', _id]);
+  showCustomerDetails ( model: Customer, $event: Event ) {
+    this.$router.navigate( ['customers/', model.id]);
   }
 }

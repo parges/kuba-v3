@@ -1,3 +1,7 @@
+import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
+import { map, catchError, switchMap } from 'rxjs/operators';
+import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
+import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { FormGroup, FormBuilder, Validators, NgForm, FormArray } from '@angular/forms';
 import { CustomerService } from './../../customer/customer.service';
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
@@ -6,6 +10,7 @@ import { Customer } from 'src/app/customer/customer';
 
 import { MAT_DATE_LOCALE} from '@angular/material/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { of } from 'rxjs';
 
 
 @Component({
@@ -32,9 +37,11 @@ export class CustGetComponent implements OnInit, OnDestroy {
   imageToShow: any;
   isImageLoading: boolean;
 
+  private resource = `patient`;
+
   @ViewChild("uploader") uploader: any;
 
-  constructor(private route: ActivatedRoute, private $router: Router, private $customer: CustomerService, private fb: FormBuilder) {
+  constructor(private route: ActivatedRoute, private $router: Router, private fb: FormBuilder, private api: ApiService, private loader: LoaderService) {
     this.formBuilder = fb;
     this.regiForm = this.formBuilder.group({
       id : [''],
@@ -51,38 +58,68 @@ export class CustGetComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.route.params.subscribe(params => {
-      this.id = +params['id']; // (+) converts string 'id' to a number
-      // In a real app: dispatch action to load the details here.
-      this.$customer.getCustomerByID(this.id)
-      .then(cust => {
-        this.activeCustomer = cust;
-        // Calculate the age
-        const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
-        const age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-        // To initialize FormGroup
-        this.regiForm.setValue({
-          id: this.activeCustomer.id,
-          firstname: this.activeCustomer.firstname,
-          lastname: this.activeCustomer.lastname,
-          tele: this.activeCustomer.tele,
-          birthday: this.activeCustomer.birthday,
-          age: age,
-          avatar: this.activeCustomer.avatar,
-          address: 'Max Mustermann Straße',
-          reviews: this.fillReviews()
-        });
+      this.id = params['id']; // (+) converts string 'id' to a number
+      this.api.getById<Customer>(this.resource, this.id)
+    .pipe(
+      map((response: ApiResponse<Customer>) => {
+        this.loader.hideSpinner();
+        return response.items;
+      }),
+      catchError(() => {
+        this.loader.hideSpinner();
+        return of([]);
       })
-      .then(cust => {
-        this.isImageLoading = true;
-
-        this.$customer.getImageByFilename(this.activeCustomer.id).subscribe(data => {
-          this.createImageFromBlob(data);
-          this.isImageLoading = false;
-        }, error => {
-          this.isImageLoading = false;
-          console.log(error);
-        });
+    )
+    .subscribe((data: Customer[]) => {
+      debugger;
+      this.activeCustomer = data[0];
+      // Calculate the age
+      const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
+      const age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+      // To initialize FormGroup
+      this.regiForm.setValue({
+        id: this.activeCustomer.id,
+        firstname: this.activeCustomer.firstname,
+        lastname: this.activeCustomer.lastname,
+        tele: this.activeCustomer.tele,
+        birthday: this.activeCustomer.birthday,
+        age: age,
+        avatar: this.activeCustomer.avatar,
+        address: 'Max Mustermann Straße',
+        reviews: this.fillReviews()
       });
+    });
+
+    //   this.$customer.getCustomerByID(this.id)
+    //   .then(cust => {
+    //     this.activeCustomer = cust;
+    //     // Calculate the age
+    //     const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
+    //     const age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
+    //     // To initialize FormGroup
+    //     this.regiForm.setValue({
+    //       id: this.activeCustomer.id,
+    //       firstname: this.activeCustomer.firstname,
+    //       lastname: this.activeCustomer.lastname,
+    //       tele: this.activeCustomer.tele,
+    //       birthday: this.activeCustomer.birthday,
+    //       age: age,
+    //       avatar: this.activeCustomer.avatar,
+    //       address: 'Max Mustermann Straße',
+    //       reviews: this.fillReviews()
+    //     });
+    //   })
+    //   .then(cust => {
+    //     this.isImageLoading = true;
+
+    //     this.$customer.getImageByFilename(this.activeCustomer.id).subscribe(data => {
+    //       this.createImageFromBlob(data);
+    //       this.isImageLoading = false;
+    //     }, error => {
+    //       this.isImageLoading = false;
+    //       console.log(error);
+    //     });
+    //   });
      });
   }
 
@@ -134,41 +171,31 @@ export class CustGetComponent implements OnInit, OnDestroy {
       }
   }
 
-  // private prepareSave(): any {
-  //   let formData = new FormData();
-
-  //   // This can be done a lot prettier; for example automatically assigning values by looping through `this.form.controls`, but we'll keep it as simple as possible here
-  //   formData.append('id', this.regiForm.get('id').value);
-  //   formData.append('firstname', this.regiForm.get('firstname').value);
-  //   formData.append('lastname', this.regiForm.get('lastname').value);
-  //   formData.append('tele', this.regiForm.get('tele').value);
-  //   formData.append('age', this.regiForm.get('age').value);
-  //   formData.append('birthday', this.regiForm.get('birthday').value);
-  //   formData.append('avatar', this.regiForm.get('avatar').value);
-
-  //   return formData;
-  // }
-
   onSubmit() {
-    // const formModel = this.prepareSave();
-    //    this.$customer.updateCustomerFormData(formModel);//.then(customer => {
-
     const result: Customer = Object.assign({}, this.regiForm.value);
-    this.$customer.updateCustomer(result).catch(
-      err => console.error(err)
-    ).finally(() => {
-      // this.$router.navigate(['customers']);
-    });
+    this.api.put<Customer>(this.resource, this.activeCustomer.id, result)
+    .pipe(
+      switchMap(() => {
+        return this.api.get<Customer>(this.resource);
+      }),
+      map((data: ApiResponse<Customer>) => {
+        this.loader.hideSpinner();
+        return data.items;
+      }),
+      catchError(() => {
+        this.loader.hideSpinner();
+        return of([]);
+      })
+    )
+    .subscribe();
   }
-  
+
   // Executed When Form Is Submitted
   onDeleteCustomer() {
     // Make sure to create a deep copy of the form-model
     const result: Customer = Object.assign({}, this.regiForm.value);
-    this.$customer.delCustomer(result).finally(() => {
+    this.api.delete(this.resource, result.id).subscribe((data: Customer[]) => {
       this.$router.navigate(['customers']);
     });
   }
-
-
 }

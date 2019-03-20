@@ -1,5 +1,5 @@
+import { MaterialModule } from './../../../libs/material/src/lib/material.module';
 import { PatientAutocompleteDialog } from './../utils/patient-external-dialog/patient-external-dialog.component';
-import { MaterialModule } from './../material-module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Uebersicht00Component } from './uebersicht/uebersicht00.component';
 import { Report03Component } from './report/report03.component';

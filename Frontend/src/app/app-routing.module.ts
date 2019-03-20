@@ -1,3 +1,5 @@
+import { LoginComponent } from './login/login.component';
+import { AuthGuard } from './../../libs/authentication/src/lib/guards/auth.guard';
 import { Uebersicht00Component } from './documents/uebersicht/uebersicht00.component';
 import { Report03Component } from './documents/report/report03.component';
 import { Testung02Component } from './documents/testung/testung02.component';
@@ -8,25 +10,38 @@ import { CustGetComponent } from './customer-edit/cust-get/cust-get.component';
 import { CustListComponent } from './customer-overview/cust-list/cust-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 const routes: Routes = [
-  { path: 'dash', component: DashboardComponent },
-  { path: 'customers', component: CustListComponent},
+  {
+    path: '',
+    component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'customers',
+    component: CustListComponent,
+    canActivate: [AuthGuard]
+  },
   { path: 'customers/add', component: CustAddComponent },
   { path: 'customers/:id', component: CustGetComponent },
-  { path: 'documents', component: OverviewTableComponent },
-  { path: 'document/1', component: Uebersicht00Component },
-  { path: 'document/2', component: Anamnese01Component },
-  { path: 'document/3', component: Testung02Component },
-  { path: 'document/4', component: Report03Component },
-
-  { path: '', redirectTo: '/dash', pathMatch: 'full' },
-  { path: '**', component: DashboardComponent }
+  { path: 'documents', component: OverviewTableComponent, canActivate: [AuthGuard] },
+  { path: 'document/1', component: Uebersicht00Component, canActivate: [AuthGuard]  },
+  { path: 'document/2', component: Anamnese01Component, canActivate: [AuthGuard]  },
+  { path: 'document/3', component: Testung02Component, canActivate: [AuthGuard]  },
+  { path: 'document/4', component: Report03Component, canActivate: [AuthGuard]  },
+  {
+    path: 'login',
+    component: LoginComponent
+  }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,
+    {
+      preloadingStrategy: PreloadAllModules,
+      // enableTracing: !environment.production
+    })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

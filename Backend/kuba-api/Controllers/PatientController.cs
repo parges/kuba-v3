@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using kubaapi.Models;
+using kubaapi.utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,7 +37,7 @@ namespace kuba_api.Controllers
 
         // GET: api/Patient
         [HttpGet]
-        public ActionResult<List<Patient>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
             List<Patient> list = _context.Patients.Include(x => x.Reviews).ToList();
             // Order by Date ASC
@@ -44,17 +45,20 @@ namespace kuba_api.Controllers
             {
                 x.Reviews = x.Reviews.OrderBy(y => y.Date).ToList();
             });
-            return list;
+            QueryResponse<Patient> response = new QueryResponse<Patient>();
+            response.Items = list;
+            response.TotalRecords = list.Count;
+            return Ok(response);
         }
 
         // GET: api/Patient/5
         [HttpGet("{id}", Name = "Get")]
-        public ActionResult<Patient> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var item = _context.Patients.Where(x => x.Id == id).Include(x => x.Reviews).FirstOrDefault();
+            var item = _context.Patients.Where(x => x.Id == id).Include(x => x.Reviews).ToList();
                 /*.Include(p => p.Reviews)*/
                 /*.Find(id);*/
-            if (item == null)
+            if (item.FirstOrDefault() == null)
             {
                 return NotFound();
             }
@@ -69,9 +73,13 @@ namespace kuba_api.Controllers
             patient.Avatar = item.Avatar;*/
 
             // Order by Date ASC
-            item.Reviews = item.Reviews.OrderBy(x => x.Date).ToList();
+            item.FirstOrDefault().Reviews = item.FirstOrDefault().Reviews.OrderBy(x => x.Date).ToList();
 
-            return item;
+            QueryResponse<Patient> response = new QueryResponse<Patient>();
+            response.Items = item;
+            response.TotalRecords = 1;
+
+            return Ok(response);
         }
 
         /*// GET: api/Patient/5
@@ -97,13 +105,12 @@ namespace kuba_api.Controllers
 
         // POST: api/Patient
         [HttpPost]
-        public ActionResult Create(Patient item)
+        public async Task<IActionResult> Create(Patient item)
         {
             _context.Patients.Add(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return Ok();
-            //return CreatedAtRoute("Get", new {id = item.Id}, item);
+            return Created($"/{ControllerContext.ActionDescriptor.ControllerName}/{item?.Id}", item);
         }
 
         // PUT: api/Patient/5
@@ -145,7 +152,7 @@ namespace kuba_api.Controllers
 
         // PUT: api/Patient/5
         [HttpPut("{id}")]
-        public ActionResult UpdateAsync([FromRoute] int id, Patient item)
+        public async Task<IActionResult> UpdateAsync([FromRoute] int id, Patient item)
         {
             if (!ModelState.IsValid)
             {
@@ -155,7 +162,7 @@ namespace kuba_api.Controllers
             var patient = _context.Patients.Where(x => x.Id == id).Include(x => x.Reviews).FirstOrDefault(m => m.Id == id);
             if (patient == null)
             {
-                return NoContent();
+                return BadRequest(ModelState);
             }
             patient.Firstname = item.Firstname;
             patient.Lastname = item.Lastname;
@@ -184,13 +191,13 @@ namespace kuba_api.Controllers
             }*/
 
             _context.Patients.Update(patient);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok(patient);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(long id)
+        public async Task<IActionResult> Delete(long id)
         {
             var patient = _context.Patients.Find(id);
             if (patient == null)
@@ -199,7 +206,7 @@ namespace kuba_api.Controllers
             }
 
             _context.Patients.Remove(patient);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

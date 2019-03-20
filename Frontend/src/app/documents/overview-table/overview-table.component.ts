@@ -4,7 +4,6 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Router } from '@angular/router';
 import { Component, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 import { switchMap, map, catchError, startWith } from 'rxjs/operators';
-import { DocumentService } from 'src/app/model-services/document.service';
 
 
 const ELEMENT_DATA: Document[] = [
@@ -22,9 +21,6 @@ const ELEMENT_DATA: Document[] = [
 })
 export class OverviewTableComponent implements OnInit {
 
-  // docTitles: string[] = ['Anamnese', 'Testung', 'Report'];
-
-
   displayedColumns: string[] = ['name'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
@@ -35,26 +31,11 @@ export class OverviewTableComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
 
-  constructor(private $router: Router, private $docService: DocumentService) { }
+  constructor(private $router: Router) { }
 
   ngOnInit() {
     this.dataSource.sort = this.sort;
   }
-
-  // initDocuments(): Document[] {
-  //   let documents: Document[] = [];
-
-  //   this.docTitles.forEach((docName, index) => {
-  //     let doc: Document = {
-  //       id: index,
-  //       name: docName
-  //     };
-  //     documents.push(doc);
-  //   });
-  //   return documents;
-
-
-  // }
 
   openDocument ( _id: string, $event: Event ) {
     this.$router.navigate( ['document/', _id]);
