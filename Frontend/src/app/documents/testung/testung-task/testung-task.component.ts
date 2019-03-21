@@ -1,6 +1,7 @@
 import { FormGroup } from '@angular/forms';
 import { FormBase } from './../../../utils/dynamic-forms/form-base';
 import { Component, OnInit, Input } from '@angular/core';
+import { TestungQuestion } from 'src/app/models/testung';
 
 @Component({
   selector: 'app-testung-task',

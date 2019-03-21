@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using kubaapi.Models;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20190321135659_fullyData")]
+    partial class fullyData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,7 +118,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Testungen");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 3, 21, 15, 28, 31, 726, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
+                        new { Id = 1, Date = new DateTime(2019, 3, 21, 14, 56, 59, 734, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
                     );
                 });
 
@@ -194,8 +196,8 @@ namespace kubaapi.Migrations
                         new { Id = 18, Label = "Hüpfen auf einem Bein (links oder rechts)", TestungChapterId = 1, Type = "radio", Value = "" },
                         new { Id = 19, Label = "Hopserlauf", TestungChapterId = 1, Type = "radio", Value = "" },
                         new { Id = 20, Label = "Windmühle", TestungChapterId = 1, Type = "radio", Value = "" },
-                        new { Id = 21, Label = "Kriechen auf dem Bauch", TestungChapterId = 2, Type = "radio2", Value = "" },
-                        new { Id = 22, Label = "Krabbeln auf Händen und Knien", TestungChapterId = 2, Type = "radio3", Value = "" },
+                        new { Id = 21, Label = "Kriechen auf dem Bauch", TestungChapterId = 2, Type = "radio", Value = "" },
+                        new { Id = 22, Label = "Krabbeln auf Händen und Knien", TestungChapterId = 2, Type = "radio", Value = "" },
                         new { Id = 23, Label = "Ferse auf Schienbein (linke Ferse auf rechtes Schienbein)", TestungChapterId = 3, Type = "radio", Value = "" },
                         new { Id = 24, Label = "Ferse auf Schienbein (rechte Ferse auf linkes Schienbein)", TestungChapterId = 3, Type = "radio", Value = "" },
                         new { Id = 25, Label = "Zeigefinger-Annäherung (Augen offen)", TestungChapterId = 3, Type = "radio", Value = "" },
@@ -208,9 +210,9 @@ namespace kubaapi.Migrations
                         new { Id = 32, Label = "Hand (rechts)", TestungChapterId = 4, Type = "radio", Value = "" },
                         new { Id = 33, Label = "Fuß (links)", TestungChapterId = 4, Type = "radio", Value = "" },
                         new { Id = 34, Label = "Fuß (rechts)", TestungChapterId = 4, Type = "radio", Value = "" },
-                        new { Id = 35, Label = "Links-Rechts-Diskriminierungsprobleme", TestungChapterId = 5, Type = "radioYesNo", Value = "" },
-                        new { Id = 36, Label = "Orientierungsprobleme", TestungChapterId = 6, Type = "radioYesNo", Value = "" },
-                        new { Id = 37, Label = "Räumliche Wahrnehmungsprobleme", TestungChapterId = 7, Type = "radioYesNo", Value = "" },
+                        new { Id = 35, Label = "Links-Rechts-Diskriminierungsprobleme", TestungChapterId = 5, Type = "radio", Value = "" },
+                        new { Id = 36, Label = "Orientierungsprobleme", TestungChapterId = 6, Type = "radio", Value = "" },
+                        new { Id = 37, Label = "Räumliche Wahrnehmungsprobleme", TestungChapterId = 7, Type = "radio", Value = "" },
                         new { Id = 38, Label = "Standard Test - linker Arm", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 39, Label = "Standard Test - linkes Bein", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 40, Label = "Standard Test - rechter Arm", TestungChapterId = 8, Type = "radio", Value = "" },
@@ -257,27 +259,27 @@ namespace kubaapi.Migrations
                         new { Id = 81, Label = "Such-Reflex - links", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 82, Label = "Such-Reflex - rechts", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 83, Label = "Saug-Reflex", TestungChapterId = 8, Type = "radio", Value = "" },
-                        new { Id = 84, Label = "Erwachsener Saug-Reflex", TestungChapterId = 8, Type = "radio4", Value = "" },
+                        new { Id = 84, Label = "Erwachsener Saug-Reflex", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 85, Label = "Palmar-Reflex - linke Hand", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 86, Label = "Palmar-Reflex - rechte Hand", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 87, Label = "Plantar-Reflex - linker Fuß", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 88, Label = "Plantar-Reflex - rechter Fuß", TestungChapterId = 8, Type = "radio", Value = "" },
                         new { Id = 89, Label = "Landau-Reaktion", TestungChapterId = 8, Type = "radio", Value = "" },
-                        new { Id = 90, Label = "Fußdominanz - Ball schießen", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 91, Label = "Fußdominanz - Aufstampfen mit einem Fuß", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 92, Label = "Fußdominanz - Auf einen Stuhl steigen", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 93, Label = "Fußdominanz - Auf einem Bein hüpfen", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 94, Label = "Handdominanz - Einen Ball fangen", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 95, Label = "Handdominanz - Klatschen in eine Hand", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 96, Label = "Handdominanz - Schreibhand", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 97, Label = "Handdominanz - Teleskop", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 98, Label = "Augendominanz (Entfernung) - Teleskop", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 99, Label = "Augendominanz (Entfernung) - Ring", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 100, Label = "Augendominanz (Nähe) - Lochkarte", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 101, Label = "Augendominanz (Nähe) - Ring", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 102, Label = "Ohrdominanz - Muschel", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 103, Label = "Ohrdominanz - Lauschen", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
-                        new { Id = 104, Label = "Ohrdominanz - Rufen (Hinweis auf Hemisphärendominanz)", TestungChapterId = 9, Type = "radioLeftRight", Value = "" },
+                        new { Id = 90, Label = "Fußdominanz - Ball schießen", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 91, Label = "Fußdominanz - Aufstampfen mit einem Fuß", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 92, Label = "Fußdominanz - Auf einen Stuhl steigen", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 93, Label = "Fußdominanz - Auf einem Bein hüpfen", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 94, Label = "Handdominanz - Einen Ball fangen", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 95, Label = "Handdominanz - Klatschen in eine Hand", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 96, Label = "Handdominanz - Schreibhand", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 97, Label = "Handdominanz - Teleskop", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 98, Label = "Augendominanz (Entfernung) - Teleskop", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 99, Label = "Augendominanz (Entfernung) - Ring", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 100, Label = "Augendominanz (Nähe) - Lochkarte", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 101, Label = "Augendominanz (Nähe) - Ring", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 102, Label = "Ohrdominanz - Muschel", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 103, Label = "Ohrdominanz - Lauschen", TestungChapterId = 9, Type = "radio", Value = "" },
+                        new { Id = 104, Label = "Ohrdominanz - Rufen (Hinweis auf Hemisphärendominanz)", TestungChapterId = 9, Type = "radio", Value = "" },
                         new { Id = 105, Label = "Fixierungsschwierigkeiten", TestungChapterId = 10, Type = "radio", Value = "" },
                         new { Id = 106, Label = "Beeinträchtigte Folgebewegungen (tracking- horizontal)", TestungChapterId = 10, Type = "radio", Value = "" },
                         new { Id = 107, Label = "Beeinträchtigte Folgebewegungen (tracking-vertikal)", TestungChapterId = 10, Type = "radio", Value = "" },

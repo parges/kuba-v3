@@ -18,7 +18,8 @@ import {
   MAT_DATE_LOCALE,
   MatDividerModule,
   MatAutocompleteModule,
-  MatCardModule
+  MatCardModule,
+  MatSnackBarModule
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -43,7 +44,8 @@ const materialModules: any[] = [
   MatToolbarModule,
   MatDividerModule,
   MatAutocompleteModule,
-  MatCardModule
+  MatCardModule,
+  MatSnackBarModule
 ];
 
 const cdkModules: any[] = [

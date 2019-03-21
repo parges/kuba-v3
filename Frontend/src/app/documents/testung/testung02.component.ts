@@ -1,3 +1,4 @@
+import { SnackbarGenericComponent } from './../../utils/snackbar-generic/snackbar-generic.component';
 import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
 import { map } from 'rxjs/operators';
 import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
@@ -30,7 +31,8 @@ export class Testung02Component implements OnInit {
 
   private resource = `testung`;
 
-  constructor(private $formService: FormControlService, private api: ApiService, public dialog: MatDialog, private loader: LoaderService) {
+  constructor(private $formService: FormControlService, private api: ApiService, public dialog: MatDialog, private loader: LoaderService,
+    private snackbar: SnackbarGenericComponent) {
   }
 
   ngOnInit() {
@@ -63,17 +65,26 @@ export class Testung02Component implements OnInit {
   }
 
   onSubmit() {
-    debugger;
-    this.payLoad = JSON.stringify(this.form.value);
+
+    // this.payLoad = JSON.stringify(this.form.value);
     // this.enableControlStates(true);
     const result: Customer = Object.assign({}, this.form.value);
-    // this.$customer.updateCustomer(result).catch(
-    //   err => console.error(err)
-    // ).finally(() => {
-    //   this.snackbar.openSnackBar('Gespeichert');
-    //   this.enableControlStates(false);
-    //   // this.$router.navigate(['customers']);
-    // });
+    var index = 1;
+    this.testung.chapters.forEach(chapter => {
+      chapter.questions.forEach(question => {
+        question.value = this.form.value["question_" + index];
+        index++;
+      })
+    });
+    this.api.put<Testung>(this.resource, this.selectedPatient.id, this.testung)
+    .pipe(
+      map((data: ApiResponse<Testung>) => {
+        this.loader.hideSpinner();
+        this.testung = data[0];
+      })
+    ).subscribe(() => {
+      this.snackbar.openSnackBar('Gespeichert');
+    });
   }
 
 }

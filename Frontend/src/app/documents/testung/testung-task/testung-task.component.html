@@ -4,7 +4,7 @@
   <div [ngSwitch]="question.controlType">
 
     <h2 *ngSwitchCase="'chapter'">{{question.value}}</h2>
-    <input *ngSwitchCase="'textbox'" [formControlName]="question.label"
+    <input *ngSwitchCase="'input'" [formControlName]="question.label"
             [id]="question.key" [type]="question.type">
 
     <select [id]="question.key" *ngSwitchCase="'dropdown'" [formControlName]="question.key">
@@ -17,10 +17,20 @@
         <input
           type="radio"
           [formControlName]="question.key"
-          [name]="question.key"
-          [value]="opt.value">
+          [value]="opt.value"
+          [checked]="(question.value === opt.value)">
         <span class="checkmark"></span>
       </label>
+    </div>
+
+    <div *ngSwitchCase="'textarea'" class="textarea-question">
+        <textarea
+          [formControlName]="question.key"
+          matInput
+          placeholder="Bitte eintragen"
+          [value]="question.value"
+          >
+        </textarea>
     </div>
 
 

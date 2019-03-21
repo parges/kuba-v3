@@ -1,3 +1,4 @@
+import { SnackbarGenericComponent } from './../../utils/snackbar-generic/snackbar-generic.component';
 import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
 import { map, catchError, switchMap } from 'rxjs/operators';
 import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
@@ -10,8 +11,7 @@ import { Customer } from 'src/app/customer/customer';
 
 import { MAT_DATE_LOCALE} from '@angular/material/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { of } from 'rxjs';
-
+import { of, timer } from 'rxjs';
 
 @Component({
   selector: 'app-cust-get',
@@ -41,7 +41,13 @@ export class CustGetComponent implements OnInit, OnDestroy {
 
   @ViewChild("uploader") uploader: any;
 
-  constructor(private route: ActivatedRoute, private $router: Router, private fb: FormBuilder, private api: ApiService, private loader: LoaderService) {
+  constructor(
+    private route: ActivatedRoute,
+    private $router: Router,
+    private fb: FormBuilder,
+    private api: ApiService,
+    private loader: LoaderService,
+    public snackbar: SnackbarGenericComponent) {
     this.formBuilder = fb;
     this.regiForm = this.formBuilder.group({
       id : [''],
@@ -71,7 +77,6 @@ export class CustGetComponent implements OnInit, OnDestroy {
       })
     )
     .subscribe((data: Customer[]) => {
-      debugger;
       this.activeCustomer = data[0];
       // Calculate the age
       const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
@@ -187,7 +192,13 @@ export class CustGetComponent implements OnInit, OnDestroy {
         return of([]);
       })
     )
-    .subscribe();
+    .subscribe(() => {
+      this.snackbar.openSnackBar("Gespeichert");
+      // const source = timer(1);
+      // const subscribe = source.subscribe(() => {
+      this.$router.navigate(['customers']);
+      // });
+    });
   }
 
   // Executed When Form Is Submitted

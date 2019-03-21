@@ -20,6 +20,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using AutoMapper;
 
 namespace kubaapi
 {
@@ -62,6 +63,9 @@ namespace kubaapi
                     };
                 });
 
+            services.AddAutoMapper();
+
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.Configure<FormOptions>(x =>
@@ -79,6 +83,7 @@ namespace kubaapi
                 ImageWriter.Classes.ImageWriter>();
 
             
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
