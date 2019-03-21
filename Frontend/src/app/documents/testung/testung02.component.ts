@@ -1,3 +1,4 @@
+import { TestungChapter } from './../../models/testung';
 import { SnackbarGenericComponent } from './../../utils/snackbar-generic/snackbar-generic.component';
 import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
 import { map } from 'rxjs/operators';
@@ -11,6 +12,7 @@ import { FormGroup } from '@angular/forms';
 import { FormBase } from './../../utils/dynamic-forms/form-base';
 import { Component, OnInit, Input } from '@angular/core';
 import { Testung } from 'src/app/models/testung';
+import { debugOutputAstAsTypeScript } from '@angular/compiler';
 
 @Component({
   selector: 'app-testung02',
@@ -21,8 +23,7 @@ import { Testung } from 'src/app/models/testung';
 })
 export class Testung02Component implements OnInit {
 
-  questions: FormBase<any>[] = [];
-  // questionMap: Map<number, TestungDetails[]> = new Map<number, TestungDetails[]>();
+  questions : Map<TestungChapter, FormBase<any>[]>  = new Map();
   form: FormGroup;
   payLoad = '';
   selectedPatient: Customer;
@@ -72,7 +73,10 @@ export class Testung02Component implements OnInit {
     var index = 1;
     this.testung.chapters.forEach(chapter => {
       chapter.questions.forEach(question => {
-        question.value = this.form.value["question_" + index];
+        debugger;
+        var _chapter = chapter;
+        var group = this.form.get(chapter.id.toString());
+        question.value = this.form.get(chapter.id.toString()).value["question_" + index];
         index++;
       })
     });
@@ -85,6 +89,10 @@ export class Testung02Component implements OnInit {
     ).subscribe(() => {
       this.snackbar.openSnackBar('Gespeichert');
     });
+  }
+
+  descOrder = (a, b) => {
+    return null;
   }
 
 }

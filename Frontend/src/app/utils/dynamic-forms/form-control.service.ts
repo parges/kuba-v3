@@ -1,3 +1,4 @@
+import { TestungChapter } from './../../models/testung';
 import { TextareaQuestion } from './form-task-textarea';
 import { ChapterForm } from './form-task-chapter';
 import { environment } from './../../../environments/environment';
@@ -6,7 +7,7 @@ import { Chapter } from './form-chapter';
 import { RadioQuestion } from './form-task-radio';
 import { FormBase } from './form-base';
 import { Injectable }   from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Testung } from 'src/app/models/testung';
 
 const DEFAULT_OPTIONS = [
@@ -52,14 +53,22 @@ const RADIOLEFTRIGHT_OPTIONS = [
 export class FormControlService {
   constructor(private $http: HttpClient) { }
 
-  toFormGroup(questions: FormBase<any>[]) {
-    let group: any = {};
+  toFormGroup(questions: Map<TestungChapter, FormBase<any>[]>) {
+    let myform: FormGroup = new FormGroup({});
 
-    questions.forEach(question => {
-      group[question.key] = question.required ? new FormControl(question.value || '', Validators.required)
-                                              : new FormControl(question.value || '');
-    });
-    return new FormGroup(group);
+    for (let chapter of questions.keys()) {
+
+      let array: FormGroup = new FormGroup({});
+      questions.get(chapter).forEach(question => {
+
+        var control = question.required ? new FormControl(question.value || '', Validators.required)
+                              : new FormControl(question.value || '');
+        array.addControl(question.key, control);
+
+      });
+      myform.addControl(chapter.id.toString(), array);
+    }
+    return myform;
   }
 
   getTestungForPatient ( patientId: number ): Promise<Testung> {
@@ -68,15 +77,10 @@ export class FormControlService {
   }
 
   getFormEntries(item: Testung) {
-      let entries: FormBase<any>[] = [];
+
+      let chapters: Map<TestungChapter, FormBase<any>[]>  = new Map();
       item.chapters.forEach(chapter => {
-        entries.push(
-          new ChapterForm({
-            key: 'chapter_' + chapter.id,
-            label: chapter.name
-            // value: (question.value !== '') ? true : false
-          })
-        );
+        let entries: FormBase<any>[] = [];
         chapter.questions.forEach(question => {
           switch (question.type) {
             case 'radio':
@@ -158,9 +162,10 @@ export class FormControlService {
               )
               break;
           }
-
         });
+        chapters.set( chapter, entries.sort((a, b) => a.order - b.order) );
+
       });
-      return entries.sort((a, b) => a.order - b.order);
+      return chapters;
     }
 }
