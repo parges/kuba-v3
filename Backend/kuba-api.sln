@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "kuba-api", "kuba-api\kuba-a
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImageWriter", "ImageWriter\ImageWriter.csproj", "{8B411AFE-8A1E-49AC-B0D1-814084B68778}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rl-bl", "rl-bl\rl-bl.csproj", "{C7A15958-8A24-4407-B018-F6E9E3504BA9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "rl-contract", "rl-contract\rl-contract.csproj", "{251A08B9-3766-42E6-B2BE-32768D220791}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{8B411AFE-8A1E-49AC-B0D1-814084B68778}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B411AFE-8A1E-49AC-B0D1-814084B68778}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B411AFE-8A1E-49AC-B0D1-814084B68778}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7A15958-8A24-4407-B018-F6E9E3504BA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7A15958-8A24-4407-B018-F6E9E3504BA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7A15958-8A24-4407-B018-F6E9E3504BA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7A15958-8A24-4407-B018-F6E9E3504BA9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{251A08B9-3766-42E6-B2BE-32768D220791}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{251A08B9-3766-42E6-B2BE-32768D220791}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{251A08B9-3766-42E6-B2BE-32768D220791}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{251A08B9-3766-42E6-B2BE-32768D220791}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

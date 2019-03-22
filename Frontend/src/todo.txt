@@ -1,18 +1,13 @@
 Property:
 - Bild hochladen
 Dashboard:
+- Hübsch machen
 
-Test:
-- Formular:
-  - siehe Blatt
-    Aufgabenstellung und daneben Radio Buttons 0-4
-    Verschiedene Gruppierung der Aufgabenstellungen in Form von tab group
-- Ausrechnen der Ergebnisse
+Testung:
+- Ausrechnen der Ergebnisse pro Chapter
 
-
-Einscannen / Hochladen von Bildern:
-- Später
-
+Später:
+- Einscannen / Hochladen von Bildern (Rezepten)
 
 
 

@@ -9,14 +9,16 @@
   margin-bottom: 12px;
   margin-right: 25px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
 }
 
-
+.chapter-label {
+  font-weight: bold;
+}
 
 /* Hide the browser's default radio button */
 .testung-container input {

@@ -4,19 +4,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace kubaapi.Models
+namespace rl_contract.Models
 {
-    public class Testung
+    public class Review
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
         public string Name { get; set; }
         public DateTime Date { get; set; }
-
-        /*public List<TestungDetails> Questions { get; set; }
-*/
-
-        public List<TestungChapter> Chapters { get; set; }
+        public bool Payed { get; set; }
+        public string Exercises { get; set; }
+        public string Reasons { get; set; }
 
         public int? PatientId { get; set; }
         /*public Patient Patient { get; set; }*/

@@ -19,7 +19,7 @@ namespace kubaapi.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("kubaapi.Models.Patient", b =>
+            modelBuilder.Entity("rl_contract.Models.Patient", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -61,7 +61,7 @@ namespace kubaapi.Migrations
                     );
                 });
 
-            modelBuilder.Entity("kubaapi.Models.Review", b =>
+            modelBuilder.Entity("rl_contract.Models.Review", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -95,7 +95,7 @@ namespace kubaapi.Migrations
                     );
                 });
 
-            modelBuilder.Entity("kubaapi.Models.Testung", b =>
+            modelBuilder.Entity("rl_contract.Models.Testung", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -116,17 +116,19 @@ namespace kubaapi.Migrations
                     b.ToTable("Testungen");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 3, 21, 15, 28, 31, 726, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
+                        new { Id = 1, Date = new DateTime(2019, 3, 22, 8, 50, 25, 17, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
                     );
                 });
 
-            modelBuilder.Entity("kubaapi.Models.TestungChapter", b =>
+            modelBuilder.Entity("rl_contract.Models.TestungChapter", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name");
+
+                    b.Property<int?>("Score");
 
                     b.Property<int?>("TestungId");
 
@@ -153,7 +155,7 @@ namespace kubaapi.Migrations
                     );
                 });
 
-            modelBuilder.Entity("kubaapi.Models.TestungQuestion", b =>
+            modelBuilder.Entity("rl_contract.Models.TestungQuestion", b =>
                 {
                     b.Property<int?>("Id")
                         .ValueGeneratedOnAdd()
@@ -327,30 +329,30 @@ namespace kubaapi.Migrations
                     );
                 });
 
-            modelBuilder.Entity("kubaapi.Models.Review", b =>
+            modelBuilder.Entity("rl_contract.Models.Review", b =>
                 {
-                    b.HasOne("kubaapi.Models.Patient")
+                    b.HasOne("rl_contract.Models.Patient")
                         .WithMany("Reviews")
                         .HasForeignKey("PatientId");
                 });
 
-            modelBuilder.Entity("kubaapi.Models.Testung", b =>
+            modelBuilder.Entity("rl_contract.Models.Testung", b =>
                 {
-                    b.HasOne("kubaapi.Models.Patient")
+                    b.HasOne("rl_contract.Models.Patient")
                         .WithOne("Testung")
-                        .HasForeignKey("kubaapi.Models.Testung", "PatientId");
+                        .HasForeignKey("rl_contract.Models.Testung", "PatientId");
                 });
 
-            modelBuilder.Entity("kubaapi.Models.TestungChapter", b =>
+            modelBuilder.Entity("rl_contract.Models.TestungChapter", b =>
                 {
-                    b.HasOne("kubaapi.Models.Testung")
+                    b.HasOne("rl_contract.Models.Testung")
                         .WithMany("Chapters")
                         .HasForeignKey("TestungId");
                 });
 
-            modelBuilder.Entity("kubaapi.Models.TestungQuestion", b =>
+            modelBuilder.Entity("rl_contract.Models.TestungQuestion", b =>
                 {
-                    b.HasOne("kubaapi.Models.TestungChapter")
+                    b.HasOne("rl_contract.Models.TestungChapter")
                         .WithMany("Questions")
                         .HasForeignKey("TestungChapterId");
                 });

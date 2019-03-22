@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using kubaapi.Models;
+using rl_contract.Models;
 
 namespace kubaapi.Mapper.Profiles
 {

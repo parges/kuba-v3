@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace kubaapi.Models
+namespace rl_contract.Models
 {
     public class LoginModel
     {

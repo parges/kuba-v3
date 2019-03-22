@@ -46,20 +46,24 @@ C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.Razo
 C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csproj.CopyComplete
 C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.dll
 C:\Dev\Reflexartig Leicht\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.pdb
-D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.deps.json
-D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.runtimeconfig.json
-D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.runtimeconfig.dev.json
-D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.dll
-D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.pdb
-D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\ImageWriter.dll
-D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\ImageWriter.pdb
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csprojAssemblyReference.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csproj.CoreCompileInputs.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorAssemblyInfo.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorAssemblyInfo.cs
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.AssemblyInfoInputs.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.AssemblyInfo.cs
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.deps.json
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.runtimeconfig.json
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.runtimeconfig.dev.json
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.dll
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\kuba-api.pdb
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\ImageWriter.dll
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\rl-contract.dll
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\ImageWriter.pdb
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\rl-contract.pdb
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorTargetAssemblyInfo.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csproj.CopyComplete
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.dll
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.pdb
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\rl-bl.dll
+D:\Dev\kuba-v3\Backend\kuba-api\bin\Debug\netcoreapp2.1\rl-bl.pdb

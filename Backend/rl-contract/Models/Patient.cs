@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace kubaapi.Models
+namespace rl_contract.Models
 {
     public class Patient
     {

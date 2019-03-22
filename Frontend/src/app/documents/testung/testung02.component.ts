@@ -66,9 +66,7 @@ export class Testung02Component implements OnInit {
   }
 
   onSubmit() {
-
     // this.payLoad = JSON.stringify(this.form.value);
-    // this.enableControlStates(true);
     const result: Customer = Object.assign({}, this.form.value);
     var index = 1;
     this.testung.chapters.forEach(chapter => {

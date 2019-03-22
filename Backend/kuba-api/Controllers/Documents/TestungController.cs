@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using rl_bl;
+using rl_contract.Models;
 
 namespace kuba_api.Controllers
 {
@@ -24,12 +26,15 @@ namespace kuba_api.Controllers
         private readonly DBContext _context;
         private readonly IHostingEnvironment _environment;
         private readonly IMapper _mapper;
+        private readonly TestungBL _bl;
+
 
         public TestungController(DBContext context, IHostingEnvironment environment, IMapper mapper)
         {
             _context = context;
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
             _mapper = mapper;
+            _bl = new TestungBL();
         }
 
     // GET: api/Documents
@@ -67,6 +72,8 @@ namespace kuba_api.Controllers
         }
 
         _mapper.Map(item, testung.FirstOrDefault());
+
+        _bl.calculateScore(testung.FirstOrDefault());
 
         _context.Testungen.Update(testung.FirstOrDefault());
         _context.SaveChanges();

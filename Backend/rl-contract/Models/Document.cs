@@ -4,16 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace kubaapi.Models
+namespace rl_contract.Models
 {
-    public class TestungChapter
+    public class Document
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
-        public string Name { get; set; }
 
-        public int? TestungId { get; set; }
-        public List<TestungQuestion> Questions { get; set; }
+        public int Type { get; set; }
+        public string Name { get; set; }
 
     }
 }

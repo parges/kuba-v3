@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImageWriter\ImageWriter.csproj" />
+    <ProjectReference Include="..\rl-bl\rl-bl.csproj" />
+    <ProjectReference Include="..\rl-contract\rl-contract.csproj" />
   </ItemGroup>
 
 </Project>

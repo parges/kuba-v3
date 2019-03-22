@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace kubaapi.Models
+namespace rl_contract.Models
 {
     /// <summary>
     /// Model für den Benutzer
