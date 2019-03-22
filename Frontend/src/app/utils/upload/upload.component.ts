@@ -35,8 +35,8 @@ export class UploadComponent implements OnInit {
         let input = new FormData();
       input.append("file", fileToUpload);
 
-      this.http.post(environment.endpointUpload, input)
-        .subscribe();
+      // this.http.post(environment.endpoint, input)
+      //   .subscribe();
     }
 
 

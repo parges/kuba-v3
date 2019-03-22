@@ -1,5 +1,5 @@
+import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { PatientAutocompleteDialog } from './../../utils/patient-external-dialog/patient-external-dialog.component';
-import { CustomerService } from './../../customer/customer.service';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { Component, AfterViewInit, Inject, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { UebersichtModel } from './ubersichtModel';
@@ -28,8 +28,9 @@ export class Uebersicht00Component implements AfterViewInit{
   isDisabled: boolean = true;
   disabledColumns: string[] = ['firstname','lastname', 'tele', 'address', 'birthday']
 
+  private resource = `patient`;
 
-  constructor(private $customer: CustomerService, private fb: FormBuilder, public dialog: MatDialog, public snackbar: SnackbarGenericComponent) {
+  constructor(private api: ApiService, private fb: FormBuilder, public dialog: MatDialog, public snackbar: SnackbarGenericComponent) {
     this.docUebersicht = this.fb.group({
       id : [''],
       firstname : ['', Validators.required],
@@ -46,14 +47,14 @@ export class Uebersicht00Component implements AfterViewInit{
       problemHierarchy: [''],
       reviews : this.fb.array([])
     });
-    
+
     this.enableControlStates(false);
 
     this.openDialog();
    }
 
    ngAfterViewInit() {
-    
+
    }
 
    enableControlStates(enable: boolean) {
@@ -64,14 +65,14 @@ export class Uebersicht00Component implements AfterViewInit{
         }
       });
     } else {
-      
+
       Object.keys(this.docUebersicht.controls).forEach(key => {
         if(this.disabledColumns.indexOf(key) != -1){
           this.docUebersicht.get(key).disable();
         }
       });
     }
-    
+
    }
 
    openDialog(): void {
@@ -82,7 +83,7 @@ export class Uebersicht00Component implements AfterViewInit{
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      if(dialogRef.componentInstance.selectedPatient) 
+      if(dialogRef.componentInstance.selectedPatient)
       {
         this.isDisabled = false;
 
@@ -112,14 +113,14 @@ export class Uebersicht00Component implements AfterViewInit{
           // ])
           });
 
-          
+
       }
     });
     }
   fillReviews(): FormGroup {
     let reviews = this.docUebersicht.get('reviews') as FormArray;
     if(this.activeCustomer.reviews.length > 0){
-      
+
       this.activeCustomer.reviews.forEach(review => {
         reviews.push(
         this.fb.group({
@@ -131,7 +132,7 @@ export class Uebersicht00Component implements AfterViewInit{
         })
         );
       });
-     
+
     }
     // initialize our address
     return this.fb.group({
@@ -166,13 +167,17 @@ export class Uebersicht00Component implements AfterViewInit{
   onDocSubmit() {
     this.enableControlStates(true);
     const result: Customer = Object.assign({}, this.docUebersicht.value);
-    this.$customer.updateCustomer(result).catch(
-      err => console.error(err)
-    ).finally(() => {
+    this.api.put<Customer>(this.resource, result.id, result)
+    .subscribe(() => {
       this.snackbar.openSnackBar('Gespeichert');
       this.enableControlStates(false);
-      // this.$router.navigate(['customers']);
-    });
+    })
+    // this.$customer.updateCustomer(result).catch(
+    //   err => console.error(err)
+    // ).finally(() => {
+
+    //   // this.$router.navigate(['customers']);
+    // });
 
   }
 

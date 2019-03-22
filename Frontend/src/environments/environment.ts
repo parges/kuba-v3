@@ -9,9 +9,14 @@ export const environment = {
   endpoint: 'https://localhost:5001/api/patient',
   endpointUpload: 'https://localhost:5001/api/upload',
   useAuth: false,
+  // api: {
+  //   host: 'https://localhost',
+  //   port: 5001,
+  //   suffix: 'api'
+  // }
   api: {
-    host: 'https://localhost',
-    port: 5001,
+    host: 'http://reflexartigleicht.azurewebsites.net/',
+    port: 8080,
     suffix: 'api'
   }
 };

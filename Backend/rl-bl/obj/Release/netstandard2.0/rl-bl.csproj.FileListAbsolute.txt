@@ -1,0 +1,12 @@
+D:\Dev\kuba-v3\Backend\rl-bl\bin\Release\netstandard2.0\rl-bl.deps.json
+D:\Dev\kuba-v3\Backend\rl-bl\bin\Release\netstandard2.0\rl-bl.dll
+D:\Dev\kuba-v3\Backend\rl-bl\bin\Release\netstandard2.0\rl-bl.pdb
+D:\Dev\kuba-v3\Backend\rl-bl\bin\Release\netstandard2.0\rl-contract.dll
+D:\Dev\kuba-v3\Backend\rl-bl\bin\Release\netstandard2.0\rl-contract.pdb
+D:\Dev\kuba-v3\Backend\rl-bl\obj\Release\netstandard2.0\rl-bl.csprojAssemblyReference.cache
+D:\Dev\kuba-v3\Backend\rl-bl\obj\Release\netstandard2.0\rl-bl.csproj.CoreCompileInputs.cache
+D:\Dev\kuba-v3\Backend\rl-bl\obj\Release\netstandard2.0\rl-bl.AssemblyInfoInputs.cache
+D:\Dev\kuba-v3\Backend\rl-bl\obj\Release\netstandard2.0\rl-bl.AssemblyInfo.cs
+D:\Dev\kuba-v3\Backend\rl-bl\obj\Release\netstandard2.0\rl-bl.csproj.CopyComplete
+D:\Dev\kuba-v3\Backend\rl-bl\obj\Release\netstandard2.0\rl-bl.dll
+D:\Dev\kuba-v3\Backend\rl-bl\obj\Release\netstandard2.0\rl-bl.pdb

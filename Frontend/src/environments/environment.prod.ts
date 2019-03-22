@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  useAuth: true,
+  useAuth: false,
   api: {
-    host: 'https://localhost',
-    port: 5001,
+    host: 'http://reflexartigleicht.azurewebsites.net/',
+    port: 8080,
     suffix: 'api'
   }
 };

@@ -13,9 +13,6 @@ namespace rl_contract.Models
         public string Name { get; set; }
         public DateTime Date { get; set; }
 
-        /*public List<TestungDetails> Questions { get; set; }
-*/
-
         public List<TestungChapter> Chapters { get; set; }
 
         public int? PatientId { get; set; }

@@ -2,7 +2,6 @@ import { LoaderService } from './../../../../libs/shared/ui/services/loader.serv
 import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
 import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { FormGroup, FormBuilder, Validators, NgForm } from '@angular/forms';
-import { CustomerService } from './../../customer/customer.service';
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/customer/customer';
@@ -40,7 +39,7 @@ export class CustAddComponent {
 
   onFormSubmit() {
     const result: Customer = Object.assign({}, this.addCustForm.value);
-    this.api.put<Customer>(this.resource, result.id, result)
+    this.api.post<Customer>(this.resource, result)
     .pipe(
       switchMap(() => {
         return this.api.get<Customer>(this.resource);
@@ -55,7 +54,7 @@ export class CustAddComponent {
       })
     )
     .subscribe((data: Customer[]) => {
-      this.$router.navigate(['customers']);
+      // this.$router.navigate(['customers']);
     });
   }
 }

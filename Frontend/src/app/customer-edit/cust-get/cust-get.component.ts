@@ -4,7 +4,6 @@ import { map, catchError, switchMap } from 'rxjs/operators';
 import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
 import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { FormGroup, FormBuilder, Validators, NgForm, FormArray } from '@angular/forms';
-import { CustomerService } from './../../customer/customer.service';
 import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Customer } from 'src/app/customer/customer';

@@ -3,10 +3,12 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <RootNamespace>kubaapi</RootNamespace>
+    <UserSecretsId>bb3e61da-b911-4e24-b9fa-dd99b6ed5f19</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <Folder Include="DTO\" />
+    <Folder Include="Models\" />
     <Folder Include="Resources\Images\" />
     <Folder Include="utils\" />
     <Folder Include="wwwroot\" />
@@ -18,6 +20,7 @@
     <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
   </ItemGroup>
 

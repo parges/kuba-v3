@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<sitemanifest>
+  <IisApp path="D:\Dev\kuba-v3\Backend\kuba-api\obj\Release\netcoreapp2.1\PubTmp\Out\" />
+  <dbfullsql path="D:\Dev\kuba-v3\Backend\kuba-api\obj\Release\netcoreapp2.1\PubTmp\EFSQLScripts\rl_bl.Context.DBContext.sql" />
+</sitemanifest>

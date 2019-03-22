@@ -13,3 +13,4 @@ Später:
 
 Info:
 Tabellen Aktionen pro row --> https://www.sitepoint.com/angular-material-design-components/
+Bilder hochladen --> http://dotnetdetail.net/how-to-upload-file-using-angular-6-and-asp-net-core-2-1-web-api/

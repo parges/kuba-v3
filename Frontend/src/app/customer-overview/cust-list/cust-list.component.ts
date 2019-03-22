@@ -1,7 +1,6 @@
 import { LoaderService } from './../../../../libs/shared/ui/services/loader.service';
 import { ApiResponse } from './../../../../libs/shared/models/src/lib/interfaces/interfaces.common';
 import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
-import { CustomerService } from './../../customer/customer.service';
 import { Customer } from 'src/app/customer/customer';
 import {Component, ViewChild, AfterViewInit, HostListener} from '@angular/core';
 import {MatPaginator, MatSort} from '@angular/material';

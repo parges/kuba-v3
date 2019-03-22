@@ -4,7 +4,6 @@ import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.s
 import { isString, isObject } from 'util';
 import { DialogData } from './../../documents/uebersicht/uebersicht00.component';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { CustomerService } from './../../customer/customer.service';
 import { Customer } from './../../customer/customer';
 import { Observable, merge, of } from 'rxjs';
 import { FormControl } from '@angular/forms';

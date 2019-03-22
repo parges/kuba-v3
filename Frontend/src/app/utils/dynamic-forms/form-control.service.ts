@@ -71,10 +71,10 @@ export class FormControlService {
     return myform;
   }
 
-  getTestungForPatient ( patientId: number ): Promise<Testung> {
-    return this.$http.get<Testung>( environment.globalEndpoint + 'Testung/' + patientId )
-               .toPromise();
-  }
+  // getTestungForPatient ( patientId: number ): Promise<Testung> {
+  //   // return this.$http.get<Testung>( environment.endpoint + 'Testung/' + patientId )
+  //   //            .toPromise();
+  // }
 
   getFormEntries(item: Testung) {
 

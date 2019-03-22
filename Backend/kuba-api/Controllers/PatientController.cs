@@ -6,13 +6,14 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
-using kubaapi.Models;
 using kubaapi.utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.ExpressionTranslators.Internal;
+using rl_bl;
+using rl_bl.Context;
 using rl_contract.Models;
 
 namespace kuba_api.Controllers
@@ -25,6 +26,7 @@ namespace kuba_api.Controllers
         private readonly DBContext _context;
         private readonly IHostingEnvironment _environment;
         private readonly ImageUploader.Helper.IImageHandler _imageHandler;
+        private readonly PatientBL _bl;
 
         private string _imagePath;
 
@@ -34,6 +36,7 @@ namespace kuba_api.Controllers
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
             _imageHandler = imageHandler;
             _imagePath = _environment.ContentRootPath + @"\Resources\Images";
+            _bl = new PatientBL();
         }
 
         // GET: api/Patient
@@ -108,6 +111,11 @@ namespace kuba_api.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Patient item)
         {
+            if (item == null)
+            {
+                return BadRequest(item);
+            }
+            _bl.addRelevantPatientData(item, _context);
             _context.Patients.Add(item);
             await _context.SaveChangesAsync();
 

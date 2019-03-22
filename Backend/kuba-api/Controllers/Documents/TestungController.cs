@@ -7,13 +7,13 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
 using AutoMapper;
-using kubaapi.Models;
 using kubaapi.utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using rl_bl;
+using rl_bl.Context;
 using rl_contract.Models;
 
 namespace kuba_api.Controllers

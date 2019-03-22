@@ -1,5 +1,5 @@
+@import './styles/bootstrap.min.css';
 @import './app/styles/mixins';
-
 @import '~@angular/material/theming';
 @include mat-core();
 
@@ -25,4 +25,16 @@ body {
 
 .float-right {
   float: right;
+}
+
+.full-with-field {
+  width: 100%;
+}
+
+.m-t-5 {
+  margin-top: 5px;
+}
+
+.form-row {
+  display: block;
 }
