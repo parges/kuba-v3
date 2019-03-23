@@ -71,7 +71,6 @@ export class Testung02Component implements OnInit {
     var index = 1;
     this.testung.chapters.forEach(chapter => {
       chapter.questions.forEach(question => {
-        debugger;
         var _chapter = chapter;
         var group = this.form.get(chapter.id.toString());
         question.value = this.form.get(chapter.id.toString()).value["question_" + index];
@@ -83,9 +82,12 @@ export class Testung02Component implements OnInit {
       map((data: ApiResponse<Testung>) => {
         this.loader.hideSpinner();
         this.testung = data[0];
+        return data[0];
       })
-    ).subscribe(() => {
+    ).subscribe((testung: Testung) => {
       this.snackbar.openSnackBar('Gespeichert');
+      this.questions = this.$formService.getFormEntries(testung);
+      this.form = this.$formService.toFormGroup(this.questions);
     });
   }
 
