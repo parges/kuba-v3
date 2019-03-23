@@ -7,7 +7,7 @@ import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.s
 import { PatientAutocompleteDialog } from './../../utils/patient-external-dialog/patient-external-dialog.component';
 import { MatDialog } from '@angular/material';
 import { Customer } from './../../customer/customer';
-import { FormControlService } from './../../utils/dynamic-forms/form-control.service';
+import { TestungFormControlService } from './testung-form-control.service';
 import { FormGroup } from '@angular/forms';
 import { FormBase } from './../../utils/dynamic-forms/form-base';
 import { Component, OnInit, Input } from '@angular/core';
@@ -18,7 +18,7 @@ import { debugOutputAstAsTypeScript } from '@angular/compiler';
   selector: 'app-testung02',
   templateUrl: './testung02.component.html',
   styleUrls: ['./testung02.component.scss'],
-  providers: [ FormControlService ]
+  providers: [ TestungFormControlService ]
 
 })
 export class Testung02Component implements OnInit {
@@ -32,7 +32,7 @@ export class Testung02Component implements OnInit {
 
   private resource = `testung`;
 
-  constructor(private $formService: FormControlService, private api: ApiService, public dialog: MatDialog, private loader: LoaderService,
+  constructor(private $formService: TestungFormControlService, private api: ApiService, public dialog: MatDialog, private loader: LoaderService,
     private snackbar: SnackbarGenericComponent) {
   }
 

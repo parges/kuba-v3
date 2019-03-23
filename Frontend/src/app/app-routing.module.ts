@@ -1,7 +1,7 @@
+import { TestungChildrenComponent } from './documents/testungChildren/testungChildren.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './../../libs/authentication/src/lib/guards/auth.guard';
 import { Uebersicht00Component } from './documents/uebersicht/uebersicht00.component';
-import { Report03Component } from './documents/report/report03.component';
 import { Testung02Component } from './documents/testung/testung02.component';
 import { Anamnese01Component } from './documents/anamnese/anamnese01.component';
 import { OverviewTableComponent } from './documents/overview-table/overview-table.component';
@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'document/1', component: Uebersicht00Component, canActivate: [AuthGuard]  },
   { path: 'document/2', component: Anamnese01Component, canActivate: [AuthGuard]  },
   { path: 'document/3', component: Testung02Component, canActivate: [AuthGuard]  },
-  { path: 'document/4', component: Report03Component, canActivate: [AuthGuard]  },
+  { path: 'document/4', component: TestungChildrenComponent, canActivate: [AuthGuard]  },
   {
     path: 'login',
     component: LoginComponent

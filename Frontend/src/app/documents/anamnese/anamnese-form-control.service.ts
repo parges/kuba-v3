@@ -1,13 +1,10 @@
-import { TestungChapter } from './../../models/testung';
-import { TextareaQuestion } from './form-task-textarea';
-import { ChapterForm } from './form-task-chapter';
-import { environment } from './../../../environments/environment';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Chapter } from './form-chapter';
-import { RadioQuestion } from './form-task-radio';
-import { FormBase } from './form-base';
+import { AnamneseChapter, Anamnese } from './../../models/anamnese';
+import { TextareaQuestion } from '../../utils/dynamic-forms/form-task-textarea';
+import { HttpClient } from '@angular/common/http';
+import { RadioQuestion } from '../../utils/dynamic-forms/form-task-radio';
+import { FormBase } from '../../utils/dynamic-forms/form-base';
 import { Injectable }   from '@angular/core';
-import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Testung } from 'src/app/models/testung';
 
 const DEFAULT_OPTIONS = [
@@ -50,10 +47,10 @@ const RADIOLEFTRIGHT_OPTIONS = [
 ];
 
 @Injectable()
-export class FormControlService {
+export class AnamneseFormControlService {
   constructor(private $http: HttpClient) { }
 
-  toFormGroup(questions: Map<TestungChapter, FormBase<any>[]>) {
+  toFormGroup(questions: Map<AnamneseChapter, FormBase<any>[]>) {
     let myform: FormGroup = new FormGroup({});
 
     for (let chapter of questions.keys()) {
@@ -76,9 +73,9 @@ export class FormControlService {
   //   //            .toPromise();
   // }
 
-  getFormEntries(item: Testung) {
+  getFormEntries(item: Anamnese) {
 
-      let chapters: Map<TestungChapter, FormBase<any>[]>  = new Map();
+      let chapters: Map<AnamneseChapter, FormBase<any>[]>  = new Map();
       item.chapters.forEach(chapter => {
         let entries: FormBase<any>[] = [];
         chapter.questions.forEach(question => {

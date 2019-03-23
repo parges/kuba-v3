@@ -26,6 +26,7 @@ namespace rl_contract.Models
 
         public List<Review> Reviews { get; set; }
         public Testung Testung { get; set; }
+        public Anamnese Anamnese { get; set; }
 
     }
 }
