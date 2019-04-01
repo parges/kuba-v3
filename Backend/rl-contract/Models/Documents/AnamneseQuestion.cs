@@ -15,6 +15,7 @@ namespace rl_contract.Models
         public string Value { get; set; }
         public string MetaInfo { get; set; }
         public string TextPrefix { get; set; }
+        public string TextValue { get; set; }
 
         public int? AnamneseChapterId { get; set; }
 

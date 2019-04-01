@@ -1,3 +1,4 @@
+import { InputQuestion } from './../../utils/dynamic-forms/form-task-input';
 import { AnamneseChapter, Anamnese } from './../../models/anamnese';
 import { TextareaQuestion } from '../../utils/dynamic-forms/form-task-textarea';
 import { HttpClient } from '@angular/common/http';
@@ -61,6 +62,11 @@ export class AnamneseFormControlService {
         var control = question.required ? new FormControl(question.value || '', Validators.required)
                               : new FormControl(question.value || '');
         array.addControl(question.key, control);
+        if(question.textPrefix !== '') {
+          var metaControl = question.required ? new FormControl(question.value || '', Validators.required)
+                              : new FormControl(question.value || '');
+          array.addControl(question.key+'_meta', metaControl);
+        }
 
       });
       myform.addControl(chapter.id.toString(), array);
@@ -79,86 +85,120 @@ export class AnamneseFormControlService {
       item.chapters.forEach(chapter => {
         let entries: FormBase<any>[] = [];
         chapter.questions.forEach(question => {
-          switch (question.type) {
-            case 'radio':
-              entries.push(
-                new RadioQuestion({
-                  key: 'question_' + question.id,
-                  label: question.label,
-                  options: DEFAULT_OPTIONS,
-                  value: question.value
-                })
-              );
-              break;
-            case 'textarea':
-              entries.push(
-                new TextareaQuestion({
-                  key: 'question_' + question.id,
-                  label: question.label,
-                  value: question.value
-                })
-              );
-              break;
-            case 'input':
-              entries.push(
-                new TextareaQuestion({
-                  key: 'question_' + question.id,
-                  label: question.label,
-                  value: question.value
-                })
-              );
-              break;
-            case 'radio2':
-              entries.push(
-                new RadioQuestion({
-                  key: 'question_' + question.id,
-                  label: question.label,
-                  options: RADIO2_OPTIONS,
-                  value: question.value
-                })
-              )
-              break;
-            case 'radio3':
-              entries.push(
-                new RadioQuestion({
-                  key: 'question_' + question.id,
-                  label: question.label,
-                  options: RADIO3_OPTIONS,
-                  value: question.value
-                })
-              )
-              break;
-            case 'radio4':
-              entries.push(
-                new RadioQuestion({
-                  key: 'question_' + question.id,
-                  label: question.label,
-                  options: RADIO4_OPTIONS,
-                  value: question.value
-                })
-              )
-              break;
-            case 'radioYesNo':
-              entries.push(
-                new RadioQuestion({
-                  key: 'question_' + question.id,
-                  label: question.label,
-                  options: RADIOYESNO_OPTIONS,
-                  value: question.value
-                })
-              )
-              break;
-            case 'radioLeftRight':
-              entries.push(
-                new RadioQuestion({
-                  key: 'question_' + question.id,
-                  label: question.label,
-                  options: RADIOLEFTRIGHT_OPTIONS,
-                  value: question.value
-                })
-              )
-              break;
+          var types: string[] = [];
+          if(question.type.indexOf(', ') >= 0) {
+            types = question.type.split(', ');
+          } else {
+            types[0] = question.type;
           }
+            switch (types[0]) {
+              case 'radio':
+                entries.push(
+                  new RadioQuestion({
+                    key: 'question_' + question.id,
+                    label: question.label,
+                    options: DEFAULT_OPTIONS,
+                    value: question.value,
+                    textPrefix: question.textPrefix,
+                    textValue: question.textValue,
+                    metaInfo: question.metaInfo
+                  })
+                );
+              break;
+              case 'textarea':
+                entries.push(
+                  new TextareaQuestion({
+                    key: 'question_' + question.id,
+                    label: question.label,
+                    value: question.value,
+                    textPrefix: question.textPrefix,
+                    textValue: question.textValue,
+                    metaInfo: question.metaInfo
+                  })
+                );
+                break;
+              case 'input':
+                entries.push(
+                  new InputQuestion({
+                    key: 'question_' + question.id,
+                    label: question.label,
+                    value: question.value,
+                    textPrefix: question.textPrefix,
+                    textValue: question.textValue,
+                    metaInfo: question.metaInfo
+                  })
+                );
+                break;
+              case 'radio2':
+                entries.push(
+                  new RadioQuestion({
+                    key: 'question_' + question.id,
+                    label: question.label,
+                    options: RADIO2_OPTIONS,
+                    value: question.value,
+                    textPrefix: question.textPrefix,
+                    textValue: question.textValue,
+                    metaInfo: question.metaInfo
+                  })
+                )
+                break;
+              case 'radio3':
+                entries.push(
+                  new RadioQuestion({
+                    key: 'question_' + question.id,
+                    label: question.label,
+                    options: RADIO3_OPTIONS,
+                    value: question.value,
+                    textPrefix: question.textPrefix,
+                    textValue: question.textValue,
+                    metaInfo: question.metaInfo
+                  })
+                )
+                break;
+              case 'radio4':
+                entries.push(
+                  new RadioQuestion({
+                    key: 'question_' + question.id,
+                    label: question.label,
+                    options: RADIO4_OPTIONS,
+                    value: question.value,
+                    textPrefix: question.textPrefix,
+                    textValue: question.textValue,
+                    metaInfo: question.metaInfo
+                  })
+                )
+                break;
+              case 'radioYesNo':
+                entries.push(
+                  new RadioQuestion({
+                    key: 'question_' + question.id,
+                    label: question.label,
+                    options: RADIOYESNO_OPTIONS,
+                    value: question.value,
+                    textPrefix: question.textPrefix,
+                    textValue: question.textValue,
+                    metaInfo: question.metaInfo
+                  })
+                )
+                break;
+              case 'radioLeftRight':
+                entries.push(
+                  new RadioQuestion({
+                    key: 'question_' + question.id,
+                    label: question.label,
+                    options: RADIOLEFTRIGHT_OPTIONS,
+                    value: question.value,
+                    textPrefix: question.textPrefix,
+                    textValue: question.textValue,
+                    metaInfo: question.metaInfo
+                  })
+                )
+                break;
+            }
+          // }
+          // else if(types.length == 2) {
+
+          // }
         });
         chapters.set( chapter, entries.sort((a, b) => a.order - b.order) );
 

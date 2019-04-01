@@ -23,4 +23,12 @@ namespace kubaapi.Mapper.Profiles
             CreateMap<TestungQuestion, TestungQuestion>();
         }
     }
+
+    public class AnamneseProfile : Profile
+    {
+        public AnamneseProfile()
+        {
+            CreateMap<Anamnese, Anamnese>();
+        }
+    }
 }

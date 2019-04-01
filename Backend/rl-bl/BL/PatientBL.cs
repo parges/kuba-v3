@@ -21,6 +21,113 @@ namespace rl_bl
             // Testung zufügen
             addTestung(patient, context);
 
+            addAnamnese(patient, context);
+
+        }
+
+        private void addAnamnese(Patient patient, DBContext context)
+        {
+            Anamnese item = new Anamnese()
+            {
+                Date = DateTime.Now,
+                Name = "Anamnese (Fragebogen / Kinder)",
+                PatientId = patient.Id,
+                CountOfPositivAnswers = -1
+            };
+            context.Anamnesen.Add(item);
+            context.SaveChanges();
+
+
+            // Add Chapters
+            int itemId = item.Id.Value;
+
+            AnamneseChapter firstChapter = new AnamneseChapter()
+            {
+                Name = "0. Allgemeines",
+                AnamneseId = itemId
+            };
+
+            AnamneseChapter[] chapters = new AnamneseChapter[]
+            {
+                new AnamneseChapter { Name = "II. TESTS ZUR MOTORISCHEN ENTWICKLUNG", AnamneseId = itemId},
+                new AnamneseChapter { Name = "III. TESTS ZUR ÜBERPRÜFUNG VON KLEINHIRNFUNKTIONEN", AnamneseId = itemId },
+                new AnamneseChapter { Name = "IV. TESTS ZUR DYSDIADOCHOKINESE", AnamneseId = itemId },
+                new AnamneseChapter { Name = "V. LINKS-RECHTS-DISKRIMINIERUNGSPROBLEME", AnamneseId = itemId },
+                new AnamneseChapter { Name = "VI. ORIENTIERUNGSPROBLEME", AnamneseId = itemId },
+                new AnamneseChapter { Name = "VII. RÄUMLICHE WAHRNEHMUNGSPROBLEME", AnamneseId = itemId },
+                new AnamneseChapter { Name = "VIII. TESTS ZU ABERRANTEN REFLEXEN", AnamneseId = itemId },
+                new AnamneseChapter { Name = "IX. TESTS ZUR SEITIGKEITSÜBERPRÜFUNG", AnamneseId = itemId },
+                new AnamneseChapter { Name = "X. ÜBERPRÜFUNG DER AUGENMUSKELMOTORIK", AnamneseId = itemId },
+                new AnamneseChapter { Name = "XI. VISUELLE WAHRNEHMUNGSÜBERPRÜFUNG", AnamneseId = itemId },
+                new AnamneseChapter { Name = "ZUSÄTZLICHE BEOBACHTUNGEN UND NOTIZEN", AnamneseId = itemId },
+                new AnamneseChapter { Name = "ERGEBNISZUSAMMENFASSUNG", AnamneseId = itemId }
+            };
+
+            item.Chapters = new List<AnamneseChapter>();
+            item.Chapters.Add(firstChapter);
+            item.Chapters.AddRange(chapters);
+            context.SaveChanges();
+
+            int firstChapterId = firstChapter.Id.Value;
+
+            AnamneseQuestion[] listQuestions = new AnamneseQuestion[]
+            {
+                new AnamneseQuestion { Label = "Leidensdruck beim Kind?", Type = "textarea", Value = "", AnamneseChapterId = firstChapterId },
+                new AnamneseQuestion { Label = "Was wurde/ wird unternommen um den Leidensdruck zu verbessern?", Type = "textarea", Value = "", AnamneseChapterId = firstChapterId },
+                new AnamneseQuestion { Label = "Wie viele Kinder haben Sie entbunden?", Type = "input", Value = "", AnamneseChapterId = firstChapterId },
+                new AnamneseQuestion { Label = "Welches Kind bei mehreren?", Type = "input", Value = "", AnamneseChapterId = firstChapterId },
+                new AnamneseQuestion { Label = "Hatten Sie vorher Fehlgeburten? Warum?", Type = "input", Value = "", AnamneseChapterId = firstChapterId },
+                new AnamneseQuestion { Label = "Wurden Sie mit ihrem Kind aufgrund von IVF (künstliche Befruchtung) schwanger?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId },
+                new AnamneseQuestion { Label = "Als Sie schwanger waren, hatten Sie irgendwelche medizinischen Probleme?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+1, MetaInfo = "hoher Blutdruck, Hyperemesis gravidarum, drohende Fehlgeburt, vorzeitige Wehen, verordnete Bettruhe, Zwischenblutungen, Eisenmangel, Erkrankungen / Infektionen, Alkohol, Drogen, Umweltgifte, Medikamente, Ernährung, Flugreise, Sauna", TextPrefix = "Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "Hatten Sie eine starke Virusinfektion in den ersten 13. Wochen Ihrer Schwangerschaft?", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+1 },
+                new AnamneseQuestion { Label = "Standen Sie während Ihrer Schwangerschaft (besonders im 6. Monat) unter starkem emotionalen Stress?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+1 },
+                new AnamneseQuestion { Label = "Sind während der Schwangerschaft diagnostische Verfahren durchgeführt worden?", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+1, MetaInfo = "Ultraschall, Sonografie, Röntgen, Fruchtwasseruntersuchung o.ä.", TextPrefix = "Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "Erfolgte vor oder während der Schwangerschaft eine Hormonbehandlung", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+1, MetaInfo = "z.B. Progesteron Gabe in der 6. Woche", TextPrefix = "Falls ja, welche und wann:" },
+                new AnamneseQuestion { Label = "Wurde Ihr Kind früher (vor der 37. SSW) oder später (nach der 42. SSW) als zum errechneten Termin(+/ -2 Tage) geboren?", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+1, TextPrefix = "Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "War der Geburtsprozess ungewöhnlich oder besonders schwierig?", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "Wehen, Geburtsdauer, Medikamente, Kaiserschnitt, Zange, Saugglocke, Sturzgeburt, Steißlage, Fruchtwasser, Kristellern, gerissen/ geschnitten", TextPrefix = "Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "War Ihr Kind klein bezogen auf den Geburtszeitpunkt?", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "< 2500g oder > 4000 - 4300g", TextPrefix = "Geben Sie bitte das Geburtsgewicht die Geburtslänge und den Kopfumfang an." },
+                new AnamneseQuestion { Label = "Gab es irgendwelche Besonderheiten an Ihrem Baby nach der Geburt? Brauchte es Intensivpflege? Kam es dadurch zu einer längeren Trennung? Wochenbettdepression?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "Schädelverformung, viele blaue Flecken, Nabelschnur um den Hals, deutlich blaue Verfärbung, schwere Neugeborenengelbsucht, Lanugo-Behaarung, stark mit Käseschmiere bedeckt, Gelbsucht, Fußdeformitäten, Hüftdysplasie", TextPrefix = ":Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "Wie waren die APGAR – Werte Ihres Kindes? (siehe Mutterpass ……/……/……) und der pH-Wert:", Type = "textarea", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "", TextPrefix = "Zusätzliche Angaben zur Schwangerschaft und Geburt (z.B. Einnahme der Pille ?) " },
+                new AnamneseQuestion { Label = "Hatte Ihr Kind in den ersten 13 Lebenswochen Schwierigkeiten beim Saugen an der Brust, beim Trinken aus der Flasche ? Hat es viel gespuckt ? ", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "Wie lange gestillt, Dauer einer Mahlzeit, Zeitabstände zwischen den Mahlzeiten, Saugbewegungen", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Dauerte es auffallend lange, bis es seinen Kopf hochhalten konnte? Oder hat es den Kopf  sehr früh überstreckt gehalten?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "> 4 Monat", TextPrefix = "" },
+                new AnamneseQuestion { Label = "War Ihr Kind in den ersten 6 Lebensmonaten ein auffallend ruhiges Baby, so ruhig, dass Sie manchmal befürchteten,es sei in seinem Bettchen gestorben?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "", TextPrefix = "" },
+                new AnamneseQuestion { Label = "War Ihr Kind zwischen dem 6. und 18. Lebensmonat sehr aktiv und fordernd? Schlief es wenig und schrie es ständig?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "verstopfte Nase, Mundatmer, schnarchendes Baby, Schlafprobleme, mochte nicht liegen → Druck im Mittelohr (unreife Schluckmuster), ADHS", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Als Ihr Kind alt genug war, in der Karre zu sitzen oder sich im Kinderbett zum Stand hochzuziehen, bewegte es sich dort heftig schaukelnd hin und her, so dass sich Karre oder Bett mitbewegten?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "Wie ließ es sich beruhigen? → heftiges Schaukeln, Autofahren; Stereotype Bewegungen wie im Liegen den Kopf hin und her bewegen; Schreien beim Hinlegen?", TextPrefix = "" },
+                new AnamneseQuestion { Label = "War Ihr Kind ein kleiner „Kopfstoßer“, d.h. stieß es absichtlich mit dem Kopf gegen feste Gegenstände ? Gibt es eine Vorgeschichte von Kopfverletzungen ? Wo waren die Kopfverletzungen?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "(präfrontaler Cortex – kein INPP Kind)", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hat Ihr Kind sich nicht zum richtigen Zeitpunkt (ca. ab 6. Monat) oder nur mit physiotherapeutischer Unterstützung vom Rücken auf den Bauch gedreht?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "vom Bauch auf den Rücken ab 8. Monat postnatal", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hat ihr Kind nicht ausreichend/ wenig Zeit in BL verbracht bis zum Krabbeln?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "mochte es die BL, Tagesablauf des Babys, Maxi-Kosi, Wippe, Spreizwindel", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hat Ihr Kind, anstatt zunächst auf dem Bauch zu kriechen und dann auf den Händen und Knien zu krabbeln, sich auf andere Weise fortbewegt(z.B.rollend, auf dem Po rutschend, im „Bärengang“ auf Händen und Füßen)?", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "(Kriechen = ab 7. - 8. Monat, homolateral die ersten 2 – 4 Wochen; Robben = ab 8. Monat, kontralateral; Krabbeln = ab 8. - 9.Monat, ab 11.Monat flüssig; Sitzen = ab 8.Monat; Stand = ab 8.Monat mit festhalten, ab 10.bis 11.Monat frei)", TextPrefix = "Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "Hat Ihr Kind auffallend spät (> 1,5 Jahre) oder früh (< 12 Monate) laufen gelernt?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "Lauflerngeräte, Babywippe, Maxi- Kosi, Hopser", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hat Ihr Kind spät sprechen gelernt (Zwei- und Dreiwortsätze) (> 2,5 Jahre)?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "eigene Sprache, gesabbert, Schwierigkeiten bei bestimmten Lauten, Gesungene Sprache", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hatte es während der ersten 18 Lebensmonate irgendwelche Krankheiten, die mit hohem Fieber und / oder Krämpfen verbunden waren ? ", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "sehr schnell, sehr hoch gefiebert, Narkose", TextPrefix = "Falls ja, bitte Einzelheiten angeben (konnte es nach der Krankheit etwas nicht mehr so gut wie vorher?)" },
+                new AnamneseQuestion { Label = "Hatte es  auffällige Schwierigkeiten sich selber anziehen zu lernen?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "Reihenfolge, falsch herum, Schleife (>5 bis 5,6Jahre), Knöpfe, Reißverschluss, „bequem / faul“, Hose fällt schwer anzuziehen", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Litt bzw. leidet Ihr Kind unter Hautproblemen (trockene Haut, Milchschorf,  Neurodermitis, Ekzeme) oder Asthma(Husten, Reizhusten)?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Zeigt es irgendwelche allergische Reaktionen? ", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "Allergien in der Familie, Heuschnupfen, Auslöser: Milch/Eier/Weizen, ständig laufende Nase, Suchtmittel", TextPrefix = "Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "Gab es irgendwelche auffälligen Reaktionen nach den  Impfungen?", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "längeres schlafen, erhöhte Temperatur", TextPrefix = "Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "Lutschte Ihr Kind bis etwa zum 5. Lebensjahr oder länger am Daumen? (Hatte es einen Schnuller (> 2 LJ?), Kuscheltier)", Type = "radioYesNo, input", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "", TextPrefix = "Falls ja, an welchem (links, rechts):" },
+                new AnamneseQuestion { Label = "Machte oder macht  Ihr Kind auch noch nach dem Alter von 5 Jahren gelegentlich ins Bett?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "Wann war es trocken? Toilettentraining, spinaler Galant, gehäufte Mittelohrentzündungen, Hypoglykämie, nächtlicher O² Mangel, viel Milch Trinker", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Zusätzliche Angaben zum Vorschulalter (Auffälligkeiten in der Motorik, Sport, externe Betreuung, Trennungsangst, Schreckhaft, Ängstlich, viele Freunde, Einzelgänger, Streit, Reaktionen auf Veränderungen, emotionale Auffälligkeiten, was sagen die Erzieher über das Kind, schneiden, malen, puzzeln, Körperhaltung, Spielverhalten, zündeln, Beziehung zu Tieren, Verletzungen)", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+2, MetaInfo = "", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Leidet Ihr Kind unter Reiseübelkeit?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "> 8Jahre, Auto fahren und lesen, Schiffe, Trampolin, Schaukeln, Höhenangst, Karussell, Fahrstuhl, Klettern", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hatte Ihr Kind in den ersten zwei Grundschuljahren Schwierigkeiten, das Lesen zu lernen?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "Tempo, Betonung, Motivation, spezielle Bücher, Comics", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hatte es Schwierigkeiten beim Schreiben lernen?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "Sitzhaltung, Stifthaltung, Rechtschreibung, Grammatik, Motorik beim Schreiben, schreiben anstrengend, kann es die Linien halten, drückt es stark auf, sehr kleine Schrift", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Falls es zunächst Druckschrift erlernte, hatte es Probleme mit der Schreibschrift?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hatte Schwierigkeiten, die Uhrzeit ablesen zu lernen (nicht Digitaluhr) bzw. sich insgesamt in der Zeit(Wochentage, Monate etc.) zurecht zu finden ? > 8.LJ", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "räumliche Wahrnehmung, Morgens/ Mittags/ Abends, Gestern/ Morgen, Jahreszeiten, Orientierungssinn, Orientierung im Raum, Geschwindigkeit beim Anziehen, Aufräumen", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hatte es Schwierigkeiten, Fahrradfahren (ohne Stützräder) zu lernen?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "kann es fahren, seit wann, langsam fahren möglich, wie fährt es", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hatte es Schwierigkeiten, Schwimmen zu lernen?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "Verhältnis zum Wasser", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Konnte es besser unter als über Wasser schwimmen?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hatte Ihr Kind im Verlauf der ersten 8 Lebensjahre (ausgenommen die ersten 18 Lebensmonate) Krankheiten mit sehr hohem Fieber, Bewusstlosigkeit oder Krämpfen ? ", Type = "radioYesNo, textarea", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "Vollnarkose, Infektanfälligkeit, Antibiotika, Meningitis, Tumore, Frakturen", TextPrefix = "Falls ja, bitte Einzelheiten angeben: " },
+                new AnamneseQuestion { Label = "War / ist Ihr Kind ein „Hals- Nasen- und Ohren“ Kind, d.h. litt / leidet es an häufigen Infektionen im Hals -, Nasen - und Ohrenbereich ? ", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "Schnupfnase, Mittelohrentzündungen → Hörminderung → Ursache sind dann nicht die Reflexe", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hatte bzw. hat Ihr Kind Schwierigkeiten, einen (kleinen) Ball zu fangen oder andere Auge- / Hand - Koordinationsprobleme ? ", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+4, MetaInfo = "Dyspraxie → kleckern beim Essen und Trinken, Fixierungsprobleme, Raum – Zeit – Gefühl gering, Schreckhaft, Verhältnis zu Bällen, Tollpatschig, zu langsam, zu schnell, greift gar nicht, beim hinfallen abgestützt", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Hat Ihr Kind Schwierigkeiten still zu sitzen und wird es deswegen ständig vom Lehrer ermahnt ? Bevorzugt es auffällige Sitzpositionen?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+5, MetaInfo = "spinaler Galant (Stuhllehne/Gürtel), W – Sitz, Körperhaltung, Beinhaltung (um den Stuhl geschlungen/ hochgezogenes Bein),Sitzdauer, kippeln, liegend schreibend, Geräuscherzeugung", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Macht Ihr Kind zahlreiche Fehler, wenn es aus einem Buch oder von der Tafel abschreibt?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+5, MetaInfo = "", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Wenn Ihr Kind in Schule einen Aufsatz schreibt, verdreht es dabei gelegentlich Buchstaben oder lässt einzelne Buchstaben oder Wörter aus(auch evtl.Zahlendreher) ? ", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+5, MetaInfo = "lesen von rechts nach links, häufige Dreher > 8LJ", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Reagiert Ihr Kind bei plötzlichen, unerwarteten Geräuschen oder Bewegungen auffallend stark?", Type = "radioYesNo", Value = "", AnamneseChapterId = firstChapterId+5, MetaInfo = "Silvester, Staubsauger, Gewitter, Luftballons, Sportarten, Hobby, bewegt es sich gern, Traumverhalten / Albträume, Schlafhaltung", TextPrefix = "" },
+                new AnamneseQuestion { Label = "Zusätzliche Angaben  (z.B. Ernährungsverhalten: Süßigkeiten, Fleisch, Gemüse, Milch; vorangegangene oder andauernde Behandlungen bzw.Therapien(Therapiemüdigkeit), besondere Familiensituationen, Belastungen für das Kind, Kopfschmerzen, Schlafhaltung, Erschöpfung, Hypersensitivität: Geruch / Sonne / Kuscheln / Material / Geschmack / vestibulär):", Type = "textarea", Value = "", AnamneseChapterId = firstChapterId+6, MetaInfo = "", TextPrefix = "" }
+            };
+
+            context.AnamneseQuestions.AddRange(listQuestions);
+            patient.Anamnese = item;
+
         }
 
         private void addTestung(Patient patient, DBContext context)

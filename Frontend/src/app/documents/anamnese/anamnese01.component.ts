@@ -27,6 +27,8 @@ export class Anamnese01Component implements OnInit {
 
   anamnese: Anamnese = new Anamnese();
 
+  meta = '_meta';
+
   private resource = `anamnese`;
 
   constructor(private $formService: AnamneseFormControlService, private api: ApiService, public dialog: MatDialog, private loader: LoaderService,
@@ -71,9 +73,15 @@ export class Anamnese01Component implements OnInit {
         var _chapter = chapter;
         var group = this.form.get(chapter.id.toString());
         question.value = this.form.get(chapter.id.toString()).value["question_" + index];
+        var meta = this.form.get(chapter.id.toString()).value["question_" + index+"_meta"] || '';
+        if(meta.length > 0){
+          debugger;
+          question.textValue = meta;
+        }
         index++;
       })
     });
+    debugger;
     this.api.put<Anamnese>(this.resource, this.selectedPatient.id, this.anamnese)
     .pipe(
       map((data: ApiResponse<Anamnese>) => {

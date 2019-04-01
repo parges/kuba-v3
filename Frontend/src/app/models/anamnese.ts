@@ -16,6 +16,7 @@ export interface AnamneseQuestion
     label: string;
     metaInfo: string;
     textPrefix: string;
+    textValue: string;
     chapterId: number | null;
 }
 

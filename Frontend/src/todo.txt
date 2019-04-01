@@ -1,10 +1,9 @@
-Property:
-- Bild hochladen
-Dashboard:
-- Hübsch machen
-
-Testung:
-- Ausrechnen der Ergebnisse pro Chapter
+Todo:
+- Bilder hochladen
+- Dashboard Hübsch machen
+- Dokumente:
+  - Auswahl pro Frage deselektieren
+  -
 
 Später:
 - Einscannen / Hochladen von Bildern (Rezepten)

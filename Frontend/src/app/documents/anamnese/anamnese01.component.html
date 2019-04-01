@@ -1,5 +1,10 @@
 <div>
-  <h3>{{anamnese.name}}</h3>
+  <div *ngIf="anamnese.countOfPositivAnswers > -1; else dontShowCount">
+      <h3>{{anamnese.name}} - Anzahl positive Antworten = {{anamnese.countOfPositivAnswers}}</h3>
+  </div>
+  <ng-template #dontShowCount>
+      <h3>{{anamnese.name}}</h3>
+  </ng-template>
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
     <div *ngFor="let entry of questions | keyvalue:descOrder" class="form-row">
       <mat-accordion class="form-accordion">
@@ -8,14 +13,15 @@
             <mat-panel-title>
                 <label [attr.for]="entry.key.name" class="chapter-label">{{entry.key.name}}</label>
             </mat-panel-title>
-            <div>
-              <mat-panel-description>
-                Durschnittlicher Wert = %
-              </mat-panel-description>
-            </div>
           </mat-expansion-panel-header>
             <div *ngFor="let question of entry.value" [formGroupName]="entry.key.id">
-              <label [attr.for]="question.key" (click)="showSnackbarMetaInfos(question.label)">{{question.label}}</label>
+              <div *ngIf="question.metaInfo != ''; else dontShowMetaInfo">
+                  <label [attr.for]="question.key" (click)="showSnackbarMetaInfos(question.metaInfo)" class="question-label">{{question.label}} </label>
+                  <label class="hasterix"> *</label>
+              </div>
+              <ng-template #dontShowMetaInfo>
+                  <label [attr.for]="question.key" class="question-label">{{question.label}}</label>
+              </ng-template>
 
               <div [ngSwitch]="question.controlType">
 
@@ -46,6 +52,16 @@
                       [value]="question.value"
                       >
                     </textarea>
+                </div>
+
+                <div *ngIf="question.textPrefix != ''" class="metadata-question">
+                  <textarea
+                    [formControlName]="question.key+meta"
+                    matInput
+                    [placeholder]="question.textPrefix"
+                    [value]="question.textValue"
+                    >
+                  </textarea>
                 </div>
               </div>
             </div>
