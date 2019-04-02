@@ -10,10 +10,9 @@ import {MatTableModule, MatSortModule, MatExpansionModule} from '@angular/materi
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OverviewTableComponent } from './overview-table/overview-table.component';
-import { TestungTaskComponent } from './testung/testung-task/testung-task.component';
 
 @NgModule({
-  declarations: [OverviewTableComponent, Anamnese01Component, Testung02Component, Uebersicht00Component, TestungTaskComponent, PatientAutocompleteDialog, TestungChildrenComponent ],
+  declarations: [OverviewTableComponent, Anamnese01Component, Testung02Component, Uebersicht00Component, PatientAutocompleteDialog, TestungChildrenComponent ],
   imports: [
     CommonModule,
     MatTableModule,

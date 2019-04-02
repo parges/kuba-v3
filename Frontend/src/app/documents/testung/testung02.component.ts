@@ -95,4 +95,11 @@ export class Testung02Component implements OnInit {
     return null;
   }
 
+  radioCheckUncheck( currentValue: any, chapter: TestungChapter, formKey: string) {
+    var newValue = this.form.get(chapter.id.toString()).value[formKey];
+    if (newValue === currentValue) {
+      this.form.get(chapter.id.toString()).get(formKey).reset();
+    }
+  }
+
 }
