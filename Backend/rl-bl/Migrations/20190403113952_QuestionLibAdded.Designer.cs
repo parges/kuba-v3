@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rl_bl.Context;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20190403113952_QuestionLibAdded")]
+    partial class QuestionLibAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +44,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Anamnesen");
 
                     b.HasData(
-                        new { Id = 1, CountOfPositivAnswers = -1, Date = new DateTime(2019, 4, 3, 13, 44, 21, 546, DateTimeKind.Local), Name = "Anamnese (Fragebogen / Kinder)", PatientId = 1 }
+                        new { Id = 1, CountOfPositivAnswers = -1, Date = new DateTime(2019, 4, 3, 13, 39, 52, 118, DateTimeKind.Local), Name = "Anamnese (Fragebogen / Kinder)", PatientId = 1 }
                     );
                 });
 
@@ -162,9 +164,13 @@ namespace kubaapi.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<int?>("ReviewId");
+
                     b.Property<int?>("Score");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ReviewId");
 
                     b.ToTable("GenericChapters");
 
@@ -460,46 +466,6 @@ namespace kubaapi.Migrations
                     );
                 });
 
-            modelBuilder.Entity("rl_contract.Models.ReviewChapter", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name");
-
-                    b.Property<int?>("ReviewId");
-
-                    b.Property<int?>("Score");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewId");
-
-                    b.ToTable("ReviewChapter");
-                });
-
-            modelBuilder.Entity("rl_contract.Models.ReviewQuestion", b =>
-                {
-                    b.Property<int?>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Label");
-
-                    b.Property<int?>("ReviewChapterId");
-
-                    b.Property<string>("Type");
-
-                    b.Property<string>("Value");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReviewChapterId");
-
-                    b.ToTable("ReviewQuestion");
-                });
-
             modelBuilder.Entity("rl_contract.Models.Testung", b =>
                 {
                     b.Property<int?>("Id")
@@ -521,7 +487,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Testungen");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 4, 3, 13, 44, 21, 540, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
+                        new { Id = 1, Date = new DateTime(2019, 4, 3, 13, 39, 52, 113, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
                     );
                 });
 
@@ -755,6 +721,13 @@ namespace kubaapi.Migrations
                         .HasForeignKey("AnamneseChapterId");
                 });
 
+            modelBuilder.Entity("rl_contract.Models.Bib.GenericChapter", b =>
+                {
+                    b.HasOne("rl_contract.Models.Review")
+                        .WithMany("Chapters")
+                        .HasForeignKey("ReviewId");
+                });
+
             modelBuilder.Entity("rl_contract.Models.Bib.GenericQuestion", b =>
                 {
                     b.HasOne("rl_contract.Models.Bib.GenericChapter")
@@ -774,20 +747,6 @@ namespace kubaapi.Migrations
                     b.HasOne("rl_contract.Models.Patient")
                         .WithMany("Reviews")
                         .HasForeignKey("PatientId");
-                });
-
-            modelBuilder.Entity("rl_contract.Models.ReviewChapter", b =>
-                {
-                    b.HasOne("rl_contract.Models.Review")
-                        .WithMany("Chapters")
-                        .HasForeignKey("ReviewId");
-                });
-
-            modelBuilder.Entity("rl_contract.Models.ReviewQuestion", b =>
-                {
-                    b.HasOne("rl_contract.Models.ReviewChapter")
-                        .WithMany("Questions")
-                        .HasForeignKey("ReviewChapterId");
                 });
 
             modelBuilder.Entity("rl_contract.Models.Testung", b =>

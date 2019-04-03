@@ -1,3 +1,4 @@
+import { ReviewComponent } from './documents/review/review.component';
 import { TestungChildrenComponent } from './documents/testungChildren/testungChildren.component';
 import { LoginComponent } from './login/login.component';
 import { AuthGuard } from './../../libs/authentication/src/lib/guards/auth.guard';
@@ -23,13 +24,14 @@ const routes: Routes = [
     component: CustListComponent,
     canActivate: [AuthGuard]
   },
-  { path: 'customers/add', component: CustAddComponent },
-  { path: 'customers/:id', component: CustGetComponent },
+  { path: 'customers/add', component: CustAddComponent, canActivate: [AuthGuard] },
+  { path: 'customers/:id', component: CustGetComponent, canActivate: [AuthGuard] },
   { path: 'documents', component: OverviewTableComponent, canActivate: [AuthGuard] },
   { path: 'document/1', component: Uebersicht00Component, canActivate: [AuthGuard]  },
   { path: 'document/2', component: Anamnese01Component, canActivate: [AuthGuard]  },
   { path: 'document/3', component: Testung02Component, canActivate: [AuthGuard]  },
   { path: 'document/4', component: TestungChildrenComponent, canActivate: [AuthGuard]  },
+  { path: 'reviews/:id', component: ReviewComponent, canActivate: [AuthGuard]  },
   {
     path: 'login',
     component: LoginComponent

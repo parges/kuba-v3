@@ -130,8 +130,9 @@
             <mat-form-field class="full-with-field">
               <textarea formControlName="reasons" matInput placeholder="Begründungen"></textarea>
             </mat-form-field>
-            <mat-checkbox formControlName="payed" class="full-with-field">bezahlt</mat-checkbox>
-            <button mat-raised-button color="warn" (click)="removeReview(i)" class="full-with-field m-t-10">Review löschen</button>
+            <mat-checkbox formControlName="payed" class="full-with-field m-b-10">bezahlt</mat-checkbox>
+            <button mat-raised-button (click)="updateReview(review)" class="full-with-field">Review bearbeiten</button>
+            <button mat-raised-button color="warn" (click)="removeReview(i)" class="full-with-field m-t-5">Review löschen</button>
           </mat-expansion-panel>
         </div>
       </div>

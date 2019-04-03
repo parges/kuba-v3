@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using rl_contract.Models;
+using rl_contract.Models.Bib;
 
 namespace rl_bl.Context
 {
@@ -30,6 +31,8 @@ namespace rl_bl.Context
         public DbSet<Anamnese> Anamnesen { get; set; }
         public DbSet<AnamneseChapter> AnamneseChapters { get; set; }
         public DbSet<AnamneseQuestion> AnamneseQuestions { get; set; }
+        public DbSet<GenericChapter> GenericChapters { get; set; }
+        public DbSet<GenericQuestion> GenericQuestions { get; set; }
 
 
 
@@ -51,7 +54,7 @@ namespace rl_bl.Context
             addPatients(modelBuilder);
             /*addDocuments(modelBuilder);*/
 
-            
+            createGenericQuestionLib(modelBuilder);
 
         }
 
@@ -440,6 +443,186 @@ namespace rl_bl.Context
                     new { Id = 49, Label = "Wenn Ihr Kind in Schule einen Aufsatz schreibt, verdreht es dabei gelegentlich Buchstaben oder lässt einzelne Buchstaben oder Wörter aus(auch evtl.Zahlendreher) ? ", Type = "radioYesNo", Value = "", AnamneseChapterId = 6, MetaInfo = "lesen von rechts nach links, häufige Dreher > 8LJ", TextPrefix = "" },
                     new { Id = 50, Label = "Reagiert Ihr Kind bei plötzlichen, unerwarteten Geräuschen oder Bewegungen auffallend stark?", Type = "radioYesNo", Value = "", AnamneseChapterId = 6, MetaInfo = "Silvester, Staubsauger, Gewitter, Luftballons, Sportarten, Hobby, bewegt es sich gern, Traumverhalten / Albträume, Schlafhaltung", TextPrefix = "" },
                     new { Id = 51, Label = "Zusätzliche Angaben  (z.B. Ernährungsverhalten: Süßigkeiten, Fleisch, Gemüse, Milch; vorangegangene oder andauernde Behandlungen bzw.Therapien(Therapiemüdigkeit), besondere Familiensituationen, Belastungen für das Kind, Kopfschmerzen, Schlafhaltung, Erschöpfung, Hypersensitivität: Geruch / Sonne / Kuscheln / Material / Geschmack / vestibulär):", Type = "textarea", Value = "", AnamneseChapterId = 7, MetaInfo = "", TextPrefix = "" }
+                );
+            });
+        }
+
+        private void createGenericQuestionLib(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<GenericChapter>(r =>
+            {
+                r.HasData(
+                    new { Id = 1, Name = "I. TESTS ZUR ÜBERPRÜFUNG DER GROBMOTORISCHEN KOORDINAION UND DES GLEICHGEWICHTS"},
+                    new { Id = 2, Name = "II. TESTS ZUR MOTORISCHEN ENTWICKLUNG"},
+                    new { Id = 3, Name = "III. TESTS ZUR ÜBERPRÜFUNG VON KLEINHIRNFUNKTIONEN"},
+                    new { Id = 4, Name = "IV. TESTS ZUR DYSDIADOCHOKINESE"},
+                    new { Id = 5, Name = "V. LINKS-RECHTS-DISKRIMINIERUNGSPROBLEME"},
+                    new { Id = 6, Name = "VI. ORIENTIERUNGSPROBLEME"},
+                    new { Id = 7, Name = "VII. RÄUMLICHE WAHRNEHMUNGSPROBLEME"},
+                    new { Id = 8, Name = "VIII. TESTS ZU ABERRANTEN REFLEXEN"},
+                    new { Id = 9, Name = "IX. TESTS ZUR SEITIGKEITSÜBERPRÜFUNG"},
+                    new { Id = 10, Name = "X. ÜBERPRÜFUNG DER AUGENMUSKELMOTORIK"},
+                    new { Id = 11, Name = "XI. VISUELLE WAHRNEHMUNGSÜBERPRÜFUNG"},
+                    new { Id = 12, Name = "ZUSÄTZLICHE BEOBACHTUNGEN UND NOTIZEN"},
+                    new { Id = 13, Name = "ERGEBNISZUSAMMENFASSUNG"}
+                );
+            });
+
+            modelBuilder.Entity<GenericQuestion>(r =>
+            {
+                r.HasData(
+                    new { Id = 1, Label = "Aufrichten aus Rückenlage in den Stand", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 2, Label = "Aufrichten aus Bauchlage in den Stand", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 3, Label = "Romberg Test (Augen geöffnet)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 4, Label = "Romberg Test (Augen geschlossen)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 5, Label = "Mann Test (Augen geöffnet)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 6, Label = "Mann Test (Augen geschlossen)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 7, Label = "Einbeinstand", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 8, Label = "Marschieren und Umdrehen", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 9, Label = "Zehenspitzengang (vorwärts) 0 1", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 10, Label = "Zehenspitzengang (rückwärts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 11, Label = "Tandem Gang (vorwärts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 12, Label = "Tandem Gang (rückwärts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 13, Label = "Fog Walk (vorwärts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 14, Label = "Fog Walk (rückwärts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 15, Label = "Slalom Gang (vorwärts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 16, Label = "Slalom Gang (rückwärts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 17, Label = "Fersengang (nur vorwärts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 18, Label = "Hüpfen auf einem Bein (links oder rechts)", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 19, Label = "Hopserlauf", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 20, Label = "Windmühle", Type = "radio", Value = "", GenericChapterId = 1 },
+                    new { Id = 21, Label = "Kriechen auf dem Bauch", Type = "radio2", Value = "", GenericChapterId = 2 },
+                    new { Id = 22, Label = "Krabbeln auf Händen und Knien", Type = "radio3", Value = "", GenericChapterId = 2 },
+                    new { Id = 23, Label = "Ferse auf Schienbein (linke Ferse auf rechtes Schienbein)", Type = "radio", Value = "", GenericChapterId = 3 },
+                    new { Id = 24, Label = "Ferse auf Schienbein (rechte Ferse auf linkes Schienbein)", Type = "radio", Value = "", GenericChapterId = 3 },
+                    new { Id = 25, Label = "Zeigefinger-Annäherung (Augen offen)", Type = "radio", Value = "", GenericChapterId = 3 },
+                    new { Id = 26, Label = "Zeigefinger-Annäherung (Augen geschlossen)", Type = "radio", Value = "", GenericChapterId = 3 },
+                    new { Id = 27, Label = "Finger an die Nase (Augen offen)", Type = "radio", Value = "", GenericChapterId = 3 },
+                    new { Id = 28, Label = "Finger an die Nase (Augen geschlossen)", Type = "radio", Value = "", GenericChapterId = 3 },
+                    new { Id = 29, Label = "Finger (linke Hand)", Type = "radio", Value = "", GenericChapterId = 4 },
+                    new { Id = 30, Label = "Finger (rechte Hand)", Type = "radio", Value = "", GenericChapterId = 4 },
+                    new { Id = 31, Label = "Hand (links)", Type = "radio", Value = "", GenericChapterId = 4 },
+                    new { Id = 32, Label = "Hand (rechts)", Type = "radio", Value = "", GenericChapterId = 4 },
+                    new { Id = 33, Label = "Fuß (links)", Type = "radio", Value = "", GenericChapterId = 4 },
+                    new { Id = 34, Label = "Fuß (rechts)", Type = "radio", Value = "", GenericChapterId = 4 },
+                    new { Id = 35, Label = "Links-Rechts-Diskriminierungsprobleme", Type = "radioYesNo", Value = "", GenericChapterId = 5 },
+                    new { Id = 36, Label = "Orientierungsprobleme", Type = "radioYesNo", Value = "", GenericChapterId = 6 },
+                    new { Id = 37, Label = "Räumliche Wahrnehmungsprobleme", Type = "radioYesNo", Value = "", GenericChapterId = 7 },
+                    new { Id = 38, Label = "Standard Test - linker Arm", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 39, Label = "Standard Test - linkes Bein", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 40, Label = "Standard Test - rechter Arm", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 41, Label = "Standard Test - rechtes Bein", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 42, Label = "Ayres Test Nr. 1 - linker Arm", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 43, Label = "Ayres Test Nr. 1 - rechter Arm", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 44, Label = "Ayres Test Nr. 2 - linker Arm", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 45, Label = "Ayres Test Nr. 2 - rechter Arm", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 46, Label = "Schilder Test - linker Arm", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 47, Label = "Schilder Test - rechter Arm", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 48, Label = "TTNR - von rechts nach links", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 49, Label = "TTNR - von links nach rechts", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 50, Label = "STNR - Füße oder Rumpf", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 51, Label = "STNR - Arme", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 52, Label = "STNR - Krabbeltest", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 53, Label = "Spinaler Galant-Reflex - linke Seite", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 54, Label = "Spinaler Galant-Reflex - rechte Seite", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 55, Label = "TLR - Standard Test", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 56, Label = "TLR - Aufrechttest - Beugung", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 57, Label = "TLR - Aufrechttest – Streckung", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 58, Label = "Moro Reflex / FPR - Standard Test", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 59, Label = "Moro Reflex / FPR - Aufrecht: TT", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 60, Label = "Moro Reflex / FPR - Aufrecht: ZT", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 61, Label = "Moro Reflex / FPR - Aufrecht: FF", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 62, Label = "Augenkopfstellreaktionen - nach links", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 63, Label = "Augenkopfstellreaktionen - nach rechts", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 64, Label = "Augenkopfstellreaktionen - vorwärts", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 65, Label = "Augenkopfstellreaktionen - rückwärts", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 66, Label = "Labyrinthkopfstellreaktionen - nach links", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 67, Label = "Labyrinthkopfstellreaktionen - nach rechts", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 68, Label = "Labyrinthkopfstellreaktionen - rückwärts", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 69, Label = "Labyrinthkopfstellreaktionen - vorwärts", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 70, Label = "Amphibien Reaktion - linke Seite (Rückenlage)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 71, Label = "Amphibien Reaktion - rechte Seite (Rückenlage)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 72, Label = "Amphibien Reaktion - linke Seite (Bauchlage)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 73, Label = "Amphibien Reaktion - rechte Seite (Bauchlage)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 74, Label = "Segmentäre Rollreaktion- von den Schultern (links)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 75, Label = "Segmentäre Rollreaktion- von den Schultern (rechts)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 76, Label = "Segmentäre Rollreaktion- von den Hüften (links)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 77, Label = "Segmentäre Rollreaktion- von den Hüften (rechts)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 78, Label = "Babinski Reflex - linker Fuß", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 79, Label = "Babinski Reflex - rechter Fuß", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 80, Label = "Abdominal Reflex (optional)", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 81, Label = "Such-Reflex - links", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 82, Label = "Such-Reflex - rechts", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 83, Label = "Saug-Reflex", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 84, Label = "Erwachsener Saug-Reflex", Type = "radio4", Value = "", GenericChapterId = 8 },
+                    new { Id = 85, Label = "Palmar-Reflex - linke Hand", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 86, Label = "Palmar-Reflex - rechte Hand", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 87, Label = "Plantar-Reflex - linker Fuß", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 88, Label = "Plantar-Reflex - rechter Fuß", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 89, Label = "Landau-Reaktion", Type = "radio", Value = "", GenericChapterId = 8 },
+                    new { Id = 90, Label = "Fußdominanz - Ball schießen", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 91, Label = "Fußdominanz - Aufstampfen mit einem Fuß", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 92, Label = "Fußdominanz - Auf einen Stuhl steigen", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 93, Label = "Fußdominanz - Auf einem Bein hüpfen", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 94, Label = "Handdominanz - Einen Ball fangen", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 95, Label = "Handdominanz - Klatschen in eine Hand", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 96, Label = "Handdominanz - Schreibhand", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 97, Label = "Handdominanz - Teleskop", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 98, Label = "Augendominanz (Entfernung) - Teleskop", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 99, Label = "Augendominanz (Entfernung) - Ring", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 100, Label = "Augendominanz (Nähe) - Lochkarte", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 101, Label = "Augendominanz (Nähe) - Ring", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 102, Label = "Ohrdominanz - Muschel", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 103, Label = "Ohrdominanz - Lauschen", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 104, Label = "Ohrdominanz - Rufen (Hinweis auf Hemisphärendominanz)", Type = "radioLeftRight", Value = "", GenericChapterId = 9 },
+                    new { Id = 105, Label = "Fixierungsschwierigkeiten", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 106, Label = "Beeinträchtigte Folgebewegungen (tracking- horizontal)", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 107, Label = "Beeinträchtigte Folgebewegungen (tracking-vertikal)", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 108, Label = "Verfolgen der Hand mit den Augen (eye-hand-tracking)", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 109, Label = "Augenzittern (Nystagmus)", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 110, Label = "Latente Konvergenz - links", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 111, Label = "Latente Konvergenz - rechts", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 112, Label = "Latente Divergenz - links", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 113, Label = "Latente Divergenz - rechts", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 114, Label = "Konvergenzschwierigkeiten - linkes Auge", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 115, Label = "Konvergenzschwierigkeiten - rechtes Auge", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 116, Label = "Schwierigkeit, die Augen unabhängig voneinander zu schließen - linkes Auge", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 117, Label = "Schwierigkeit, die Augen unabhängig voneinander zu schließen - rechtes Auge", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 118, Label = "Beeinträchtigung synchroner Augenbewegungen - linkes Auge", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 119, Label = "Beeinträchtigung synchroner Augenbewegungen - rechtes Auge", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 120, Label = "Erweiterte periphere Sicht - linkes Auge", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 121, Label = "Erweiterte periphere Sicht - rechtes Auge", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 122, Label = "Akkommodationsfähigkeit", Type = "radio", Value = "", GenericChapterId = 10 },
+                    new { Id = 123, Label = "Pupillenreaktion auf Licht (optional) - linkes Auge", Type = "input", Value = "", GenericChapterId = 10 },
+                    new { Id = 124, Label = "Pupillenreaktion auf Licht (optional) - rechtes Auge", Type = "input", Value = "", GenericChapterId = 10 },
+                    new { Id = 125, Label = "Pupillenreaktion auf Licht (optional) - linkes Auge", Type = "input", Value = "", GenericChapterId = 10 },
+                    new { Id = 126, Label = "Pupillenreaktion auf Licht (optional) - rechtes Auge", Type = "input", Value = "", GenericChapterId = 10 },
+                    new { Id = 127, Label = "Visuelle Unterscheidungsprobleme - Tansley Standard Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 128, Label = "Visuelle Unterscheidungsprobleme - Daniels und Diack Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 129, Label = "Visuelle Unterscheidungsprobleme - Bender Visual Gestalt Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 130, Label = "Visuo-motorische Integrationsschwierigkeit (Auge-Hand-Koordination) - Tansley Standard Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 131, Label = "Visuo-motorische Integrationsschwierigkeit (Auge-Hand-Koordination) - Daniels und Diack Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 132, Label = "Visuo-motorische Integrationsschwierigkeit (Auge-Hand-Koordination) - Bender Visual Gestalt Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 133, Label = "Räumliche Probleme - Tansley Standard Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 134, Label = "Räumliche Probleme - Daniels und Diack Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 135, Label = "Räumliche Probleme - Bender Visual Gestalt Figuren", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 136, Label = "Hinweis auf ‘Stimulusgebundenheit’", Type = "radio", Value = "", GenericChapterId = 11 },
+                    new { Id = 137, Label = "Abschreiben eines kurzen Textes", Type = "input", Value = "", GenericChapterId = 11 },
+                    new { Id = 138, Label = "Mann-Zeichnen-Test Test (Aston Index) - Entwicklungsalter", Type = "input", Value = "", GenericChapterId = 11 },
+                    new { Id = 139, Label = "Mann-Zeichnen-Test Test (Aston Index) - Chronologisches Alter", Type = "input", Value = "", GenericChapterId = 11 },
+                    new { Id = 140, Label = "Stiftgriff", Type = "textarea", Value = "", GenericChapterId = 12 },
+                    new { Id = 141, Label = "Sitzposition", Type = "textarea", Value = "", GenericChapterId = 12 },
+                    new { Id = 142, Label = "Schnelle Ermüdbarkeit", Type = "textarea", Value = "", GenericChapterId = 12 },
+                    new { Id = 143, Label = "Kind ist ängstlich und besorgt und mit seinen Ergebnissen nicht zufrieden", Type = "textarea", Value = "", GenericChapterId = 12 },
+                    new { Id = 144, Label = "Index der Dysfunktion", Type = "input", Value = "", GenericChapterId = 13 },
+                    new { Id = 145, Label = "Grobmotorische Koordination und Gleichgewicht", Type = "textarea", Value = "", GenericChapterId = 13 },
+                    new { Id = 146, Label = "Kleinhirnfunktionen", Type = "textarea", Value = "", GenericChapterId = 13 },
+                    new { Id = 147, Label = "Dysdiadochokinese", Type = "textarea", Value = "", GenericChapterId = 13 },
+                    new { Id = 148, Label = "Aberrante Reflexe", Type = "textarea", Value = "", GenericChapterId = 13 },
+                    new { Id = 149, Label = "Okulomotorische Funktionen", Type = "textarea", Value = "", GenericChapterId = 13 },
+                    new { Id = 150, Label = "Visuelle Wahrnehmungsfunktionen", Type = "textarea", Value = "", GenericChapterId = 13 }
+
+
                 );
             });
         }

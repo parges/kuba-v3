@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { PatientAutocompleteDialog } from './../../utils/patient-external-dialog/patient-external-dialog.component';
 import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
@@ -6,6 +7,7 @@ import { UebersichtModel } from './ubersichtModel';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Customer } from 'src/app/customer/customer';
 import { SnackbarGenericComponent } from 'src/app/utils/snackbar-generic/snackbar-generic.component';
+import { Review } from 'src/app/models/review';
 
 export interface DialogData {
   patient: Customer;
@@ -30,7 +32,7 @@ export class Uebersicht00Component implements AfterViewInit{
 
   private resource = `patient`;
 
-  constructor(private api: ApiService, private fb: FormBuilder, public dialog: MatDialog, public snackbar: SnackbarGenericComponent) {
+  constructor(private api: ApiService, private fb: FormBuilder, public dialog: MatDialog, public snackbar: SnackbarGenericComponent, private router: Router) {
     this.docUebersicht = this.fb.group({
       id : [''],
       firstname : ['', Validators.required],
@@ -124,6 +126,7 @@ export class Uebersicht00Component implements AfterViewInit{
       this.activeCustomer.reviews.forEach(review => {
         reviews.push(
         this.fb.group({
+          id: review.id,
           name: review.name,
           date: review.date,
           payed: review.payed,
@@ -136,6 +139,7 @@ export class Uebersicht00Component implements AfterViewInit{
     }
     // initialize our address
     return this.fb.group({
+        id: [''],
         name: ['Anfangsübung'],
         date: [''],
         payed: [''],
@@ -146,6 +150,7 @@ export class Uebersicht00Component implements AfterViewInit{
   initReviews() {
     // initialize our address
     return this.fb.group({
+        id: [''],  //todo
         name: ['neuer Eintrag'],
         date: [''],
         payed: [false],
@@ -162,6 +167,10 @@ export class Uebersicht00Component implements AfterViewInit{
     // remove address from the list
     const control = <FormArray>this.docUebersicht.controls['reviews'];
     control.removeAt(i);
+  }
+
+  updateReview(review: FormGroup) {
+    this.router.navigate(['reviews/', review.controls.id.value]);
   }
 
   onDocSubmit() {
