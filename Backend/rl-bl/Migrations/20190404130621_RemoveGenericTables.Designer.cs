@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rl_bl.Context;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20190404130621_RemoveGenericTables")]
+    partial class RemoveGenericTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +44,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Anamnesen");
 
                     b.HasData(
-                        new { Id = 1, CountOfPositivAnswers = -1, Date = new DateTime(2019, 4, 5, 15, 7, 58, 871, DateTimeKind.Local), Name = "Anamnese (Fragebogen / Kinder)", PatientId = 1 }
+                        new { Id = 1, CountOfPositivAnswers = -1, Date = new DateTime(2019, 4, 4, 15, 6, 20, 780, DateTimeKind.Local), Name = "Anamnese (Fragebogen / Kinder)", PatientId = 1 }
                     );
                 });
 
@@ -202,23 +204,17 @@ namespace kubaapi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ChangedValue");
-
-                    b.Property<string>("InitialValue");
-
                     b.Property<int?>("ReviewId");
+
+                    b.Property<string>("changedValue");
+
+                    b.Property<string>("initialValue");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ReviewId");
 
                     b.ToTable("ProblemHierarchie");
-
-                    b.HasData(
-                        new { Id = 1, ReviewId = 53 },
-                        new { Id = 2, ReviewId = 53 },
-                        new { Id = 3, ReviewId = 53 }
-                    );
                 });
 
             modelBuilder.Entity("rl_contract.Models.Review.Review", b =>
@@ -252,12 +248,12 @@ namespace kubaapi.Migrations
                     b.ToTable("Reviews");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), ExerciseAccomplishment = "Medium ...", Exercises = "Liegestütze und dann Kaffee trinken", Name = "Befundgespräch", ObservationsChild = "Meinung Kind", ObservationsParents = "Meinung Eltern", PatientId = 1, Payed = true, Reasons = "Das war dringend notwendig" },
-                        new { Id = 2, Date = new DateTime(2019, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), ExerciseAccomplishment = "Medium ...", Exercises = "Liegestütze und dann Kaffee trinken", Name = "1. Review", ObservationsChild = "Meinung Kind", ObservationsParents = "Meinung Eltern", PatientId = 1, Payed = true, Reasons = "Das war dringend notwendig" },
-                        new { Id = 3, Date = new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), ExerciseAccomplishment = "Medium ...", Exercises = "Liegestütze und dann Kaffee trinken", Name = "2. Review", ObservationsChild = "Meinung Kind", ObservationsParents = "Meinung Eltern", PatientId = 1, Payed = false, Reasons = "Das war dringend notwendig" },
-                        new { Id = 4, Date = new DateTime(2019, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), ExerciseAccomplishment = "Medium ...", Exercises = "Liegestütze und dann Kaffee trinken", Name = "Befundgespräch", ObservationsChild = "Meinung Kind", ObservationsParents = "Meinung Eltern", PatientId = 2, Payed = true, Reasons = "Das war dringend notwendig" },
-                        new { Id = 5, Date = new DateTime(2019, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), ExerciseAccomplishment = "Medium ...", Exercises = "Liegestütze und dann Kaffee trinken", Name = "1. Review", ObservationsChild = "Meinung Kind", ObservationsParents = "Meinung Eltern", PatientId = 2, Payed = false, Reasons = "Das war dringend notwendig" },
-                        new { Id = 6, Date = new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), ExerciseAccomplishment = "Medium ...", Exercises = "Liegestütze und dann Kaffee trinken", Name = "2. Review", ObservationsChild = "Meinung Kind", ObservationsParents = "Meinung Eltern", PatientId = 2, Payed = false, Reasons = "Das war dringend notwendig" }
+                        new { Id = 1, Date = new DateTime(2019, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "Befundgespräch", PatientId = 1, Payed = true, Reasons = "Das war dringend notwendig" },
+                        new { Id = 2, Date = new DateTime(2019, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "1. Review", PatientId = 1, Payed = true, Reasons = "Das war dringend notwendig" },
+                        new { Id = 3, Date = new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "2. Review", PatientId = 1, Payed = false, Reasons = "Das war dringend notwendig" },
+                        new { Id = 4, Date = new DateTime(2019, 3, 4, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "Befundgespräch", PatientId = 2, Payed = true, Reasons = "Das war dringend notwendig" },
+                        new { Id = 5, Date = new DateTime(2019, 3, 3, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "1. Review", PatientId = 2, Payed = false, Reasons = "Das war dringend notwendig" },
+                        new { Id = 6, Date = new DateTime(2019, 3, 2, 0, 0, 0, 0, DateTimeKind.Unspecified), Exercises = "Liegestütze und dann Kaffee trinken", Name = "2. Review", PatientId = 2, Payed = false, Reasons = "Das war dringend notwendig" }
                     );
                 });
 
@@ -277,7 +273,7 @@ namespace kubaapi.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("ReviewChapters");
+                    b.ToTable("ReviewChapter");
                 });
 
             modelBuilder.Entity("rl_contract.Models.Review.ReviewQuestion", b =>
@@ -322,7 +318,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Testungen");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 4, 5, 15, 7, 58, 865, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
+                        new { Id = 1, Date = new DateTime(2019, 4, 4, 15, 6, 20, 773, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
                     );
                 });
 

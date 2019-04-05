@@ -1,4 +1,5 @@
 export class FormBase<T> {
+    id: number;
     value: T;
     key: string;
     label: string;
@@ -10,6 +11,7 @@ export class FormBase<T> {
     metaInfo: string;
 
     constructor(options: {
+        id?: number;
         value?: T,
         key?: string,
         label?: string,
@@ -20,6 +22,7 @@ export class FormBase<T> {
         textValue?: string,
         metaInfo?: string
       } = {}) {
+      this.id = options.id || -1;
       this.value = options.value;
       this.key = options.key || '';
       this.label = options.label || '';

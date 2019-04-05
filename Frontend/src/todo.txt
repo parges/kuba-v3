@@ -1,3 +1,8 @@
+Todo next:
+- Reload nachdem tests zuugefügt wurden
+- Reload nachdem tests gelöscht wurden
+- Speichern der Tests im Review
+
 Todo:
 - Bilder hochladen
 - Alter rechnet falsch?
@@ -12,8 +17,6 @@ Todo:
 - Testung:
   - Ergebniszusammenfassung füllen nach Speichern (Kapitelwerte)
   - Ergebniszusammenfassung die Werte sind keine Fragen, alle werden errechnet
-- Review & Tests
-  - Fragen als Bibliothek auslagern (Testung ggfs. refactoren????)
 Dokumente:
 - Drucken aller Dokumente (Formulare)
 - Herunterladen aller Druckvorlagen

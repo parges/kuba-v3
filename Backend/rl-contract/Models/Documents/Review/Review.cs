@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
-using rl_contract.Models.Bib;
 
-namespace rl_contract.Models
+namespace rl_contract.Models.Review
 {
     public class Review
     {
@@ -37,8 +36,8 @@ namespace rl_contract.Models
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? Id { get; set; }
-        public string initialValue { get; set; }
-        public string changedValue { get; set; }
+        public string InitialValue { get; set; }
+        public string ChangedValue { get; set; }
 
         public int? ReviewId { get; set; }
 

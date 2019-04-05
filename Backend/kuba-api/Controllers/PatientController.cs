@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using System.Web.Http.Cors;
+using AutoMapper;
 using kubaapi.utils;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,16 +28,18 @@ namespace kuba_api.Controllers
         private readonly IHostingEnvironment _environment;
         private readonly ImageUploader.Helper.IImageHandler _imageHandler;
         private readonly PatientBL _bl;
+        private readonly IMapper _mapper;
 
         private string _imagePath;
 
-        public PatientController(DBContext context, IHostingEnvironment environment, ImageUploader.Helper.IImageHandler imageHandler)
+        public PatientController(DBContext context, IHostingEnvironment environment, ImageUploader.Helper.IImageHandler imageHandler, IMapper mapper)
         {
             _context = context;
             _environment = environment ?? throw new ArgumentNullException(nameof(environment));
             _imageHandler = imageHandler;
             _imagePath = _environment.ContentRootPath + @"\Resources\Images";
             _bl = new PatientBL();
+            _mapper = mapper;
         }
 
         // GET: api/Patient
@@ -168,30 +171,19 @@ namespace kuba_api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var patient = _context.Patients.Where(x => x.Id == id).Include(x => x.Reviews).FirstOrDefault(m => m.Id == id);
+            var patient = _context.Patients.AsNoTracking().Where(x => x.Id == id).Include(x => x.Reviews).FirstOrDefault(m => m.Id == id);
             if (patient == null)
             {
                 return BadRequest(ModelState);
             }
-            patient.Firstname = item.Firstname;
-            patient.Lastname = item.Lastname;
-            patient.Birthday = item.Birthday;
-            patient.Tele = item.Tele;
-            patient.Address = item.Address;
-            patient.AnamneseDate = item.AnamneseDate;
-            patient.AnamnesePayed = item.AnamnesePayed;
-            patient.DiagnostikDate = item.DiagnostikDate;
-            patient.DiagnostikPayed = item.DiagnostikPayed;
-            patient.ElternDate = item.ElternDate;
-            patient.ElternPayed = item.ElternPayed;
-            patient.ProblemHierarchy = item.ProblemHierarchy;
-            patient.Reviews = item.Reviews;
 
-            if (item.Avatar != null)
+            _mapper.Map(item, patient);
+
+            /*if (item.Avatar != null)
             {
-                /*string filename = _imageHandler.UploadImage(item.Avatar, _imagePath).Result;
-                patient.Avatar = filename;*/
-            }
+                string filename = _imageHandler.UploadImage(item.Avatar, _imagePath).Result;
+                patient.Avatar = filename;
+            }*/
             /*var filePath = Path.Combine(_environment.ContentRootPath, @"Resources/Images", item.Avatar.FileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))

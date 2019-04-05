@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using rl_contract.Models;
-using rl_contract.Models.Bib;
+using rl_contract.Models.Review;
 
 namespace rl_bl.Context
 {
@@ -23,6 +23,8 @@ namespace rl_bl.Context
 
         public DbSet<Patient> Patients { get; set; }
         public DbSet<Review> Reviews { get; set; }
+        public DbSet<ReviewChapter> ReviewChapters { get; set; }
+        public DbSet<ReviewQuestion> ReviewQuestion { get; set; }
 
         public DbSet<Testung> Testungen { get; set; }
         public DbSet<TestungChapter> TestungChapters { get; set; }
@@ -31,8 +33,6 @@ namespace rl_bl.Context
         public DbSet<Anamnese> Anamnesen { get; set; }
         public DbSet<AnamneseChapter> AnamneseChapters { get; set; }
         public DbSet<AnamneseQuestion> AnamneseQuestions { get; set; }
-        public DbSet<GenericChapter> GenericChapters { get; set; }
-        public DbSet<GenericQuestion> GenericQuestions { get; set; }
 
 
 
@@ -44,17 +44,7 @@ namespace rl_bl.Context
                 .WithOne()
                 .HasForeignKey(s => s.PatientId);
 
-            /*
-            modelBuilder.Entity<Review>()
-                .HasOne<Patient>(s => s.Patient)
-                .WithMany(g => g.Reviews)
-                .HasForeignKey(s => s.PatientId);
-*/
-
             addPatients(modelBuilder);
-            /*addDocuments(modelBuilder);*/
-
-            createGenericQuestionLib(modelBuilder);
 
         }
 
@@ -91,8 +81,11 @@ namespace rl_bl.Context
                         Payed = true,
                         Exercises = "Liegestütze und dann Kaffee trinken",
                         Reasons = "Das war dringend notwendig",
-                        PatientId = 1
-                    },
+                        PatientId = 1,
+                        ObservationsParents = "Meinung Eltern",
+                        ObservationsChild = "Meinung Kind",
+                        ExerciseAccomplishment = "Medium ..."
+                },
                     new
                     {
                         Id = 2,
@@ -101,7 +94,10 @@ namespace rl_bl.Context
                         Payed = true,
                         Exercises = "Liegestütze und dann Kaffee trinken",
                         Reasons = "Das war dringend notwendig",
-                        PatientId = 1
+                        PatientId = 1,
+                        ObservationsParents = "Meinung Eltern",
+                        ObservationsChild = "Meinung Kind",
+                        ExerciseAccomplishment = "Medium ..."
                     },
                     new
                     {
@@ -111,7 +107,10 @@ namespace rl_bl.Context
                         Payed = false,
                         Exercises = "Liegestütze und dann Kaffee trinken",
                         Reasons = "Das war dringend notwendig",
-                        PatientId = 1
+                        PatientId = 1,
+                        ObservationsParents = "Meinung Eltern",
+                        ObservationsChild = "Meinung Kind",
+                        ExerciseAccomplishment = "Medium ..."
                     }
                 );
 
@@ -123,8 +122,11 @@ namespace rl_bl.Context
                         Payed = true,
                         Exercises = "Liegestütze und dann Kaffee trinken",
                         Reasons = "Das war dringend notwendig",
-                        PatientId = 2
-                    },
+                        PatientId = 2,
+                        ObservationsParents = "Meinung Eltern",
+                        ObservationsChild = "Meinung Kind",
+                        ExerciseAccomplishment = "Medium ..."
+                },
                     new
                     {
                         Id = 5,
@@ -133,7 +135,10 @@ namespace rl_bl.Context
                         Payed = false,
                         Exercises = "Liegestütze und dann Kaffee trinken",
                         Reasons = "Das war dringend notwendig",
-                        PatientId = 2
+                        PatientId = 2,
+                        ObservationsParents = "Meinung Eltern",
+                        ObservationsChild = "Meinung Kind",
+                        ExerciseAccomplishment = "Medium ..."
                     },
                     new
                     {
@@ -143,7 +148,36 @@ namespace rl_bl.Context
                         Payed = false,
                         Exercises = "Liegestütze und dann Kaffee trinken",
                         Reasons = "Das war dringend notwendig",
-                        PatientId = 2
+                        PatientId = 2,
+                        ObservationsParents = "Meinung Eltern",
+                        ObservationsChild = "Meinung Kind",
+                        ExerciseAccomplishment = "Medium ..."
+                    }
+                );
+            });
+
+            modelBuilder.Entity<ProblemHierarchie>(h =>
+            {
+                h.HasData(new
+                    {
+                        Id = 1,
+                        initialValue = "Von schlecht",
+                        changedValue = "zu gut",
+                        ReviewId = 53
+                    },
+                    new
+                    {
+                        Id = 2,
+                        initialValue = "Von schlecht2",
+                        changedValue = "zu gut2",
+                        ReviewId = 53
+                    },
+                    new
+                    {
+                        Id = 3,
+                        initialValue = "Von schlecht3",
+                        changedValue = "zu gut3",
+                        ReviewId = 53
                     }
                 );
             });
@@ -447,7 +481,7 @@ namespace rl_bl.Context
             });
         }
 
-        private void createGenericQuestionLib(ModelBuilder modelBuilder)
+        /*private void createGenericQuestionLib(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<GenericChapter>(r =>
             {
@@ -625,6 +659,6 @@ namespace rl_bl.Context
 
                 );
             });
-        }
+        }*/
     }
 }

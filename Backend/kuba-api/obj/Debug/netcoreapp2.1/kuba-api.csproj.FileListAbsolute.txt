@@ -61,10 +61,10 @@ D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csprojAssemblyR
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csproj.CoreCompileInputs.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorAssemblyInfo.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorAssemblyInfo.cs
+D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.AssemblyInfoInputs.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.AssemblyInfo.cs
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.RazorTargetAssemblyInfo.cache
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.csproj.CopyComplete
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.dll
 D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\kuba-api.pdb
-D:\Dev\kuba-v3\Backend\kuba-api\obj\Debug\netcoreapp2.1\UserSecretsAssemblyInfo.cs

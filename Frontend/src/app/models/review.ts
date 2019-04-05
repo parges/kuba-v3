@@ -1,8 +1,8 @@
-export interface Review
+export class Review
 {
-    id: number | null;
+    id?: number;
     name: string;
-    date: Date | string;
+    date: string;
 
     /*
       * Review Overview
@@ -19,37 +19,37 @@ export interface Review
     problemHierarchies: ProblemHierarchie[];
     chapters: ReviewChapter[];
 
-    patientId: number | null;
+    patientId?: number;
 
 }
 
 export interface ProblemHierarchie
 {
-    Id: number | null;
+    id: number | null;
     initialValue: string;
     changedValue: string;
 
-    ReviewId: number | null;
+    reviewId: number | null;
 
 }
 
 export interface ReviewChapter
 {
-    Id: number | null;
-    Name: string;
-    Score: number | null;
+    id: number | null;
+    name: string;
+    score: number | null;
 
-    Questions: ReviewQuestion[];
+    questions: ReviewQuestion[];
 
-    ReviewId: number | null;
+    reviewId: number | null;
 }
 
 export interface ReviewQuestion
 {
-    Id: number | null;
-    Type: string;
-    Label: string;
-    Value: string;
+    id: number | null;
+    type: string;
+    label: string;
+    value: string;
 
-    ReviewChapterId: number | null;
+    reviewChapterId: number | null;
 }

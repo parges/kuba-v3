@@ -9,6 +9,7 @@ import { FormBase } from '../../utils/dynamic-forms/form-base';
 import { Injectable }   from '@angular/core';
 import { FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { Testung } from 'src/app/models/testung';
+import { ReviewChapter } from 'src/app/models/review';
 
 const DEFAULT_OPTIONS = [
   {key: '0',  value: '0'},
@@ -71,6 +72,24 @@ export class TestungFormControlService {
     return myform;
   }
 
+  toFormGroupReview(questions: Map<ReviewChapter, FormBase<any>[]>) {
+    let myform: FormGroup = new FormGroup({});
+
+    for (let chapter of questions.keys()) {
+
+      let array: FormGroup = new FormGroup({});
+      questions.get(chapter).forEach(question => {
+
+        var control = question.required ? new FormControl(question.value || '', Validators.required)
+                              : new FormControl(question.value || '');
+        array.addControl(question.key, control);
+
+      });
+      myform.addControl(chapter.id.toString(), array);
+    }
+    return myform;
+  }
+
   // getTestungForPatient ( patientId: number ): Promise<Testung> {
   //   // return this.$http.get<Testung>( environment.endpoint + 'Testung/' + patientId )
   //   //            .toPromise();
@@ -86,6 +105,7 @@ export class TestungFormControlService {
             case 'radio':
               entries.push(
                 new RadioQuestion({
+                  id: question.id,
                   key: 'question_' + question.id,
                   label: question.label,
                   options: DEFAULT_OPTIONS,
@@ -96,6 +116,7 @@ export class TestungFormControlService {
             case 'textarea':
               entries.push(
                 new TextareaQuestion({
+                  id: question.id,
                   key: 'question_' + question.id,
                   label: question.label,
                   value: question.value
@@ -105,6 +126,7 @@ export class TestungFormControlService {
             case 'input':
               entries.push(
                 new TextareaQuestion({
+                  id: question.id,
                   key: 'question_' + question.id,
                   label: question.label,
                   value: question.value
@@ -114,6 +136,7 @@ export class TestungFormControlService {
             case 'radio2':
               entries.push(
                 new RadioQuestion({
+                  id: question.id,
                   key: 'question_' + question.id,
                   label: question.label,
                   options: RADIO2_OPTIONS,
@@ -124,6 +147,7 @@ export class TestungFormControlService {
             case 'radio3':
               entries.push(
                 new RadioQuestion({
+                  id: question.id,
                   key: 'question_' + question.id,
                   label: question.label,
                   options: RADIO3_OPTIONS,
@@ -134,6 +158,7 @@ export class TestungFormControlService {
             case 'radio4':
               entries.push(
                 new RadioQuestion({
+                  id: question.id,
                   key: 'question_' + question.id,
                   label: question.label,
                   options: RADIO4_OPTIONS,
@@ -144,6 +169,7 @@ export class TestungFormControlService {
             case 'radioYesNo':
               entries.push(
                 new RadioQuestion({
+                  id: question.id,
                   key: 'question_' + question.id,
                   label: question.label,
                   options: RADIOYESNO_OPTIONS,
@@ -154,6 +180,108 @@ export class TestungFormControlService {
             case 'radioLeftRight':
               entries.push(
                 new RadioQuestion({
+                  id: question.id,
+                  key: 'question_' + question.id,
+                  label: question.label,
+                  options: RADIOLEFTRIGHT_OPTIONS,
+                  value: question.value
+                })
+              )
+              break;
+          }
+        });
+        chapters.set( chapter, entries.sort((a, b) => a.order - b.order) );
+
+      });
+      return chapters;
+    }
+
+    getFormEntriesReview(revChapters: ReviewChapter[]) {
+
+      let chapters: Map<ReviewChapter, FormBase<any>[]>  = new Map();
+      revChapters.forEach(chapter => {
+        let entries: FormBase<any>[] = [];
+        chapter.questions.forEach(question => {
+          switch (question.type) {
+            case 'radio':
+              entries.push(
+                new RadioQuestion({
+                  id: question.id,
+                  key: 'question_' + question.id,
+                  label: question.label,
+                  options: DEFAULT_OPTIONS,
+                  value: question.value
+                })
+              );
+              break;
+            case 'textarea':
+              entries.push(
+                new TextareaQuestion({
+                  id: question.id,
+                  key: 'question_' + question.id,
+                  label: question.label,
+                  value: question.value
+                })
+              );
+              break;
+            case 'input':
+              entries.push(
+                new TextareaQuestion({
+                  id: question.id,
+                  key: 'question_' + question.id,
+                  label: question.label,
+                  value: question.value
+                })
+              );
+              break;
+            case 'radio2':
+              entries.push(
+                new RadioQuestion({
+                  id: question.id,
+                  key: 'question_' + question.id,
+                  label: question.label,
+                  options: RADIO2_OPTIONS,
+                  value: question.value
+                })
+              )
+              break;
+            case 'radio3':
+              entries.push(
+                new RadioQuestion({
+                  id: question.id,
+                  key: 'question_' + question.id,
+                  label: question.label,
+                  options: RADIO3_OPTIONS,
+                  value: question.value
+                })
+              )
+              break;
+            case 'radio4':
+              entries.push(
+                new RadioQuestion({
+                  id: question.id,
+                  key: 'question_' + question.id,
+                  label: question.label,
+                  options: RADIO4_OPTIONS,
+                  value: question.value
+                })
+              )
+              break;
+            case 'radioYesNo':
+              entries.push(
+                new RadioQuestion({
+                  id: question.id,
+                  key: 'question_' + question.id,
+                  label: question.label,
+                  options: RADIOYESNO_OPTIONS,
+                  value: question.value
+                })
+              )
+              break;
+            case 'radioLeftRight':
+              entries.push(
+                new RadioQuestion({
+                  id: question.id,
                   key: 'question_' + question.id,
                   label: question.label,
                   options: RADIOLEFTRIGHT_OPTIONS,

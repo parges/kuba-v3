@@ -1,3 +1,6 @@
+import { MomentDateAdapter, MAT_MOMENT_DATE_FORMATS } from '@angular/material-moment-adapter';
+import { MAT_DATE_LOCALE, DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { ApiResponse } from '@rl/shared/models';
 import { Router } from '@angular/router';
 import { ApiService } from './../../../../libs/shared/api/src/lib/services/api.service';
 import { PatientAutocompleteDialog } from './../../utils/patient-external-dialog/patient-external-dialog.component';
@@ -16,7 +19,18 @@ export interface DialogData {
 @Component({
   selector: 'app-uebersicht00',
   templateUrl: './uebersicht00.component.html',
-  styleUrls: ['./uebersicht00.component.scss']
+  styleUrls: ['./uebersicht00.component.scss'],
+  providers: [
+    // The locale would typically be provided on the root module of your application. We do it at
+    // the component level here, due to limitations of our example generation script.
+    {provide: MAT_DATE_LOCALE, useValue: 'de-DE'},
+
+    // `MomentDateAdapter` and `MAT_MOMENT_DATE_FORMATS` can be automatically provided by importing
+    // `MatMomentDateModule` in your applications root module. We provide it at the component level
+    // here, due to limitations of our example generation script.
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
+  ]
 })
 export class Uebersicht00Component implements AfterViewInit{
 
@@ -31,6 +45,7 @@ export class Uebersicht00Component implements AfterViewInit{
   disabledColumns: string[] = ['firstname','lastname', 'tele', 'address', 'birthday']
 
   private resource = `patient`;
+  private resourceReview = `review`;
 
   constructor(private api: ApiService, private fb: FormBuilder, public dialog: MatDialog, public snackbar: SnackbarGenericComponent, private router: Router) {
     this.docUebersicht = this.fb.group({
@@ -90,39 +105,36 @@ export class Uebersicht00Component implements AfterViewInit{
         this.isDisabled = false;
 
         this.activeCustomer = dialogRef.componentInstance.selectedPatient;
-        // Calculate the age
-        const timeDiff = Math.abs(Date.now() - new Date(this.activeCustomer.birthday).getTime());
-        const age = Math.floor((timeDiff / (1000 * 3600 * 24)) / 365.25);
-        // To initialize FormGroup
-        this.docUebersicht.setValue({
-          id: this.activeCustomer.id,
-          firstname: this.activeCustomer.firstname,
-          lastname: this.activeCustomer.lastname,
-          tele: this.activeCustomer.tele,
-          birthday: this.activeCustomer.birthday ? this.activeCustomer.birthday : '',
-          address: this.activeCustomer.address,
-          anamneseDate: this.activeCustomer.anamneseDate,
-          anamnesePayed: this.activeCustomer.anamnesePayed,
-          diagnostikDate: this.activeCustomer.diagnostikDate,
-          diagnostikPayed: this.activeCustomer.diagnostikPayed,
-          elternDate: this.activeCustomer.elternDate,
-          elternPayed: this.activeCustomer.elternPayed,
-          problemHierarchy: this.activeCustomer.problemHierarchy,
-          reviews: this.fillReviews()
-          // reviews: this.fb.array([
-          //   this.initReviews(),
-          //   this.initReviews()
-          // ])
-          });
-
-
+        this.initFormGroupWithData();
       }
     });
-    }
+  }
+  initFormGroupWithData() {
+    // To initialize FormGroup
+    this.docUebersicht.setValue({
+      id: this.activeCustomer.id,
+      firstname: this.activeCustomer.firstname,
+      lastname: this.activeCustomer.lastname,
+      tele: this.activeCustomer.tele,
+      birthday: this.activeCustomer.birthday ? this.activeCustomer.birthday : '',
+      address: this.activeCustomer.address,
+      anamneseDate: this.activeCustomer.anamneseDate,
+      anamnesePayed: this.activeCustomer.anamnesePayed,
+      diagnostikDate: this.activeCustomer.diagnostikDate,
+      diagnostikPayed: this.activeCustomer.diagnostikPayed,
+      elternDate: this.activeCustomer.elternDate,
+      elternPayed: this.activeCustomer.elternPayed,
+      problemHierarchy: this.activeCustomer.problemHierarchy,
+      reviews: this.fillReviews()
+      // reviews: this.fb.array([
+      //   this.initReviews(),
+      //   this.initReviews()
+      // ])
+      });
+  }
   fillReviews(): FormGroup {
     let reviews = this.docUebersicht.get('reviews') as FormArray;
     if(this.activeCustomer.reviews.length > 0){
-
       this.activeCustomer.reviews.forEach(review => {
         reviews.push(
         this.fb.group({
@@ -147,26 +159,52 @@ export class Uebersicht00Component implements AfterViewInit{
         reasons: ['BEgründungen']
     });
   }
-  initReviews() {
-    // initialize our address
-    return this.fb.group({
-        id: [''],  //todo
-        name: ['neuer Eintrag'],
-        date: [''],
-        payed: [false],
-        exercises: [''],
-        reasons: ['']
+  initReviews(review?: Review) {
+    if(!review){
+      // initialize our address
+      return this.fb.group({
+          id: [''],  //todo
+          name: ['neuer Eintrag'],
+          date: [''],
+          payed: [false],
+          exercises: [''],
+          reasons: ['']
+      });
+    } else {
+      return this.fb.group({
+        id: [review.id],
+        name: [review.name],
+        date: [review.date],
+        payed: [review.payed],
+        exercises: [review.exercises],
+        reasons: [review.reasons],
     });
+    }
   }
   addReview() {
-    // add address to the list
-    const control = <FormArray>this.docUebersicht.controls['reviews'];
-    control.push(this.initReviews());
+    this.api.postBlank<Review>(this.resourceReview, this.activeCustomer)
+    .subscribe((review: Review) =>
+    {
+      const control = <FormArray>this.docUebersicht.controls['reviews'];
+      control.push(this.initReviews(review));
+    });
   }
-  removeReview(i: number) {
-    // remove address from the list
-    const control = <FormArray>this.docUebersicht.controls['reviews'];
-    control.removeAt(i);
+  removeReview(review: FormGroup, i : number) {
+
+    var id = review.controls.id.value;
+    this.api.delete<Review>(this.resourceReview, id)
+    .subscribe(() =>
+    {
+      this.api.getById<Customer>(this.resource, this.activeCustomer.id)
+      .subscribe((data: ApiResponse<Customer>) => {
+        this.activeCustomer = data.items[0];
+        const control = <FormArray>this.docUebersicht.controls['reviews'];
+        control.removeAt(i);
+      }
+      );
+      // const control = <FormArray>this.docUebersicht.controls['reviews'];
+      // control.push(this.initReviews(review[0]));
+    });
   }
 
   updateReview(review: FormGroup) {

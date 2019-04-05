@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using rl_bl.Context;
 using rl_contract.Models;
+using rl_contract.Models.Review;
+using IMapper = AutoMapper.IMapper;
 
 namespace rl_bl
 {
@@ -333,12 +335,24 @@ namespace rl_bl
 
         private void addReviews(Patient patient)
         {
-            string[] list = new[] { "Befundgespräch", "1. Review", "2. Review", "3. Review", "4. Review", "5. Review", "6. Review", "7. Review", "8. Review", "9. Review" };
+            string[] list = new[] { "Übungseinweisung" };
             patient.Reviews = new List<Review>();
+            List<ProblemHierarchie> problemHierarchies = new List<ProblemHierarchie>();
 
             int i = 0;
             foreach (string entry in list)
             {
+                for (int j = 0; j < 5; j++)
+                {
+                    problemHierarchies.Add(
+                        new ProblemHierarchie
+                        {
+                            InitialValue = "",
+                            ChangedValue = "",
+                        }
+                    );
+                }
+
                 var review = new Review
                 {
                     Date = DateTime.Now.Date.AddMonths(i),
@@ -346,11 +360,95 @@ namespace rl_bl
                     Payed = false,
                     Exercises = "",
                     Reasons = "",
-                    PatientId = patient.Id
+                    PatientId = patient.Id,
+                    ObservationsParents = "",
+                    ObservationsChild = "",
+                    ExerciseAccomplishment = "",
+                    ProblemHierarchies = problemHierarchies,
                 };
                 patient.Reviews.Add(review);
                 i++;
             }
         }
+
+        public Review addReview(Patient patient)
+        {
+            List<ProblemHierarchie> problemHierarchies = new List<ProblemHierarchie>();
+            for (int j = 0; j < 5; j++)
+            {
+                problemHierarchies.Add(
+                    new ProblemHierarchie
+                    {
+                        InitialValue = "",
+                        ChangedValue = "",
+                    }
+                );
+            }
+
+            var review = new Review
+            {
+                Date = DateTime.Now.Date,
+                Name = "Review",
+                Payed = false,
+                Exercises = "",
+                Reasons = "",
+                PatientId = patient.Id,
+                ObservationsParents = "",
+                ObservationsChild = "",
+                ExerciseAccomplishment = "",
+                ProblemHierarchies = problemHierarchies,
+            };
+            /*patient.Reviews.Add(review);*/
+            return review;
+        }
+
+        public void addReviewTests(Review review, List<TestungChapter> chapters, List<TestungQuestion> questions, IMapper mapper, DBContext context)
+        {
+            chapters.ForEach(chapter =>
+            {
+                ReviewChapter item = new ReviewChapter()
+                {
+                    Name = chapter.Name,
+                    Score = chapter.Score,
+                    ReviewId = review.Id
+                };
+                context.ReviewChapters.Add(item);
+                context.SaveChanges();
+                /*mapper.Map(chapter, revChapter);*/
+                int itemId = item.Id.Value;
+                chapter.Questions.ForEach(question =>
+                {
+                    ReviewQuestion revQ = new ReviewQuestion()
+                    {
+                        Type = question.Type,
+                        Label = question.Label,
+                        Value = question.Value,
+                        ReviewChapterId = itemId
+                    };
+                    /*mapper.Map(question, revQuestion);*/
+                    /*revQuestion.ReviewChapterId = itemId;
+                    revChapter.Questions.Add(revQuestion);*/
+                    context.ReviewQuestion.Add(revQ);
+                    
+                });
+                context.SaveChanges();
+            });
+
+            /*chapters.ForEach(chapter =>
+            {
+                ReviewChapter revChapter = new ReviewChapter();
+                mapper.Map(chapter, revChapter);
+                questions.ForEach(question =>
+                {
+                    ReviewQuestion revQuestion = new ReviewQuestion();
+                    mapper.Map(question, revQuestion);
+                    revQuestion.ReviewChapterId = revChapter.Id;
+                    revChapter.Questions.Add(revQuestion);
+                });
+                revChapter.ReviewId = review.Id;
+                review.Chapters.Add(revChapter);
+            });*/
+        }
+
     }
 }

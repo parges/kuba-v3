@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using rl_bl.Context;
 
 namespace kubaapi.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20190404174838_AddProblemhierarchy")]
+    partial class AddProblemhierarchy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -42,7 +44,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Anamnesen");
 
                     b.HasData(
-                        new { Id = 1, CountOfPositivAnswers = -1, Date = new DateTime(2019, 4, 5, 15, 7, 58, 871, DateTimeKind.Local), Name = "Anamnese (Fragebogen / Kinder)", PatientId = 1 }
+                        new { Id = 1, CountOfPositivAnswers = -1, Date = new DateTime(2019, 4, 4, 19, 48, 38, 622, DateTimeKind.Local), Name = "Anamnese (Fragebogen / Kinder)", PatientId = 1 }
                     );
                 });
 
@@ -277,7 +279,7 @@ namespace kubaapi.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("ReviewChapters");
+                    b.ToTable("ReviewChapter");
                 });
 
             modelBuilder.Entity("rl_contract.Models.Review.ReviewQuestion", b =>
@@ -322,7 +324,7 @@ namespace kubaapi.Migrations
                     b.ToTable("Testungen");
 
                     b.HasData(
-                        new { Id = 1, Date = new DateTime(2019, 4, 5, 15, 7, 58, 865, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
+                        new { Id = 1, Date = new DateTime(2019, 4, 4, 19, 48, 38, 616, DateTimeKind.Local), Name = "Erste Testung", PatientId = 1 }
                     );
                 });
 

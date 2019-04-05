@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
+using rl_contract.Models.Review;
 
 namespace rl_contract.Models
 {
@@ -24,7 +23,7 @@ namespace rl_contract.Models
         public bool? ElternPayed { get; set; }
         public string ProblemHierarchy { get; set; }
 
-        public List<Review> Reviews { get; set; }
+        public List<Review.Review> Reviews { get; set; }
         public Testung Testung { get; set; }
         public Anamnese Anamnese { get; set; }
 
