@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Wähle Patienten</h1>
 <div mat-dialog-content>
   <div>
-    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+    <form [formGroup]="form">
       <div *ngFor="let entry of questions | keyvalue:descOrder" class="form-row">
         <mat-accordion class="form-accordion">
           <mat-expansion-panel>

@@ -183,6 +183,7 @@ export class ReviewComponent implements OnInit {
       })
     ).subscribe((data: Review) => {
       this.snackbar.openSnackBar('Gespeichert');
+      window.location.reload();
     });
   }
 
@@ -196,12 +197,13 @@ export class ReviewComponent implements OnInit {
     //   }))
     .subscribe((data: Review) => {
       this.snackbar.openSnackBar('Gelöscht');
+      window.location.reload();
     });
   }
 
-  // descOrder = (a, b) => {
-  //   return null;
-  // }
+  descOrder = (a, b) => {
+    return null;
+  }
 
   // radioCheckUncheck( currentValue: any, chapter: TestungChapter, formKey: string) {
   //   var newValue = this.form.get(chapter.id.toString()).value[formKey];

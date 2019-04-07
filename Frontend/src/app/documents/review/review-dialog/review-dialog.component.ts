@@ -81,4 +81,7 @@ export class ReviewDialogComponent implements OnInit {
   checkChosen(id: number) {
     return (this.listOfChosenIds.indexOf(id) >= 0) ? true : false;
   }
+  descOrder = (a, b) => {
+    return null;
+  }
 }
