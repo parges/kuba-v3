@@ -105,7 +105,7 @@
   <button class="m-t-15" mat-raised-button (click)="addReview()" [disabled]="isDisabled == true">neues Review anlegen +</button>
   <div formArrayName="reviews" class="m-t-15">
     <mat-accordion class="form-accordion">
-      <div *ngFor="let review of docUebersicht.controls.reviews; let i=index"><!-- auskommentiert werden --prod build !!! <div *ngFor="let review of docUebersicht.controls.reviews; let i=index"> -->
+      <div *ngFor="let review of docUebersicht.controls.reviews.controls; let i=index"><!-- auskommentiert werden --prod build !!! <div *ngFor="let review of docUebersicht.controls.reviews; let i=index"> -->
         <div [formGroupName]="i">
           <mat-expansion-panel>
             <mat-expansion-panel-header>

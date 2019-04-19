@@ -129,7 +129,10 @@ export class ReviewComponent implements OnInit {
   openDialog(): void {
     const dialogRef = this.dialog.open(ReviewDialogComponent, {
       // width: '250px',
-      data: {patientId: this.currentReview.patientId}
+      data: {
+        patientId: this.currentReview.patientId,
+        review: this.currentReview
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -137,28 +140,15 @@ export class ReviewComponent implements OnInit {
       {
         this.api.putBlankAction<Review>(this.resource, "UpdateReviewQuestions", this.currentReview.id, dialogRef.componentInstance.listOfChosenIds)
         .pipe(
-          map((data: ApiResponse<Review>) => {
+          map((data: Review) => {
             this.loader.hideSpinner();
-            this.api.getById<Review>(this.resource, this.currentReview.id)
-            .pipe(
-              map((response: ApiResponse<Review>) => {
-                this.loader.hideSpinner();
-                return response.items;
-              }),
-              catchError(() => {
-                this.loader.hideSpinner();
-                return of([]);
-              })
-            )
-            .subscribe((data: Review[]) => {
-              debugger;
-              this.currentReview = data[0];
-              this.initFormWithData(data[0]);
-            })
+            return data;
           })
-        ).subscribe(() => {
-          // this.questions = this.$formService.getFormEntries(this.testung);
-          // this.form = this.$formService.toFormGroup(this.questions);
+        ).subscribe((data: Review) => {
+          this.currentReview = data
+          this.initFormWithData(data);
+          this.questions = this.$formService.getFormEntriesReview(this.currentReview.chapters);
+          this.form = this.$formService.toFormGroupReview(this.questions);
         });
       }
       });
@@ -174,7 +164,18 @@ export class ReviewComponent implements OnInit {
     review.exerciseAccomplishment = tempData.exerciseAccomplishment;
     review.problemHierarchies = tempData.problemHierarchies;
 
-    this.api.put<Review>(this.resource, this.currentReview.id, review)
+    const result: Customer = Object.assign({}, this.form.value);
+      var index = 1;
+      this.currentReview.chapters.forEach(chapter => {
+        chapter.questions.forEach(question => {
+          var _chapter = chapter;
+          var group = this.form.get(chapter.id.toString());
+          question.value = this.form.get(chapter.id.toString()).value["question_" + question.id];
+          index++;
+        })
+      });
+
+    this.api.putBlankAction<Review>(this.resource, "UpdateReview", this.currentReview.id, review)
     .pipe(
       map((data: Review) => {
         this.loader.hideSpinner();
@@ -183,21 +184,37 @@ export class ReviewComponent implements OnInit {
       })
     ).subscribe((data: Review) => {
       this.snackbar.openSnackBar('Gespeichert');
-      window.location.reload();
     });
+
+
   }
 
   deleteSelectedTests() {
     this.api.deleteAction<Review>(this.resource, "DeleteTests", this.currentReview.id)
-    // .pipe(
-    //   map((data: Review) => {
-    //     this.loader.hideSpinner();
-    //     // this.currentReview = data;
-    //     return data;
-    //   }))
-    .subscribe((data: Review) => {
+    .pipe(
+      map(() => {
+        this.loader.hideSpinner();
+      }))
+    .subscribe(() => {
       this.snackbar.openSnackBar('Gelöscht');
-      window.location.reload();
+      // Review erneut lesen
+      this.api.getById<Review>(this.resource, this.currentReview.id)
+      .pipe(
+        map((response: ApiResponse<Review>) => {
+          this.loader.hideSpinner();
+          return response.items;
+        }),
+        catchError(() => {
+          this.loader.hideSpinner();
+          return of([]);
+        })
+      )
+      .subscribe((data: Review[]) => {
+        this.currentReview = data[0];
+        this.initFormWithData(data[0]);
+        this.questions = this.$formService.getFormEntriesReview(this.currentReview.chapters);
+        this.form = this.$formService.toFormGroupReview(this.questions);
+      })
     });
   }
 

@@ -80,6 +80,7 @@ namespace kuba_api.Controllers
 
         // PUT: api/Patient/5
         [HttpPut("{id}")]
+        [ActionName("UpdateReview")]
         public async Task<IActionResult> Update([FromRoute] int id, Review item)
         {
             if (!ModelState.IsValid)
@@ -107,7 +108,7 @@ namespace kuba_api.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var review = _context.Reviews.AsNoTracking().Where(x => x.Id == id).Include(x => x.ProblemHierarchies).Include(x => x.Chapters).FirstOrDefault(m => m.Id == id);
+            var review = _context.Reviews.AsNoTracking().Where(x => x.Id == id).Include(x => x.ProblemHierarchies).Include(x => x.Chapters).ThenInclude(c => c.Questions).FirstOrDefault(m => m.Id == id);
             if (review == null)
             {
                 return BadRequest(ModelState);
@@ -118,8 +119,11 @@ namespace kuba_api.Controllers
             var chapterIds = _context.TestungQuestions.Where(x => list.IndexOf(x.Id.Value) >= 0).Select(c => c.TestungChapterId).Distinct();
             var chapters = _context.TestungChapters.Where(x => chapterIds.IndexOf(x.Id.Value) >= 0).ToList();
 
-            _bl.addReviewTests(review, chapters, questions, _mapper, _context);
-            return Ok();
+            _bl.addReviewTests(review, chapters, _context);
+
+            var reviewUpdated = _context.Reviews.AsNoTracking().Where(x => x.Id == id).Include(x => x.ProblemHierarchies).Include(x => x.Chapters).ThenInclude(c=>c.Questions).FirstOrDefault(m => m.Id == id);
+
+            return Ok(reviewUpdated);
 
         }
 

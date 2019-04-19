@@ -39,6 +39,7 @@ D:\Dev\kuba-v3\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.
 D:\Dev\kuba-v3\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Http.Features.xml
 D:\Dev\kuba-v3\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Mvc.Abstractions.xml
 D:\Dev\kuba-v3\Backend\ImageWriter\bin\Debug\netcoreapp2.1\Microsoft.AspNetCore.Mvc.Core.xml
+D:\Dev\kuba-v3\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.csprojAssemblyReference.cache
 D:\Dev\kuba-v3\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.csproj.CoreCompileInputs.cache
 D:\Dev\kuba-v3\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.AssemblyInfoInputs.cache
 D:\Dev\kuba-v3\Backend\ImageWriter\obj\Debug\netcoreapp2.1\ImageWriter.AssemblyInfo.cs

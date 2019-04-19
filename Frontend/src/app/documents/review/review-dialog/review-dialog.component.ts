@@ -12,9 +12,11 @@ import { isString, isObject } from 'util';
 import { TestungChapter, Testung } from 'src/app/models/testung';
 import { TestungFormControlService } from '../../testung/testung-form-control.service';
 import { ApiResponse } from 'libs/shared/models/src/lib/interfaces';
+import { ReviewQuestion, Review } from 'src/app/models/review';
 
 export interface DialogDataReview {
   patientId: number;
+  review: Review;
 }
 
 @Component({
@@ -37,11 +39,14 @@ export class ReviewDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: DialogDataReview) {
       this.api.getById<Testung>(this.resource, data.patientId)
         .pipe(
-          map((data: ApiResponse<Testung>) => {
+          map((returnData: ApiResponse<Testung>) => {
             this.loader.hideSpinner();
-            this.testung = data.items[0];
+            debugger;
+            returnData.items[0].chapters = returnData.items[0].chapters.sort((a, b) => b.score - a.score);
+            this.testung = returnData.items[0];
           })
         ).subscribe(() => {
+          this.setCheckedQuestions(data.review);
           this.questions = this.$formService.getFormEntries(this.testung);
           this.form = this.$formService.toFormGroup(this.questions);
         });
@@ -81,6 +86,25 @@ export class ReviewDialogComponent implements OnInit {
   checkChosen(id: number) {
     return (this.listOfChosenIds.indexOf(id) >= 0) ? true : false;
   }
+
+  setCheckedQuestions(review: Review): void {
+    review.chapters.forEach(chapter => {
+      chapter.questions.forEach(question => {
+        this.testung.chapters.forEach(chapter => {
+          var foundItem = chapter.questions.find(q => q.label == question.label);
+          if (foundItem != null) {
+            this.listOfChosenIds.push(foundItem.id);
+          }
+          // } else {
+          //   bFound = true;
+          // }
+        })
+      });
+    });
+
+
+  }
+
   descOrder = (a, b) => {
     return null;
   }

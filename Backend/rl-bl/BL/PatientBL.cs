@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using rl_bl.Context;
 using rl_contract.Models;
 using rl_contract.Models.Review;
+using Remotion.Linq.Parsing.Structure.IntermediateModel;
 using IMapper = AutoMapper.IMapper;
 
 namespace rl_bl
@@ -402,36 +404,59 @@ namespace rl_bl
             return review;
         }
 
-        public void addReviewTests(Review review, List<TestungChapter> chapters, List<TestungQuestion> questions, IMapper mapper, DBContext context)
+        public void addReviewTests(Review review, List<TestungChapter> chapters, DBContext context)
         {
             chapters.ForEach(chapter =>
             {
-                ReviewChapter item = new ReviewChapter()
+                ReviewChapter tmpChapter = review.Chapters.Find(x => x.Name == chapter.Name);
+                int itemId = -1;
+                if (tmpChapter == null)
                 {
-                    Name = chapter.Name,
-                    Score = chapter.Score,
-                    ReviewId = review.Id
-                };
-                context.ReviewChapters.Add(item);
-                context.SaveChanges();
-                /*mapper.Map(chapter, revChapter);*/
-                int itemId = item.Id.Value;
+                    ReviewChapter item = new ReviewChapter()
+                    {
+                        Name = chapter.Name,
+                        Score = chapter.Score,
+                        ReviewId = review.Id
+                    };
+                    context.ReviewChapters.Add(item);
+                    context.SaveChanges();
+
+                    /*mapper.Map(chapter, revChapter);*/
+                    itemId = item.Id.Value;
+                }
+                else
+                {
+                    itemId = tmpChapter.Id.Value;
+                }
+
                 chapter.Questions.ForEach(question =>
                 {
-                    ReviewQuestion revQ = new ReviewQuestion()
+                    bool bFound = false;
+                    review.Chapters.ForEach(c =>
                     {
-                        Type = question.Type,
-                        Label = question.Label,
-                        Value = question.Value,
-                        ReviewChapterId = itemId
-                    };
-                    /*mapper.Map(question, revQuestion);*/
-                    /*revQuestion.ReviewChapterId = itemId;
-                    revChapter.Questions.Add(revQuestion);*/
-                    context.ReviewQuestion.Add(revQ);
+                        var tmpQuestion = c.Questions.Find(q => q.Label == question.Label);
+                        if (tmpQuestion != null && !bFound)
+                            bFound = true;
+
+                    });
                     
+                    if (!bFound)
+                    {
+                        ReviewQuestion revQ = new ReviewQuestion()
+                        {
+                            Type = question.Type,
+                            Label = question.Label,
+                            Value = question.Value,
+                            ReviewChapterId = itemId
+                        };
+                        /*mapper.Map(question, revQuestion);*/
+                        /*revQuestion.ReviewChapterId = itemId;
+                        revChapter.Questions.Add(revQuestion);*/
+                        context.ReviewQuestion.Add(revQ);
+                    }
+
                 });
-                context.SaveChanges();
+                    context.SaveChanges();
             });
 
             /*chapters.ForEach(chapter =>
